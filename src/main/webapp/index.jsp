@@ -8,6 +8,6 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="${pageContext.request.contextPath}/HelloServlet-servlet">Hello Testt servlet</a>
+<a href="${pageContext.request.contextPath}/order-servlet">Hello Testt servlet</a>
 </body>
 </html>
