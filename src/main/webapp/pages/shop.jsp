@@ -178,7 +178,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="./SingleProduct.jsp" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
