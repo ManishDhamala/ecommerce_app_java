@@ -1,0 +1,26 @@
+.c-item {
+    height: 480px;
+}
+
+.c-img {
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+}
+.carousel-item .carousel-caption button{
+    color: Black;
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.3s ease;
+    font-weight: normal;
+
+}
+
+.carousel-item .carousel-caption button:hover{
+    color: white;
+    background-color: orange;
+
+}
+.carousel-item .carousel-caption .btn-orange{
+    background-color: white;
+
+}

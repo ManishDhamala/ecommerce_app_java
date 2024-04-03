@@ -13,7 +13,15 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Hello guys I m sushil</h1>
+<!-- Header Start -->
+<jsp:include page="header.jsp"/>
+<%--header end--%>
+<%--main content start--%>
 
+<%--main content end--%>
+
+<%--footerstart--%>
+<jsp:include page="footer.jsp"/>
+<%--footerend--%>
 </body>
 </html>
