@@ -32,7 +32,7 @@
                     <a class="nav-link mx-2  fs-5" href="${pageContext.request.contextPath}/pages/about.jsp">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2  fs-5" href="${pageContext.request.contextPath}/pages/shop.jsp">Product</a>
+                    <a class="nav-link mx-2  fs-5" href="${pageContext.request.contextPath}/pages/shop.jsp">Shop</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2   fs-5" href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase register-btn" href="#"><span>Register<span></a>
+                    <a class="nav-link mx-2 text-uppercase register-btn" href="${pageContext.request.contextPath}/pages/register.jsp"><span>Register</span></a>
                 </li>
             </ul>
         </div>

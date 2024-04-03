@@ -143,7 +143,8 @@
                                 <input type="text" class="form-control" placeholder="Search by name">
                                 <div class="input-group-append">
                                         <span class="input-group-text bg-transparent text-primary">
-                                            <i class="fa fa-search"></i>
+                                            <img src="${pageContext.request.contextPath}/assets/Icons/search.png" alt="search"
+                                                 style="width: 20px;height: 20px">
                                         </span>
                                 </div>
                             </div>
