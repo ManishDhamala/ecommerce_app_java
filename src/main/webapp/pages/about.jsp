@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-<link rel="stylesheet"  href="../styles/css/mystyle.css">
-<script defer src="../script/myscript.js"></script>
+<link rel="stylesheet"  href="${pageContext.request.contextPath}/styles/global.css">
     <title>Title</title>
 </head>
 <body>
