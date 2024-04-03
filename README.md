@@ -14,5 +14,5 @@
    ```
 4. git pull
  ```sh
-   git pull origin
+   git pull origin main
    ```
