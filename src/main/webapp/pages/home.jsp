@@ -10,7 +10,7 @@
 <head>
 
     <link rel="stylesheet" href="../styles/css/mystyle.css">
-    <link rel="stylesheet" href="../styles/css/nav.css">
+    <link rel="stylesheet" href="../styles/css/nav.styles.css">
     <script defer src="../styles/js/myscript.js"></script>
     <title>Title</title>
 </head>
@@ -44,12 +44,12 @@
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#"><img src="../images/shopping-bag.png" alt="cart"
+                    <a class="nav-link mx-2 text-uppercase" href="#"><img  src="../assets/Icons/shopping-bag.png" alt="cart"
                                                                           style="width: 20px;height: 20px;">
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#"><img src="../images/user.png" alt="user"
+                    <a class="nav-link mx-2 text-uppercase" href="#"><img  src="../assets/Icons/user.png" alt="cart"
                                                                           style="width: 20px;height: 20px;">
                     </a>
                 </li>

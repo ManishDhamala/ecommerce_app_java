@@ -9,12 +9,9 @@
 <html>
 <head>
     <title>Shop</title>
-    <link rel="stylesheet" href="../styles/css/mystyle.css">
+    <link rel="stylesheet" href="../styles/global.css">
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../styles/css/shop.css">
+    <link rel="stylesheet" href="../styles/css/shop.styles.css">
 </head>
 <body>
 <!-- Page Header Start -->
@@ -149,7 +146,8 @@
                             </div>
                         </form>
                         <div class="dropdown ml-4">
-                            <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+                            <button class="btn border dropdown-toggle" type="button" id="triggerId"
+                                    data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                 Sort by
                             </button>
@@ -169,12 +167,24 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-2"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-2"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                                <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                    <img src="../assets/Icons/shopping-bag.png"
+                                                                                 alt="cart"
+                                                                                 style="width: 20px;height: 20px">Add To
+                                    Cart</a>
+
+
                         </div>
                     </div>
                 </div>
@@ -186,12 +196,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -203,12 +223,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -220,12 +250,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -237,12 +277,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -254,12 +304,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -271,12 +331,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -288,12 +358,22 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
@@ -305,36 +385,46 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2">
+                                    <del>$123.00</del>
+                                </h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                                                                                                             style="width: 20px;height: 20px">View
+                                Detail</a>
+
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
+                                <img src="../assets/Icons/shopping-bag.png"
+                                     alt="cart"
+                                     style="width: 20px;height: 20px">Add To
+                                Cart</a>
                         </div>
                     </div>
                 </div>
-<%--                <div class="col-12 pb-1">--%>
-<%--                    <nav aria-label="Page navigation">--%>
-<%--                        <ul class="pagination justify-content-center mb-3">--%>
-<%--                            <li class="page-item disabled">--%>
-<%--                                <a class="page-link" href="#" aria-label="Previous">--%>
-<%--                                    <span aria-hidden="true">&laquo;</span>--%>
-<%--                                    <span class="sr-only">Previous</span>--%>
-<%--                                </a>--%>
-<%--                            </li>--%>
-<%--                            <li class="page-item active"><a class="page-link" href="#">1</a></li>--%>
-<%--                            <li class="page-item"><a class="page-link" href="#">2</a></li>--%>
-<%--                            <li class="page-item"><a class="page-link" href="#">3</a></li>--%>
-<%--                            <li class="page-item">--%>
-<%--                                <a class="page-link" href="#" aria-label="Next">--%>
-<%--                                    <span aria-hidden="true">&raquo;</span>--%>
-<%--                                    <span class="sr-only">Next</span>--%>
-<%--                                </a>--%>
-<%--                            </li>--%>
-<%--                        </ul>--%>
-<%--                    </nav>--%>
-<%--                </div>--%>
+                <%--                <div class="col-12 pb-1">--%>
+                <%--                    <nav aria-label="Page navigation">--%>
+                <%--                        <ul class="pagination justify-content-center mb-3">--%>
+                <%--                            <li class="page-item disabled">--%>
+                <%--                                <a class="page-link" href="#" aria-label="Previous">--%>
+                <%--                                    <span aria-hidden="true">&laquo;</span>--%>
+                <%--                                    <span class="sr-only">Previous</span>--%>
+                <%--                                </a>--%>
+                <%--                            </li>--%>
+                <%--                            <li class="page-item active"><a class="page-link" href="#">1</a></li>--%>
+                <%--                            <li class="page-item"><a class="page-link" href="#">2</a></li>--%>
+                <%--                            <li class="page-item"><a class="page-link" href="#">3</a></li>--%>
+                <%--                            <li class="page-item">--%>
+                <%--                                <a class="page-link" href="#" aria-label="Next">--%>
+                <%--                                    <span aria-hidden="true">&raquo;</span>--%>
+                <%--                                    <span class="sr-only">Next</span>--%>
+                <%--                                </a>--%>
+                <%--                            </li>--%>
+                <%--                        </ul>--%>
+                <%--                    </nav>--%>
+                <%--                </div>--%>
             </div>
         </div>
         <!-- Shop Product End -->
