@@ -6,6 +6,9 @@
     <title>Title</title>
 </head>
 <body>
+<!-- Header Start -->
+<jsp:include page="header.jsp"/>
+<%--header end--%>
 <h1>About</h1>
 <div class="alert alert-primary" role="alert">
   Hem Pun!
