@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" external-system-id="Maven" name="blaxboxgadgets:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>blaxboxgadgets</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="blaxboxgadgets-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="blaxboxgadgets:war exploded" />
+    </root>
+  </artifact>
+</component>

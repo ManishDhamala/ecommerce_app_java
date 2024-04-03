@@ -2,8 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"  href="styles/css/mystyle.css">
-<script defer src="styles/js/myscript.js"></script>
+<link rel="stylesheet"  href="styles/global.css">
     <title>JSP - Hello World</title>
 </head>
 <body>
@@ -15,5 +14,6 @@
 </h1>
 <br/>
 <a href="${pageContext.request.contextPath}/HelloServlet-servlet">Hello Testt servlet</a>
+<script defer src ="script/myscript.js"></script>
 </body>
 </html>

@@ -12,7 +12,23 @@
     ```sh
    git push
    ```
+   
+4. git add
+ ```sh
+   git add .
+   ```
+
+5. git commit
+ ```sh
+   git commit -m "your message"
+   ```
+
+6. git push
+ ```sh
+   git push origin "your-name"
+   ```
+
 4. git pull
  ```sh
-   git pull origin
+   git pull origin main
    ```
