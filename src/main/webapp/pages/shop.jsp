@@ -344,7 +344,7 @@
 <!-- Footer Start -->
 
 
-<script src="../styles/js/myscript.js">
+<script src="../script/myscript.js">
 </script>
 </body>
 </html>

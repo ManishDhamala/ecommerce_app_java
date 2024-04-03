@@ -9,7 +9,7 @@
 <html>
 <head>
 <link rel="stylesheet"  href="../styles/css/mystyle.css">
-<script defer src="../styles/js/myscript.js"></script>
+<script defer src="../script/myscript.js"></script>
     <title>Title</title>
 </head>
 <body>
