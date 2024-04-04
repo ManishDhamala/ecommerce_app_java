@@ -13,7 +13,7 @@
 </head>
 <body>
 <!-- header section start -->
-<nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
+<nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm max-height-78">
     <div class="container">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp"> <strong
                 class="logoname">Gadget<span>.</span></strong></a>
