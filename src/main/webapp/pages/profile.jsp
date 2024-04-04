@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/mystyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/global.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/profile.styles.css">
     <script defer src="${pageContext.request.contextPath}/script/myscript.js"></script>
 
