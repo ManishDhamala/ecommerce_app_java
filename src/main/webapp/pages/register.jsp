@@ -1,3 +1,4 @@
+<%@ page import="com.icp.gadgets.utils.StringUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -5,10 +6,29 @@
     <link rel="stylesheet" href="../styles/css/register.css">
 </head>
 <body>
+
+
 <div class="container">
     <div class="title">Registration</div>
     <div class="content">
-        <form action="#">
+
+        <%--jsp error show--%>
+        <%
+            String phoneNumber = (String) request.getParameter(StringUtils.ERROR_MESSAGE);
+
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+        %>
+        <div class="alert alert-danger d-flex align-items-center"
+             role="alert">
+            <i class="fa-solid fa-circle-xmark"
+               style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
+            <span style="padding-left: 5px; " class="text-danger"><%=phoneNumber%></span>
+        </div>
+        <%
+            }
+        %>
+            <%--jsp error show--%>
+        <form action="<%=request.getContextPath()%>/register-servlet"  method="post">
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Full Name</span>

@@ -1,28 +1,60 @@
 package com.icp.gadgets.controller.servlet.login;
 
-import java.io.*;
+import java.io.IOException;
 
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import com.icp.gadgets.controller.servlet.DatabaseController;
 
 @WebServlet(name = "loginServlet", value = "/login-servlet")
 public class login extends HttpServlet {
-    private String message;
+    private static final long serialVersionUID = 1L;
 
-    public void init() {
-        message = "Hello World!";
+
+    DatabaseController dbController = new DatabaseController();
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public login() {
+        super();
+        // TODO Auto-generated constructor stub
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username") ;
+        String password = request.getParameter("password") ;
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
+        int loginResult = dbController.getUserLoginInfo(username, password) ;
+
+        if (loginResult == 1) {
+            // Successful login
+            response.sendRedirect(request.getContextPath()+"/index.jsp") ;
+        } else if (loginResult == 0) {
+            // code will be followed in later weeks
+            System.out.println("Wrong password");
+        } else {
+            // code will be followed in later weeks
+        }
+
     }
 
-    public void destroy() {
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
     }
+
+
 }

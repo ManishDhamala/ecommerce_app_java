@@ -10,7 +10,7 @@
         <div class="text">
             Login Form
         </div>
-        <form action="#">
+        <form action="<%=request.getContextPath()%>/login-servlet">
             <div class="data">
                 <label>Username</label>
                 <input type="text" name="username" required>

@@ -1,0 +1,33 @@
+
+.navbar-nav .nav-item .nav-link  {
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: orange;
+}
+.navbar-nav .nav-item .nav-link img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link span{
+    transition: transform 0.3s ease;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar-brand .logoname {
+
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover .logoname  {
+    color: orange;
+}
+
+.navbar-nav .nav-item .nav-link:hover img {
+    transform: scale(1.1);
+
+}
