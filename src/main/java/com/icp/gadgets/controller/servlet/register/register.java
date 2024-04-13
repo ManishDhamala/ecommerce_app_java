@@ -4,7 +4,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
@@ -60,29 +59,26 @@ public class register extends HttpServlet {
         try {
             // 1. Name Format Validation
             if (!isValidName(fullname)) {
+                // Redirect to the registration page with an error message
                 request.setAttribute (StringUtils.ERROR_MESSAGE, "Name invalid") ;
-                RequestDispatcher dispatcher = request.getRequestDispatcher(
-                        request.getContextPath()+"pages/register.jsp"
-                );
-                dispatcher.forward(request, response);
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Full name");
                 return;
             }
 
             // 2. Minimum Username Length Requirement and Special Character Validation
             if (!isValidUsername(username)) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Username inavlid") ;
+                request.setAttribute (StringUtils.ERROR_MESSAGE, "Username invalid") ;
 //                request.getRequestDispatcher("/pages/register.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath()+"/pages/register.jsp"+"?"+StringUtils.ERROR_MESSAGE+"=Username is not valid");
+                response.sendRedirect(request.getContextPath()+"/pages/register.jsp"+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Username");
                 return;
             }
 
             // 3. Birthday Date Restriction
             if (dob.isAfter(LocalDate.now())) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Inavlid Date of Birth") ;
-                RequestDispatcher dispatcher = request.getRequestDispatcher(StringUtils.REGISTER_PAGE);
-                dispatcher.forward(request, response);
+                request.setAttribute (StringUtils.ERROR_MESSAGE, "Date of Birth invalid") ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Date of Birth");
                 return;
             }
 
@@ -90,8 +86,7 @@ public class register extends HttpServlet {
             if (!isValidPhoneNumber(phonenumber)) {
                 // Redirect to the registration page with an error message
                 request.setAttribute (StringUtils.ERROR_MESSAGE, "Phone Number invalid") ;
-                RequestDispatcher dispatcher = request.getRequestDispatcher(StringUtils.REGISTER_PAGE);
-                dispatcher.forward(request, response);
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Phone Number");
                 return;
             }
 
@@ -99,18 +94,29 @@ public class register extends HttpServlet {
             if (!isValidPassword(password)) {
                 // Redirect to the registration page with an error message
                 request.setAttribute (StringUtils.ERROR_MESSAGE, "Password invalid") ;
-                RequestDispatcher dispatcher = request.getRequestDispatcher(StringUtils.REGISTER_PAGE);
-                dispatcher.forward(request, response);
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Password");
                 return;
             }
 
-//         6. Data Duplication Identification Requirement
-            if (dbController.isUsernameExists(username) || dbController.isEmailExists(email)
-                    || dbController.isPhoneNumberExists(phonenumber)) {
+//         Checking already exists data in database
+            if (dbController.isUsernameExists(username)) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Already Exists") ;
-                RequestDispatcher dispatcher = request.getRequestDispatcher(StringUtils.REGISTER_PAGE);
-                dispatcher.forward(request, response);
+                request.setAttribute (StringUtils.ERROR_MESSAGE, "Username already in use") ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Username is already registered! Please Login to continue");
+                return;
+            }
+
+            if ( dbController.isEmailExists(email)) {
+                // Redirect to the registration page with an error message
+                request.setAttribute (StringUtils.ERROR_MESSAGE, "Email already in use") ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Email already exists");
+                return;
+            }
+
+            if (dbController.isPhoneNumberExists(phonenumber)) {
+                // Redirect to the registration page with an error message
+                request.setAttribute (StringUtils.ERROR_MESSAGE, "Phone Number already in use") ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Phone Number already exists");
                 return;
             }
 
@@ -142,12 +148,12 @@ public class register extends HttpServlet {
     // Helper methods for validations
     private boolean isValidName(String fullname) {
         // Implement name validation logic
-        return !fullname.matches(".*\\d.*") && !fullname.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
+        return !fullname.matches(".*\\d.*") && !fullname.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
     }
 
     private boolean isValidUsername(String username) {
         // Implement username validation logic
-        return username.length() > 6 && !username.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
+        return username.length() > 6 && !username.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
@@ -157,7 +163,7 @@ public class register extends HttpServlet {
 
     private boolean isValidPassword(String password) {
         // Implement password validation logic
-        return password.length() > 6 && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")
+        return password.length() > 6 && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")
                 && password.matches(".*[A-Z].*");
     }
 

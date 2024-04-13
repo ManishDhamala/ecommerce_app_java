@@ -2,6 +2,7 @@ package com.icp.gadgets.controller.servlet.login;
 
 import java.io.IOException;
 
+import com.icp.gadgets.utils.StringUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,8 +31,8 @@ public class login extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username") ;
-        String password = request.getParameter("password") ;
+        String username = request.getParameter(StringUtils.USERNAME) ;
+        String password = request.getParameter(StringUtils.PASSWORD) ;
 
         int loginResult = dbController.getUserLoginInfo(username, password) ;
 
@@ -39,8 +40,7 @@ public class login extends HttpServlet {
             // Successful login
             response.sendRedirect(request.getContextPath()+"/index.jsp") ;
         } else if (loginResult == 0) {
-            // code will be followed in later weeks
-            System.out.println("Wrong password");
+
         } else {
             // code will be followed in later weeks
         }
@@ -54,7 +54,12 @@ public class login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         doGet(request, response);
+
+
     }
+
+
+
 
 
 }
