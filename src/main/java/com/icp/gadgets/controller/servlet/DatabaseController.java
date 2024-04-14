@@ -57,7 +57,7 @@ public class DatabaseController {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-// User name and password match in the database
+// Username and password match in the database
                 return 1;
             } else {
 // No matching record found

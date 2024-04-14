@@ -11,7 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 5px;
-    background: linear-gradient(115deg, #f06412 10%, #fff 90%);
+    /*background: linear-gradient(115deg, #f06412 10%, #fff 90%);*/
 }
 
 .container {
@@ -135,7 +135,7 @@ form .button input {
 
 form .button input:hover {
     transform: scale(0.99);
-    background: linear-gradient(-135deg, #f06412, #000000);
+    /*background: linear-gradient(-135deg, #f06412, #000000);*/
 }
 
 form .signup-link {

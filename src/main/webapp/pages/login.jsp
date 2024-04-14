@@ -5,9 +5,9 @@
     <title>Login</title>
     <link rel="stylesheet" href="../styles/css/login.css">
 </head>
-<body>
-<div class="center">
-    <div class="container">
+<body style="background: white">
+<div class="center" >
+    <div class="container" style="border-radius: 5px">
         <div class="text">
             Login Form
         </div>
