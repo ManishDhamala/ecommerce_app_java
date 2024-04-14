@@ -3,9 +3,9 @@
 <html>
 <head>
 <link rel="stylesheet"  href="styles/global.css">
-    <link rel="stylesheet" href="/styles/global.css">
-    <link rel="stylesheet" href="/styles/css/carousel.styles.css">
-    <link rel="stylesheet" href="/styles/css/header.styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/global.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/carousel.styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/header.styles.css">
 
     <title>Gadget.</title>
 </head>

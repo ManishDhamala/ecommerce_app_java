@@ -117,4 +117,9 @@ public class DatabaseController {
         return false;
     }
 }
+//profile logic
+// Retrieving user profile information from the database
+
+
+
 	

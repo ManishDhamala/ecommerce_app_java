@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Single Product</title>
-    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/global.css">
 </head>
 <body>
 <%--Header--%>
