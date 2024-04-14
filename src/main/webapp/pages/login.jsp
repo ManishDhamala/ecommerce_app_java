@@ -27,7 +27,7 @@
             }
         %>
         <%--jsp error show--%>
-        <form action="<%=request.getContextPath()%>/login-servlet">
+        <form action="<%=request.getContextPath()%>/login-servlet" method="post">
             <div class="data">
                 <label>Username</label>
                 <input type="text" name="username" required>
