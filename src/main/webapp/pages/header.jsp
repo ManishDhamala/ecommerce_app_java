@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#"><img src="${pageContext.request.contextPath}/assets/Icons/user.png" alt="user"
+                    <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/Dashboard.jsp"><img src="${pageContext.request.contextPath}/assets/Icons/user.png" alt="user"
                                                                           style="width: 20px;height: 20px;">
                     </a>
                 </li>
