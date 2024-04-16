@@ -6,10 +6,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 import com.icp.gadgets.model.User;
 import com.icp.gadgets.utils.StringUtils;
 import com.icp.gadgets.utils.Encryption;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionContext;
 
 
 public class DatabaseController {
@@ -37,8 +44,6 @@ public class DatabaseController {
             st.setString(6, Encryption.encrypt(user.getPassword()));
             st.setString(7, user.getGender());
             st.setString(8, user.getAddress());
-
-
 
 
             int result = st.executeUpdate();
@@ -116,10 +121,43 @@ public class DatabaseController {
         }
         return false;
     }
+
+    //profile starts from here--------------------------------------------------------------------------------------->>>
+    //method which will retrieve the user from the database
+    ////    -----profile method -----///
+    public User getUserInfo(String username) throws ClassNotFoundException, SQLException {
+        DatabaseController dbController = new DatabaseController();
+        User user = null;
+
+        try (Connection con = dbController.getConnection()) {
+            String sql = "SELECT * FROM users WHERE username=?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                // Retrieve values from ResultSet
+                String fullname  = rs.getString("name");
+                String email = rs.getString("email");
+                String phonenumber= rs.getString("phonenumber");
+                String user_name = rs.getString("username");
+                LocalDate dob = rs.getDate("dob").toLocalDate();
+                String address = rs.getString("address");
+                String password = rs.getString("password");
+                String gender = rs.getString("gender");
+
+              user = new User(fullname,user_name, email, phonenumber, address, dob, password,gender
+              );
+            }
+            rs.close();
+            statement.close();
+        }
+        return user;
+
+    }
 }
-//profile logic
-// Retrieving user profile information from the database
 
 
 
-	
+//profile ends from here--------------------------------------------------------------------------------------->>>
+

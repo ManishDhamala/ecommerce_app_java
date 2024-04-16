@@ -52,11 +52,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase register-btn" href="${pageContext.request.contextPath}/pages/register.jsp"><span>Register</span></a>
+                    <% HttpSession httpSession = request.getSession(false);
+                        if (httpSession != null && httpSession.getAttribute("user") != null) { %>
+                    <form  action="<%=request.getContextPath()%>/logout-servlet" method="post">
+                        <input class="nav-link mx-2 text-black font-weight-medium text-uppercase register-btn" type="submit" value="Logout">
+                    </form>
+                    <% } else { %>
+                    <a class="nav-link mx-2 text-uppercase  register-btn" href="${pageContext.request.contextPath}/pages/login.jsp"><span>Login</span></a>
+                    <% } %>
                 </li>
             </ul>
         </div>
     </div>
+
 
 </nav>
 <!-- header section end -->

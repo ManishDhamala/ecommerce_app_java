@@ -31,3 +31,24 @@
     transform: scale(1.1);
 
 }
+.nav-link .logout-form input[type="submit"] {
+    background-color: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-form input[type="submit"]:hover {
+    color: orange;
+    background-color: #e9ecef;
+}
+
+
+
