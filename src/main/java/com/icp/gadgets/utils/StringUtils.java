@@ -8,6 +8,21 @@ public class StringUtils {
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'USER') ";
 
     public static final String GET_LOGIN_USER_INFO = "SELECT * FROM users WHERE username = ? AND password = ?";
+
+    public  static  final String INSET_CATEGORY = "INSERT INTO categories (name) VALUES (?)";
+    public  static final String GET_CATEGORIES = "SELECT * FROM categories";
+    public  static final String DELETE_CATEGORY = "DELETE FROM categories WHERE category_id = ?";
+    public static final String GET_CATEGORY_BY_ID = "SELECT name FROM categories WHERE category_id = ?";
+    public static final String UPDATE_CATEGORY = "UPDATE categories SET name = ? WHERE category_id = ?";
+
+    public static final String INSERT_PRODUCT = "INSERT INTO products (name, price, `desc`, category_id) VALUES (?, ?, ?, ?)";
+    public static final String IMAGE_INSERT = "INSERT INTO images (imgUrl, product_id) VALUES (?, ?)";
+
+    public static final String GET_IMAGE_BY_PRODUCT_ID = "SELECT imgUrl FROM images WHERE product_id = ?";
+
+    public static final String GET_PRODUCTS = "SELECT * FROM products";
+
+
     // End SQL Queries
 
     public static final String FULL_NAME = "fullname";

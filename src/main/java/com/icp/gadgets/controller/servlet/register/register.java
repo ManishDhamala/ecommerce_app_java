@@ -145,6 +145,7 @@ public class register extends HttpServlet {
     }
 
 
+
     // Helper methods for validations
     private boolean isValidName(String fullname) {
         // Implement name validation logic
