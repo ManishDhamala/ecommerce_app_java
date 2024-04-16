@@ -114,7 +114,7 @@
             String imgUri;
             String image = imageDoa.getImgURLByProductId(product.getProductId());
             if(image != null && !image.isEmpty()){
-                imgUri = request.getContextPath()+ image.substring(image.indexOf("images"));
+                imgUri = request.getContextPath() +'/'+ image.substring(image.indexOf("images"));
             }else {
                 imgUri = "https://st2.depositphotos.com/3904951/8925/v/450/depositphotos_89250312-stock-illustration-photo-picture-web-icon-in.jpg";
             }
