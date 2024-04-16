@@ -60,9 +60,9 @@
                 </div>
             </div>
             <div class="gender-details">
-                <input type="radio" name="gender" id="dot-1" value="MALE">
-                <input type="radio" name="gender" id="dot-2" value="FEMALE">
-                <input type="radio" name="gender" id="dot-3" value="OTHER">
+                <input type="radio" name="gender" id="dot-1" value="MALE" required>
+                <input type="radio" name="gender" id="dot-2" value="FEMALE" required>
+                <input type="radio" name="gender" id="dot-3" value="OTHER" required>
                 <span class="gender-title">Gender</span>
                 <div class="category">
                     <label for="dot-1">
