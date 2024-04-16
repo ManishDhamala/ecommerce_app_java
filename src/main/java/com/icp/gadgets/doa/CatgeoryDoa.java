@@ -47,15 +47,30 @@ public class CatgeoryDoa {
 
     public int deleteCategory(int categoryId) {
         try(Connection con = new DatabaseController().getConnection()) {
-            PreparedStatement st = con.prepareStatement(StringUtils.DELETE_CATEGORY);
-            st.setInt(1, categoryId);
-            int result = st.executeUpdate();
+            // First, check if there are products in the category
+            PreparedStatement checkProductsStmt = con.prepareStatement(StringUtils.CHECK_PRODUCTS_IN_CATEGORY);
+            checkProductsStmt.setInt(1, categoryId);
+            ResultSet productResult = checkProductsStmt.executeQuery();
+
+            if (productResult.next()) {
+                int productCount = productResult.getInt("product_count");
+                if (productCount > 0) {
+                    // If there are products, return 0 to indicate category cannot be deleted
+                    return 0;
+                }
+            }
+
+            // No products found, proceed to delete the category
+            PreparedStatement deleteStmt = con.prepareStatement(StringUtils.DELETE_CATEGORY);
+            deleteStmt.setInt(1, categoryId);
+            int result = deleteStmt.executeUpdate();
             return result > 0 ? 1 : 0;
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace(); // Log the exception for debugging
             return -1;
         }
     }
+
 
     public int updateCategory(int categoryId, String categoryName) {
         try(Connection con = new DatabaseController().getConnection()) {

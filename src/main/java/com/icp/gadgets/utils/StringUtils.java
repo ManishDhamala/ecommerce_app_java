@@ -14,6 +14,10 @@ public class StringUtils {
     public  static final String DELETE_CATEGORY = "DELETE FROM categories WHERE category_id = ?";
     public static final String GET_CATEGORY_BY_ID = "SELECT name FROM categories WHERE category_id = ?";
     public static final String UPDATE_CATEGORY = "UPDATE categories SET name = ? WHERE category_id = ?";
+    public static final String CHECK_PRODUCTS_IN_CATEGORY =
+            "SELECT COUNT(*) AS product_count " +
+                    "FROM products " +
+                    "WHERE category_id = ?";
 
     public static final String INSERT_PRODUCT = "INSERT INTO products (name, price, `desc`, category_id) VALUES (?, ?, ?, ?)";
     public static final String IMAGE_INSERT = "INSERT INTO images (imgUrl, product_id) VALUES (?, ?)";

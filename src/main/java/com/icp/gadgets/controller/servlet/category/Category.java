@@ -91,19 +91,23 @@ public class Category extends HttpServlet {
         response.setContentType("text/html");
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
-        try{
+        try {
             // Delete category from the database
             int result = categoryDAO.deleteCategory(categoryId);
 
-            if(result == 1) {
-                response.sendRedirect(request.getContextPath()+"/pages/adminCategories.jsp?"+StringUtils.SUCCESS_MESSAGE+"=Category Deleted Successfully");
+            if (result == 1) {
+                response.sendRedirect(request.getContextPath() + "/pages/adminCategories.jsp?" + StringUtils.SUCCESS_MESSAGE + "=Category Deleted Successfully");
+            } else if (result == 0) {
+                response.sendRedirect(request.getContextPath() + "/pages/adminCategories.jsp?" + StringUtils.ERROR_MESSAGE + "=Category has products and cannot be deleted.");
             } else {
-                response.sendRedirect(request.getContextPath()+"/pages/adminCategories.jsp?"+ StringUtils.ERROR_MESSAGE+"=Error Deleting Category. Please try again.");
+                response.sendRedirect(request.getContextPath() + "/pages/adminCategories.jsp?" + StringUtils.ERROR_MESSAGE + "=Error Deleting Category. Please try again.");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/pages/adminCategories.jsp?" + StringUtils.ERROR_MESSAGE + "=Error Deleting Category. Please try again.");
         }
     }
+
 
     public void destroy() {
     }
