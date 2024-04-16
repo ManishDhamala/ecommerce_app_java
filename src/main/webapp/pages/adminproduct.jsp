@@ -1,4 +1,9 @@
-<%--
+<%@ page import="com.icp.gadgets.doa.CatgeoryDoa" %>
+<%@ page import="com.icp.gadgets.model.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.icp.gadgets.doa.ProductDoa" %>
+<%@ page import="com.icp.gadgets.model.Product" %>
+<%@ page import="com.icp.gadgets.doa.ImageDoa" %><%--
   Created by IntelliJ IDEA.
   User: abhiskar
   Date: 13/04/2024
@@ -16,6 +21,14 @@
 </head>
 <body>
 <jsp:include page="adminheader.jsp"/>
+<%
+    CatgeoryDoa categoryDoa = new CatgeoryDoa();
+    List<Category> categories = categoryDoa.getAllCategories();
+
+    ProductDoa productDoa = new ProductDoa();
+    List<Product> products = productDoa.getAllProducts();
+
+%>
 <div class="max-w-container-fluid mx-5 mt-5">
 
     <div class="d-flex justify-content-between align-items-center ">
@@ -38,11 +51,43 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <form method="post" action="${pageContext.request.contextPath}/product" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="productName" name="productName" aria-describedby="emailHelp" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productPrice" class="form-label
+                                ">Product Price</label>
+                                <input type="text" class="form-control" id="productPrice" name="productPrice" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productCategory" class="form-label" >Product Category</label>
+                                <select class="form-select" aria-label="Default select example" id="productCategory" name="categoryId" required>
+                                    <option selected>Select Category</option>
+                                    <% %>if (categories != null && !categories.isEmpty()) {
+                                    <% for (Category category : categories) { %>
+                                    <option value="<%= category.getCategoryId() %>"><%= category.getCategoryName() %></option>
+                                    <% } %>
+                                    } else {
+                                    <option disabled>No categories available</option>
+                                    }<% %>
+                                </select>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="productImage" class="form-label
+                                ">Product Image</label>
+                                <input type="file" class="form-control" id="productImage" name="productImage" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productDescription" class="form-label">Product Description</label>
+                                <textarea class="form-control" id="productDescription" rows="3" required name="productDesc"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary " style="width: 100%">Add Product</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -55,28 +100,45 @@
             <th scope="col">Image</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
+            <th scope="col">Description</th>
             <th scope="col">Category</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
+        <%if (products != null && !products.isEmpty()) { %>
+
+        <% for (Product product : products) { %>
+        <%
+            ImageDoa imageDoa = new ImageDoa();
+            String imgUri;
+            String image = imageDoa.getImgURLByProductId(product.getProductId());
+            if(image != null && !image.isEmpty()){
+                imgUri = request.getContextPath() +'/'+ image.substring(image.indexOf("images"));
+            }else {
+                imgUri = "https://st2.depositphotos.com/3904951/8925/v/450/depositphotos_89250312-stock-illustration-photo-picture-web-icon-in.jpg";
+            }
+
+        %>
         <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <th scope="row"><%= product.getProductId() %></th>
+            <td><img src="<%= imgUri%>" alt="img" style="width: 50px; height: 50px; object-fit: cover"></td>
+            <td><%= product.getProductName() %></td>
+            <td><%= product.getProductPrice() %></td>
+            <td><%= product.getProductDescription() %></td>
+            <td><%= new CatgeoryDoa().getCategoryById(product.getCategoryId()) %></td>
+            <td>
+                <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>" class="btn btn-primary">Edit</a>
+                <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>" class="btn btn-danger">Delete</a>
+            </td>
         </tr>
+        <% } %>
+       <% } else { %>
         <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
+            <td colspan="6">No products available</td>
         </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-        </tr>
+        <% }%>
+
         </tbody>
     </table>
 </div>

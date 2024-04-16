@@ -57,6 +57,7 @@ public class register extends HttpServlet {
 
 
         try {
+
             // 1. Name Format Validation
             if (!isValidName(fullname)) {
                 // Redirect to the registration page with an error message
@@ -74,7 +75,21 @@ public class register extends HttpServlet {
                 return;
             }
 
-            // 3. Birthday Date Restriction
+            //3.Check email validation
+            if(!isValidEmail(email)){
+                request.setAttribute(StringUtils.ERROR_MESSAGE, "Email invalid");
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Email");
+                return;
+            }
+
+            //4.Check address validation
+            if(!isValidAddress(address)){
+                request.setAttribute(StringUtils.ERROR_MESSAGE, "Address invalid");
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Address");
+                return;
+            }
+
+            // 5.Birthday Date Restriction
             if (dob.isAfter(LocalDate.now())) {
                 // Redirect to the registration page with an error message
                 request.setAttribute (StringUtils.ERROR_MESSAGE, "Date of Birth invalid") ;
@@ -82,7 +97,14 @@ public class register extends HttpServlet {
                 return;
             }
 
-            // 4. Phone Number Format Requirement
+            // 6. Password Complexity Requirement and Matching Passwords
+            if (!isValidPassword(password)) {
+                // Redirect to the registration page with an error message
+                request.setAttribute (StringUtils.ERROR_MESSAGE, "Password invalid") ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Password");
+                return;
+            }
+            // 7. Phone Number Format Requirement
             if (!isValidPhoneNumber(phonenumber)) {
                 // Redirect to the registration page with an error message
                 request.setAttribute (StringUtils.ERROR_MESSAGE, "Phone Number invalid") ;
@@ -90,13 +112,8 @@ public class register extends HttpServlet {
                 return;
             }
 
-            // 5. Password Complexity Requirement and Matching Passwords
-            if (!isValidPassword(password)) {
-                // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Password invalid") ;
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Password");
-                return;
-            }
+
+
 
 //         Checking already exists data in database
             if (dbController.isUsernameExists(username)) {
@@ -145,6 +162,7 @@ public class register extends HttpServlet {
     }
 
 
+
     // Helper methods for validations
     private boolean isValidName(String fullname) {
         // Implement name validation logic
@@ -153,12 +171,13 @@ public class register extends HttpServlet {
 
     private boolean isValidUsername(String username) {
         // Implement username validation logic
-        return username.length() > 6 && !username.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+        return username.length() > 5 && !username.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
         // Implement phone number validation logic
-        return phoneNumber.startsWith("+");
+        return phoneNumber.startsWith("+") && !phoneNumber.matches(".*[!@#$%^&*_=\\[\\]{};':\"\\\\|,.<>/?].*")
+                && !phoneNumber.matches(".*[A-Z].*") && !phoneNumber.matches(".*[a-z].*");
     }
 
     private boolean isValidPassword(String password) {
@@ -166,5 +185,17 @@ public class register extends HttpServlet {
         return password.length() > 6 && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")
                 && password.matches(".*[A-Z].*");
     }
+
+    private boolean isValidEmail(String email) {
+        // Implement Email validation logic
+        return !email.matches(".*[!#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,<>/?].*");
+    }
+
+    private boolean isValidAddress(String address) {
+        // Implement address validation logic
+        return !address.matches(".*[!#$%^&*()+\\-=\\[\\]{};':\"\\\\|,<>/?].*");
+    }
+
+
 
 }
