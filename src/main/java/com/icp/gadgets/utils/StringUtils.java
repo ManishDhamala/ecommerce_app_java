@@ -7,6 +7,7 @@ public class StringUtils {
             + "(name, email, phonenumber, username, dob, password, gender, address, role)"
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'USER') ";
 
+    public static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
     public static final String GET_LOGIN_USER_INFO = "SELECT * FROM users WHERE username = ? AND password = ?";
 
     public  static  final String INSET_CATEGORY = "INSERT INTO categories (name) VALUES (?)";
@@ -42,12 +43,16 @@ public class StringUtils {
     public static final String SERVER_ERROR_MESSAGE = "An unexpected server error occurred.";
     public static final String SUCCESS_MESSAGE = "successMessage";
     public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String UPDATED_SUCCESSFULLY ="Your profile has been successfully updated!";
+    public static final String UPDATED_MESSAGE ="updateMsg";
 
     // End messages
 
     // Start JSP Route
     public static final String LOGIN_PAGE = "/pages/login.jsp";
     public static final String REGISTER_PAGE = "/pages/register.jsp";
+    public static final String PROFILE_PAGE = "/pages/profile.jsp";
+
     // End JSP Route
 
     // Start Servlet Route
