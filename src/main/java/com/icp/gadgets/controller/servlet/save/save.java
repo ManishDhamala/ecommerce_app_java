@@ -51,8 +51,8 @@ public class save extends HttpServlet {
             updated = updateUserInfo(firstName, email, phoneNumber, dob, address, username);
             if (updated) {
                 User updatedUser = dbController.getUserInfo(username);
-                //HttpSession session = request.getSession();
-                //session.setAttribute("user", updatedUser);
+                HttpSession session = request.getSession();
+                session.setAttribute("user", updatedUser);
                 request.setAttribute(StringUtils.UPDATED_MESSAGE, StringUtils.UPDATED_SUCCESSFULLY);
                 RequestDispatcher dispatcher = request.getRequestDispatcher(StringUtils.PROFILE_PAGE);
                 dispatcher.forward(request, response);

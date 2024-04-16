@@ -23,7 +23,7 @@ public class DatabaseController {
 
     public Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:4306/gadgets";
+        String url = "jdbc:mysql://localhost:3306/gadgets";
         String user = "root";
         String pass = "";
         return DriverManager.getConnection(url, user, pass);
