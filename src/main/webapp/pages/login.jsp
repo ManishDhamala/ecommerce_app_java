@@ -8,20 +8,17 @@
 <body>
 <div class="center">
     <div class="container">
-        <div class="text">
-            Login Form
-        </div>
+        <div class="text">Login Form</div>
+
         <%--jsp error show--%>
         <%
             String errorMessage = (String) request.getParameter(StringUtils.ERROR_MESSAGE);
 
             if (errorMessage != null && !errorMessage.isEmpty()) {
         %>
-        <div class="alert alert-danger d-flex align-items-center"
-             role="alert">
-            <i class="fa-solid fa-circle-xmark"
-               style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
-            <span style="padding-left: 5px; " class="text-danger"><%=errorMessage%></span>
+        <div class="alert alert-danger" role="alert">
+            <i class="fa-solid fa-circle-xmark"  style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
+            <span style="padding-left: 5px; color: #ff0000;"><%=errorMessage%></span>
         </div>
         <%
             }
@@ -46,5 +43,7 @@
         </form>
     </div>
 </div>
+
+<script src="https://kit.fontawesome.com/0b8996398e.js" crossorigin="anonymous"></script>
 </body>
 </html>

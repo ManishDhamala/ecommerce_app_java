@@ -58,34 +58,34 @@ public class register extends HttpServlet {
 
         try {
 
-            // 1. Name Format Validation
+            //Checking full name validation and displaying it on register page
             if (!isValidName(fullname)) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Name invalid") ;
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Full name");
+                request.setAttribute(StringUtils.ERROR_MESSAGE, errorMessage);
+                response.sendRedirect(request.getContextPath() + StringUtils.REGISTER_PAGE + "?" + StringUtils.ERROR_MESSAGE +"="+errorMessage);
                 return;
             }
 
             // 2. Minimum Username Length Requirement and Special Character Validation
             if (!isValidUsername(username)) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Username invalid") ;
+                request.setAttribute (StringUtils.ERROR_MESSAGE, errorMessage) ;
 //                request.getRequestDispatcher("/pages/register.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath()+"/pages/register.jsp"+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Username");
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"="+errorMessage);
                 return;
             }
 
             //3.Check email validation
             if(!isValidEmail(email)){
-                request.setAttribute(StringUtils.ERROR_MESSAGE, "Email invalid");
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Email");
+                request.setAttribute(StringUtils.ERROR_MESSAGE, errorMessage);
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"="+errorMessage);
                 return;
             }
 
             //4.Check address validation
             if(!isValidAddress(address)){
-                request.setAttribute(StringUtils.ERROR_MESSAGE, "Address invalid");
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Address");
+                request.setAttribute(StringUtils.ERROR_MESSAGE, errorMessage);
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"="+errorMessage);
                 return;
             }
 
@@ -93,22 +93,22 @@ public class register extends HttpServlet {
             if (dob.isAfter(LocalDate.now())) {
                 // Redirect to the registration page with an error message
                 request.setAttribute (StringUtils.ERROR_MESSAGE, "Date of Birth invalid") ;
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Date of Birth");
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Future Date of Birth can't be selected");
                 return;
             }
 
             // 6. Password Complexity Requirement and Matching Passwords
             if (!isValidPassword(password)) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Password invalid") ;
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Password");
+                request.setAttribute (StringUtils.ERROR_MESSAGE, errorMessage) ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"="+errorMessage);
                 return;
             }
             // 7. Phone Number Format Requirement
             if (!isValidPhoneNumber(phonenumber)) {
                 // Redirect to the registration page with an error message
-                request.setAttribute (StringUtils.ERROR_MESSAGE, "Phone Number invalid") ;
-                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Phone Number");
+                request.setAttribute (StringUtils.ERROR_MESSAGE, errorMessage) ;
+                response.sendRedirect(request.getContextPath()+StringUtils.REGISTER_PAGE+"?"+StringUtils.ERROR_MESSAGE+"="+errorMessage);
                 return;
             }
 
@@ -155,44 +155,106 @@ public class register extends HttpServlet {
             }
 
         }catch(Exception ex){
-            request. setAttribute(StringUtils.ERROR_MESSAGE, StringUtils.SERVER_ERROR_MESSAGE) ;
+            request.setAttribute(StringUtils.ERROR_MESSAGE, StringUtils.SERVER_ERROR_MESSAGE) ;
             request.getRequestDispatcher(StringUtils.REGISTER_PAGE).forward(request, response);
 
         }
     }
 
-
-    // Helper methods for validations
+    String errorMessage = "";
     private boolean isValidName(String fullname) {
         // Implement name validation logic
-        return !fullname.matches(".*\\d.*") && !fullname.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+        if (fullname.matches(".*\\d.*")) {
+            // Full name contains digits
+            errorMessage = "Full name can't have digits";
+            return false;
+        } else if (fullname.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
+            // Full name contains special characters
+            errorMessage = "Full name can't contain special characters";
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private boolean isValidUsername(String username) {
         // Implement username validation logic
-        return username.length() > 5 && !username.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+//        return username.length() > 5 && !username.matches(".*[!@#$%^&*()+\\-=\\[\\]{};':\"\\\\|,<>/?].*");
+        if(username.length()<5){
+            errorMessage = "Username should contain more than 5 characters";
+            return false;
+        } else if (username.matches(".*[!@#$%^&*()+\\-=\\[\\]{};':\"\\\\|,<>/?].*")) {
+            errorMessage = "User name can't contain special characters";
+            return false;
+        }else {
+            return true;
+        }
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
         // Implement phone number validation logic
-        return phoneNumber.startsWith("+") && !phoneNumber.matches(".*[!@#$%^&*_=\\[\\]{};':\"\\\\|,.<>/?].*")
-                && !phoneNumber.matches(".*[A-Z].*") && !phoneNumber.matches(".*[a-z].*");
+//        return phoneNumber.startsWith("+") && !phoneNumber.matches(".*[!@#$%^&*_=\\[\\]{};':\"\\\\|,.<>/?].*")
+//                && !phoneNumber.matches(".*[A-Z].*") && !phoneNumber.matches(".*[a-z].*");
+        if(phoneNumber.matches(".*[!@#$%^&*_=\\[\\]{};':\"\\\\|,.<>/?].*")){
+            errorMessage = "Phone number can't contain special characters";
+            return false;
+        } else if (phoneNumber.matches(".*[A-Z].*") || phoneNumber.matches(".*[a-z].*")){
+            errorMessage = "Phone number can't have words";
+            return false;
+        }else {
+            return true;
+        }
     }
+
+//    private boolean isValidPassword(String password) {
+//        // Implement password validation logic
+//        return password.length() > 6 && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")
+//                && password.matches(".*[A-Z].*");
+//    }
 
     private boolean isValidPassword(String password) {
         // Implement password validation logic
-        return password.length() > 6 && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")
-                && password.matches(".*[A-Z].*");
+        if (password.length() <= 6) {
+            // Password is too short
+            errorMessage = "Password must be at least 7 characters long.";
+            return false;
+        } else if (!password.matches(".*\\d.*")) {
+            // Password does not contain a digit
+            errorMessage = "Password must contain at least one digit.";
+            return false;
+        } else if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
+            // Password does not contain a special character
+            errorMessage = "Password must contain at least one special character.";
+            return false;
+        } else if (!password.matches(".*[A-Z].*")) {
+            // Password does not contain an uppercase letter
+            errorMessage = "Password must contain at least one uppercase letter.";
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private boolean isValidEmail(String email) {
         // Implement Email validation logic
-        return !email.matches(".*[!#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,<>/?].*");
+//        return !email.matches(".*[!#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,<>/?].*");
+        if(email.matches(".*[!#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,<>/?].*")){
+            errorMessage = "Email address can't contain special characters";
+            return false;
+        }else {
+            return true;
+        }
     }
 
     private boolean isValidAddress(String address) {
         // Implement address validation logic
-        return !address.matches(".*[!#$%^&*()+\\-=\\[\\]{};':\"\\\\|,<>/?].*");
+//        return !address.matches(".*[!#$%^&*()+=\\[\\]{};':\"\\\\|,<>/?].*");
+        if (address.matches(".*[!#$%^&*()+=\\[\\]{};':\"\\\\|,<>/?].*")){
+            errorMessage = "Address can't contain special characters";
+            return false;
+        }else {
+            return true;
+        }
     }
 
 

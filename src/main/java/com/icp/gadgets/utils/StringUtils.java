@@ -39,5 +39,7 @@ public class StringUtils {
     public static final String REGISTER_SERVLET = "/register-servlet";
     // End Servlet Route
 
+    public static final String CHECK_USERNAME_EXISTS = "SELECT * FROM users WHERE username = ?";
+    public static final String CHECK_PASSWORD_MATCH = "SELECT * FROM users WHERE password = ?";
 
 }

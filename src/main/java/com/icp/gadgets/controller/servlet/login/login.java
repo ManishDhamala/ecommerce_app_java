@@ -1,8 +1,9 @@
 package com.icp.gadgets.controller.servlet.login;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import com.icp.gadgets.utils.StringUtils;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.icp.gadgets.controller.servlet.DatabaseController;
+import com.icp.gadgets.utils.StringUtils;
 
 @WebServlet(name = "loginServlet", value = "/login-servlet")
 public class login extends HttpServlet {
@@ -40,6 +42,11 @@ public class login extends HttpServlet {
             // Successful login
             response.sendRedirect(request.getContextPath()+"/index.jsp") ;
         } else if (loginResult == 0) {
+            if (!dbController.isUsernameExists(username)){
+                response.sendRedirect(request.getContextPath()+StringUtils.LOGIN_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Username and Password!");
+            }else {
+                response.sendRedirect(request.getContextPath()+StringUtils.LOGIN_PAGE+"?"+StringUtils.ERROR_MESSAGE+"=Invalid Password!");
+            }
 
         } else {
             // code will be followed in later weeks
@@ -51,11 +58,9 @@ public class login extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet(request, response);
-
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            doGet(request, response);
     }
 
 
