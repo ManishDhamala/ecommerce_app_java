@@ -104,6 +104,10 @@ public class ProductDoa {
 
     public int deleteProduct(int productId) {
         try(Connection con = new DatabaseController().getConnection()) {
+            int resultOfAssociatedImageDelete = deleteAssociatedImage(con, productId);
+            if(resultOfAssociatedImageDelete == 0) {
+                return 0;
+            }
             PreparedStatement st = con.prepareStatement(StringUtils.DELETE_PRODUCT);
             st.setInt(1, productId);
             int result = st.executeUpdate();
@@ -113,6 +117,17 @@ public class ProductDoa {
                 return 0;
             }
         } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int deleteAssociatedImage(Connection con, int productId){
+        try {
+            PreparedStatement st = con.prepareStatement(StringUtils.DELETE_ASSOCIATED_IMAGE);
+            st.setInt(1, productId);
+            return st.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }

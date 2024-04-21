@@ -36,6 +36,61 @@ public class StringUtils {
 
     public static final String DELETE_PRODUCT = "DELETE FROM products WHERE product_id = ?";
 
+    public static final String DELETE_ASSOCIATED_IMAGE = "DELETE FROM images WHERE product_id = ?";
+
+    public static final String GET_ALL_USERS = "SELECT * FROM users";
+
+    public static final String GET_USERS_COUNT = "SELECT COUNT(*) AS user_count FROM users";
+
+    public static final String GET_PRODUCTS_COUNT = "SELECT COUNT(*) AS product_count FROM products";
+
+    public static final String GET_ORDERS_COUNT = "SELECT COUNT(*) AS order_count FROM orders";
+
+    public static final String GET_WEEKLY_SALES = "SELECT \n" +
+            "    calendar.day_of_week,\n" +
+            "    COALESCE(SUM(oi.quantity * p.price), 0) AS daily_sales,\n" +
+            "    COALESCE(SUM(oi.quantity * p.price) / weekly_total_sales * 100, 0) AS sales_percentage\n" +
+            "FROM \n" +
+            "    (\n" +
+            "        SELECT 1 AS day_of_week UNION ALL\n" +
+            "        SELECT 2 UNION ALL\n" +
+            "        SELECT 3 UNION ALL\n" +
+            "        SELECT 4 UNION ALL\n" +
+            "        SELECT 5 UNION ALL\n" +
+            "        SELECT 6 UNION ALL\n" +
+            "        SELECT 7\n" +
+            "    ) calendar\n" +
+            "LEFT JOIN \n" +
+            "    orders o ON DAYOFWEEK(o.created_at) = calendar.day_of_week\n" +
+            "LEFT JOIN \n" +
+            "    orderItems oi ON o.order_id = oi.order_id\n" +
+            "LEFT JOIN \n" +
+            "    products p ON oi.product_id = p.product_id\n" +
+            "LEFT JOIN (\n" +
+            "    SELECT \n" +
+            "        YEARWEEK(o.created_at) AS week,\n" +
+            "        SUM(oi.quantity * p.price) AS weekly_total_sales\n" +
+            "    FROM \n" +
+            "        orders o\n" +
+            "    JOIN \n" +
+            "        orderItems oi ON o.order_id = oi.order_id\n" +
+            "    JOIN \n" +
+            "        products p ON oi.product_id = p.product_id\n" +
+            "    WHERE \n" +
+            "        o.orderStatus = 'DELIVERED' \n" +
+            "        AND o.paymentStatus = 'PAID' \n" +
+            "        AND YEARWEEK(o.created_at) = YEARWEEK(CURDATE())\n" +
+            "    GROUP BY \n" +
+            "        YEARWEEK(o.created_at)\n" +
+            ") AS weekly_sales ON YEARWEEK(o.created_at) = weekly_sales.week\n" +
+            "WHERE \n" +
+            "    (o.orderStatus = 'DELIVERED' OR o.order_id IS NULL) \n" +
+            "    AND (o.paymentStatus = 'PAID' OR o.order_id IS NULL) \n" +
+            "    AND (YEARWEEK(o.created_at) = YEARWEEK(CURDATE()) OR o.order_id IS NULL)\n" +
+            "GROUP BY \n" +
+            "    calendar.day_of_week\n" +
+            "ORDER BY \n" +
+            "    calendar.day_of_week;\n";
 
     // End SQL Queries
 

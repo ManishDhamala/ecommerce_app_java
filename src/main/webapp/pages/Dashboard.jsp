@@ -1,4 +1,8 @@
-<%--
+<%@ page import="com.icp.gadgets.doa.TransactionalDoa" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.icp.gadgets.model.SalesData" %>
+<%@ page import="com.icp.gadgets.utils.Helper" %>
+<%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: sachin
   Date: 13/04/2024
@@ -17,13 +21,30 @@
 </head>
 <body>
 <jsp:include page="adminheader.jsp"/>
+<%
+  TransactionalDoa transactionalDoa = new TransactionalDoa();
+  Helper helper = new Helper();
+  int totalUsers = transactionalDoa.getTotalUsers();
+  int getTotalProducts = transactionalDoa.getTotalProducts();
+  int totalOrders = transactionalDoa.getTotalOrders();
+    List<SalesData> salesData = null;
+    try {
+        salesData = transactionalDoa.getWeeklySales();
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+    }
+%>
 <div class="row mt-5  mb-5 mx-5 ">
   <div class="col">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Total Orders</h5>
         <p class="card-text">
-            <span class="value">100</span>
+            <span class="value">
+                <%= totalOrders %>
+            </span>
         </p>
       </div>
     </div>
@@ -33,7 +54,9 @@
       <div class="card-body">
         <h5 class="card-title">Total Users</h5>
         <p class="card-text">
-          <span class="value">100</span>
+          <span class="value">
+            <%= totalUsers %>
+          </span>
           </p>
       </div>
     </div>
@@ -43,47 +66,30 @@
       <div class="card-body">
         <h5 class="card-title">Total Products</h5>
         <p class="card-text">
-            <span class="value">100</span>
+            <span class="value">
+                <%= getTotalProducts %>
+            </span>
         </p>
       </div>
     </div>
   </div>
 </div>
 <div class="simple-bar-chart">
-  <div class="item" style="--clr: #5EB344; --val: 80">
-    <div class="label">Sunday</div>
-    <div class="value">80%</div>
-  </div>
+    <%
+        for (SalesData salesDatum : salesData) {
+    %>
+  <%
+    String dayName = helper.getDayName(salesDatum.getDayOfWeek());
+    String color = helper.getColorAccordingToDay(salesDatum.getDayOfWeek());
+  %>
+    <div class="item" style="--clr: <%=color%>; --val: <%= salesDatum.getSalesPercentage() %>">
+        <div class="label"><%= dayName%></div>
+        <div class="value">Rs.<%= salesDatum.getDailySales() %>0</div>
+    </div>
+    <%
+        }
+    %>
 
-  <div class="item" style="--clr: #FCB72A; --val: 50">
-    <div class="label">Monday</div>
-    <div class="value">50%</div>
-  </div>
-
-  <div class="item" style="--clr: #F8821A; --val: 100">
-    <div class="label">Tuesday</div>
-    <div class="value">100%</div>
-  </div>
-
-  <div class="item" style="--clr: #E0393E; --val: 15">
-    <div class="label">Wednesday</div>
-    <div class="value">15%</div>
-  </div>
-
-  <div class="item" style="--clr: #963D97; --val: 1">
-    <div class="label">Thursday</div>
-    <div class="value">1%</div>
-  </div>
-
-  <div class="item" style="--clr: #069CDB; --val: 90">
-    <div class="label">Friday</div>
-    <div class="value">90%</div>
-  </div>
-
-  <div class="item" style="--clr: #F39C12; --val: 40">
-    <div class="label">Saturday</div>
-    <div class="value">40%</div>
-  </div>
 </div>
 </body>
 </html>

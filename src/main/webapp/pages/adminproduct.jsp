@@ -138,7 +138,7 @@
                         image != null && !image.isEmpty()
                             %>
                         data-bs-productName=<%= product.getProductName()%>  >Edit</button>
-                <button type="button" class=" btn btn-outline-danger" onclick="deleteCategory(<%= product.getProductId() %>)">Delete</button>
+                <button type="button" class=" btn btn-outline-danger" onclick="deleteProduct(<%= product.getProductId() %>)">Delete</button>
             </td>
         </tr>
         <% } %>
@@ -273,6 +273,18 @@
             }
         };
         xhr.send(formData);
+    }
+
+    function  deleteProduct(productId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST','${pageContext.request.contextPath}/product', true);
+        xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded')
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                window.location.href = xhr.responseURL;
+            }
+        };
+        xhr.send('productId=' + productId + '&_method=DELETE');
     }
 
     function showAndRemoveToast() {
