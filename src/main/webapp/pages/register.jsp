@@ -18,12 +18,10 @@
 
             if (errorMessage != null && !errorMessage.isEmpty()) {
         %>
-        <div class="alert alert-danger d-flex align-items-center"
-             role="alert">
-            <i class="fa-solid fa-circle-xmark"
-               style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
-            <span style="padding-left: 5px; " class="text-danger"><%=errorMessage%></span>
-        </div>
+            <div class="alert alert-danger" role="alert">
+                <i class="fa-solid fa-circle-xmark"  style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
+                <span style="padding-left: 5px; color: #ff0000;"><%=errorMessage%></span>
+            </div>
         <%
             }
         %>

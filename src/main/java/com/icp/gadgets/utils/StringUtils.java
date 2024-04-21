@@ -92,6 +92,9 @@ public class StringUtils {
             "ORDER BY \n" +
             "    calendar.day_of_week;\n";
 
+    public static final String GET_PRODUCT_ITEM = "SELECT * FROM products WHERE product_id = ?";
+    public static final String GET_PRODUCT_PRICE = "SELECT price FROM products WHERE product_id = ?";
+
     // End SQL Queries
 
     public static final String FULL_NAME = "fullname";
@@ -127,5 +130,7 @@ public class StringUtils {
     public static final String REGISTER_SERVLET = "/register-servlet";
     // End Servlet Route
 
+    public static final String CHECK_USERNAME_EXISTS = "SELECT * FROM users WHERE username = ?";
+    public static final String CHECK_PASSWORD_MATCH = "SELECT * FROM users WHERE password = ?";
 
 }

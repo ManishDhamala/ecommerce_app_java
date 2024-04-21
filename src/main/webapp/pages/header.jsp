@@ -1,4 +1,7 @@
-<%--
+<%@ page import="com.icp.gadgets.model.Cart" %>
+<%@ page import="com.icp.gadgets.doa.ProductDoa" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: SUSHIL
   Date: 4/3/2024
@@ -10,8 +13,28 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/header.styles.css">
+
 </head>
+
+
+
 <body>
+<%
+
+
+
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    List<Cart> cartProduct = null;
+    if (cart_list != null) {
+        ProductDoa pDao = new ProductDoa();
+        cartProduct =   pDao.getCartProducts(cart_list);
+        request.setAttribute("cart_List", cart_list);
+    }
+
+
+
+%>
+
 <!-- header section start -->
 <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm max-height-78">
     <div class="container">
@@ -41,11 +64,15 @@
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/CartPage.jsp"><img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png"
-                                                                          alt="cart"
-                                                                          style="width: 20px;height: 20px;">
+                    <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/CartPage.jsp" style="position: relative">
+                        <span class="badge badge-danger" style="position: absolute; background-color: red; color: white; font-size: 12px; font-weight: 400; padding: 2px 6px; border-radius: 5px; margin-left: 10px; margin-top: -5px; top: 12px;left: 11px;">${cart_List.size()}</span>
+
+                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="cart" style="width: 20px; height: 20px;">
                     </a>
                 </li>
+
+
+
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/Dashboard.jsp"><img src="${pageContext.request.contextPath}/assets/Icons/user.png" alt="user"
                                                                           style="width: 20px;height: 20px;">
