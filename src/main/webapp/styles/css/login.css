@@ -116,6 +116,7 @@ form .btn button {
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
+    background: #f06412;
 }
 
 form .signup-link {

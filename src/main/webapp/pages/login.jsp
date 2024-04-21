@@ -35,7 +35,7 @@
             </div>
             <div class="btn">
                 <div class="inner"></div>
-                <button type="submit">login</button>
+                <button type="submit" style="background:  #f06412">login</button>
             </div>
             <div class="signup-link">
                 Not a member? <a href="register.jsp">Register now</a>
