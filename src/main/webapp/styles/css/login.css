@@ -11,7 +11,8 @@
 body {
     height: 100vh;
     width: 100%;
-    background: linear-gradient(115deg, #f06412 10%, #fff 90%);
+    background: white !important;
+    /*background: linear-gradient(115deg, #f06412 10%, #fff 90%);*/
 }
 
 .container {
@@ -22,6 +23,7 @@ body {
     background: #fff;
     width: 410px;
     padding: 30px;
+border-radius: 5px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -86,21 +88,22 @@ form .btn {
     width: 100%;
     position: relative;
     overflow: hidden;
+    border-radius: 5px;
 }
 
-form .btn .inner {
-    height: 100%;
-    width: 300%;
-    position: absolute;
-    left: -100%;
-    z-index: -1;
-    background: -webkit-linear-gradient(right, #f06412, #f06412, #f06412, #2a292a);
-    transition: all 0.4s;
-}
+/*form .btn .inner {*/
+/*    height: 100%;*/
+/*    width: 300%;*/
+/*    position: absolute;*/
+/*    left: -100%;*/
+/*    z-index: -1;*/
+/*    !*background: -webkit-linear-gradient(right, #f06412, #f06412, #f06412, #2a292a);*!*/
+/*    transition: all 0.4s;*/
+/*}*/
 
-form .btn:hover .inner {
-    left: 0;
-}
+/*form .btn:hover .inner {*/
+/*    left: 0;*/
+/*}*/
 
 form .btn button {
     height: 100%;

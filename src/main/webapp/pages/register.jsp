@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Register</title>
-    <link rel="stylesheet" href="../styles/css/register.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/register.css">
 </head>
 <body>
 
