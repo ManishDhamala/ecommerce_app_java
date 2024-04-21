@@ -1,4 +1,10 @@
-<%--
+<%@ page import="com.icp.gadgets.model.User" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.icp.gadgets.model.Cart" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.icp.gadgets.doa.ProductDoa" %>
+<%@ page import="com.icp.gadgets.model.Product" %>
+<%@ page import="com.icp.gadgets.doa.ImageDoa" %><%--
   Created by IntelliJ IDEA.
   User: himalpun
   Date: 03/04/2024
@@ -10,13 +16,57 @@
 <head>
     <title>Cart</title>
     <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/css/myToast.css">
 </head>
 <body>
+<%--<%--%>
+<%--    Boolean removed = (Boolean) request.getAttribute("removed");--%>
+<%--    if (removed != null && removed) {--%>
+<%--%>--%>
+<%--<div class="alert alert-success" role="alert">--%>
+<%--    Item removed from cart successfully!--%>
+<%--</div>--%>
+<%--<%--%>
+<%--    }--%>
+<%--%>--%>
+<%--<%--%>
+<%--    String removed = request.getParameter("removed");--%>
+<%--    if (removed != null && removed.equals("true")) {--%>
+<%--%>--%>
+<%--<div class=" alert alert-success" role="alert">--%>
+<%--    Item removed from cart successfully!--%>
+<%--</div>--%>
+<%--<%--%>
+<%--    }--%>
+<%--%>--%>
+
+<%
+    User user = (User) session.getAttribute("user");
+
+
+    ArrayList<Cart>  cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    List<Cart> cartProduct = null;
+    if (cart_list != null) {
+        ProductDoa pDao = new ProductDoa();
+        cartProduct =   pDao.getCartProducts(cart_list);
+        request.setAttribute("cart_List", cart_list);
+        double total = pDao.getTotalCartPrice(cart_list);
+        request.setAttribute("total", total);
+    }
+    ProductDoa pd = new ProductDoa();
+    List<Product> productList = pd.getAllProducts();
+
+    ImageDoa img = new ImageDoa();
+
+%>
+
 <%--header--%>
 <jsp:include page="header.jsp"/>
 
+
 <%--Cart Section--%>
 <section class="h-100 h-custom">
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col">
@@ -37,36 +87,34 @@
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <div>
                                         <p class="mb-1">Shopping cart</p>
-                                        <p class="mb-0">You have 4 items in your cart</p>
+                                        <p class="mb-0">You have ${cart_List.size()} items in your cart</p>
                                     </div>
-
                                 </div>
-
+                                <%
+                                    if (cart_list != null) {
+                                        for (Cart cart : cartProduct) {
+                                %>
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div>
-                                                    <img
-                                                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                                            class="img-fluid rounded-3" alt="Shopping item"
-                                                            style="width: 65px;">
+                                                    <img src="<%= img.getImgURLByProductId(cart.getProductId()) %>" class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h5>Iphone 11 pro</h5>
-                                                    <p class="small mb-0">256GB, Navy Blue</p>
+                                                    <h5><%= cart.getProductName()%></h5>
+                                                    <p class="small mb-0"><%= cart.getProductDescription()%></p>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
                                                 <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">2</h5>
+                                                    <h5 class="fw-normal mb-0"><%= cart.getQuantity()%></h5>
                                                 </div>
                                                 <div style="width: 80px;">
-                                                    <h5 class="mb-0">$900</h5>
+                                                    <h5 class="mb-0"><%= cart.getProductPrice() %></h5>
                                                 </div>
-                                                <a href="#!" style="color: #cecece;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                                         height="16" width="16">
+                                                <a href="../RemoveFromCart-servlet?id=<%=cart.getProductId() %>" style="color: #cecece;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="16" width="16">
                                                         <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
                                                     </svg>
                                                 </a>
@@ -74,105 +122,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <%
+                                        }
+                                    }
+                                %>
 
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img
-                                                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img2.webp"
-                                                            class="img-fluid rounded-3" alt="Shopping item"
-                                                            style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>Samsung galaxy Note 10 </h5>
-                                                    <p class="small mb-0">256GB, Navy Blue</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">2</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$900</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                                         height="16" width="16">
-                                                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img
-                                                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"
-                                                            class="img-fluid rounded-3" alt="Shopping item"
-                                                            style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>Canon EOS M50</h5>
-                                                    <p class="small mb-0">Onyx Black</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">1</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$1199</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                                         height="16" width="16">
-                                                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="card mb-3 mb-lg-0">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img
-                                                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img4.webp"
-                                                            class="img-fluid rounded-3" alt="Shopping item"
-                                                            style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>MacBook Pro</h5>
-                                                    <p class="small mb-0">1TB, Graphite</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">1</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$1799</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                                         height="16" width="16">
-                                                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+
+
+
 
                             </div>
                             <div class="col-lg-5">
@@ -197,11 +157,11 @@
 
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
-                                                <input type="text" id="typeName" class="form-control form-control-lg"
-                                                       siez="17"
-                                                       placeholder="Cardholder's Name"/>
-                                                <label class="form-label" for="typeName">Cardholder's Name</label>
+                                                <input type="text" id="typeName" class="form-control form-control-lg" size="17"
+                                                       placeholder="Cardholder's Name" value="<%= user.getFullName() %>"/>
+                                                <label class="form-label" for="typeName" readonly="">Cardholder's Name</label>
                                             </div>
+
 
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text"  class="form-control form-control-lg"
@@ -237,18 +197,24 @@
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Subtotal</p>
-                                            <p class="mb-2">$4798.00</p>
+                                            <p class="mb-2">NPR ${total}</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Tax</p>
+                                            <p class="mb-2">13%</p>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Shipping</p>
-                                            <p class="mb-2">$20.00</p>
+                                            <p class="mb-2">NPR 1500</p>
                                         </div>
 
+
                                         <div class="d-flex justify-content-between mb-4">
-                                            <p class="mb-2">Total(Incl. taxes)</p>
-                                            <p class="mb-2">$4818.00</p>
+                                            <p class="mb-2">Total</p>
+                                            <p class="mb-2">NPR ${(total + 13/100 * total)+1500}</p>
                                         </div>
+
 
                                         <button type="button" class="btn btn-info btn-block btn-lg"
                                                 style="background: #1a1d20; color: whitesmoke; width: 100% " >

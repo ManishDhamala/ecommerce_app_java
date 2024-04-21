@@ -24,6 +24,9 @@ public class StringUtils {
     public static final String GET_PRODUCTS = "SELECT * FROM products";
 
 
+    public static final String GET_PRODUCT_ITEM = "SELECT * FROM products WHERE product_id = ?";
+    public static final String GET_PRODUCT_PRICE = "SELECT price FROM products WHERE product_id = ?";
+
     // End SQL Queries
 
     public static final String FULL_NAME = "fullname";

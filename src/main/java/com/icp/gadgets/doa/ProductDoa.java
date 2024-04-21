@@ -1,6 +1,7 @@
 package com.icp.gadgets.doa;
 
 import com.icp.gadgets.controller.servlet.DatabaseController;
+import com.icp.gadgets.model.Cart;
 import com.icp.gadgets.model.Product;
 import com.icp.gadgets.utils.StringUtils;
 
@@ -61,5 +62,64 @@ public class ProductDoa {
         }
         return products;
     }
+
+    public List<Cart> getCartProducts(ArrayList<Cart> cartList){
+        List<Cart> prodcts = new ArrayList<>();
+
+        try(Connection con = new DatabaseController().getConnection()){
+
+            if(cartList.size()>0){
+                for (Cart item: cartList){
+
+                    PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_ITEM);
+                    st.setInt(1,item.getProductId());
+                    ResultSet rs = st.executeQuery();
+                    while (rs.next()){
+                        Cart cart = new Cart();
+                        cart.setProductId(rs.getInt("product_id"));
+                        cart.setProductName(rs.getString("name"));
+                        cart.setProductPrice(rs.getInt("price")*item.getQuantity());
+                        cart.setProductDescription(rs.getString("desc"));
+                        cart.setCategoryId(rs.getInt("category_id"));
+                        cart.setQuantity(item.getQuantity());
+                        prodcts.add(cart);
+                    }
+
+
+                }
+            }
+
+        }
+        catch (Exception e){
+            System.out.println("Error in getCartProducts");
+
+        }
+        return  prodcts;
+
+    }
+    public double getTotalCartPrice(ArrayList<Cart> cartList) throws SQLException, ClassNotFoundException {
+        double total = 0 ;
+
+        try(Connection con = new DatabaseController().getConnection()){
+            if(cartList.size()>0){
+                for (Cart item: cartList){
+                    PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_PRICE);
+                    st.setInt(1,item.getProductId());
+                    ResultSet rs = st.executeQuery();
+                    while (rs.next()){
+                        total += rs.getDouble("price")*item.getQuantity();
+                    }
+                }
+            }
+
+
+        }catch (Exception e){
+            System.out.println("Error in getTotalCartPrice");
+        }
+
+
+        return total;
+    }
+
 
 }
