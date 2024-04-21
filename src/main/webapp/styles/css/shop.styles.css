@@ -21,6 +21,7 @@
     opacity: 0;
 }
 
+
 .custom-control-input:checked ~ .custom-control-label::before {
     color: #fff;
     border-color: #D19C97;
