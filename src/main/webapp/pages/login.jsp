@@ -3,25 +3,22 @@
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/login.css">
+    <link rel="stylesheet" href="../styles/css/login.css">
 </head>
-<body style="background: white">
-<div class="center" >
-    <div class="container" style="border-radius: 5px">
-        <div class="text">
-            Login Form
-        </div>
+<body>
+<div class="center">
+    <div class="container">
+        <div class="text">Login Form</div>
+
         <%--jsp error show--%>
         <%
             String errorMessage = (String) request.getParameter(StringUtils.ERROR_MESSAGE);
 
             if (errorMessage != null && !errorMessage.isEmpty()) {
         %>
-        <div class="alert alert-danger d-flex align-items-center"
-             role="alert">
-            <i class="fa-solid fa-circle-xmark"
-               style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
-            <span style="padding-left: 5px; " class="text-danger"><%=errorMessage%></span>
+        <div class="alert alert-danger" role="alert">
+            <i class="fa-solid fa-circle-xmark"  style="color: #ff0000; font-size: 2em; padding-left: 15px;"></i>
+            <span style="padding-left: 5px; color: #ff0000;"><%=errorMessage%></span>
         </div>
         <%
             }
@@ -38,7 +35,7 @@
             </div>
             <div class="btn">
                 <div class="inner"></div>
-                <button type="submit" class="" style="background: #f06412">login</button>
+                <button type="submit">login</button>
             </div>
             <div class="signup-link">
                 Not a member? <a href="register.jsp">Register now</a>
@@ -46,5 +43,7 @@
         </form>
     </div>
 </div>
+
+<script src="https://kit.fontawesome.com/0b8996398e.js" crossorigin="anonymous"></script>
 </body>
 </html>
