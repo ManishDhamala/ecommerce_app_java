@@ -24,14 +24,24 @@ public class ImageDoa {
             Files.copy(input, Paths.get(uploadDir, fileName + "." + fileExtension), StandardCopyOption.REPLACE_EXISTING);
             return uploadDir + "/" + fileName + "." + fileExtension;
         } catch (IOException e) {
-            throw new IOException("Error saving image to file");
+            e.printStackTrace();
+            return null;
         }
 
     }
     public String getFileExtension(Part part) {
-        String[] split = part.getSubmittedFileName().split("\\.");
-        return split[split.length - 1];
+        String contentType = part.getContentType();
+        System.out.println("Content Type: " + contentType);
+        if (contentType != null) {
+            // Extract the file extension from the content type 
+            String[] split = contentType.split("/");
+            if (split.length == 2) {
+                return split[1]; // Return the second part as the file extension
+            }
+        }
+        return "jpg";
     }
+
 
     public int SaveImageToDatabase(int productId, String fileName) {
         try(Connection con = new DatabaseController().getConnection()) {
@@ -42,6 +52,55 @@ public class ImageDoa {
             return result > 0 ? 1 : 0;
         } catch ( ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public int removeImageByProductId(int productId) {
+        try(Connection con = new DatabaseController().getConnection()) {
+//            System.out.println("Removing image by product id: " + productId);
+            String imgURL = getImgURLByProductId(productId);
+//            System.out.println("Image URL: " + imgURL);
+            if (imgURL != null) {
+                File file = new File(imgURL);
+                if (file.exists()) {
+                    if (file.delete()) {
+                        System.out.println("Image file deleted successfully.");
+                    } else {
+                        System.out.println("Failed to delete image file.");
+                    }
+                }
+            }
+            // Delete image reference from the database
+            PreparedStatement st = con.prepareStatement(StringUtils.REMOVE_IMAGE_BY_PRODUCT_ID);
+            st.setInt(1, productId);
+            int result = st.executeUpdate();
+            if(result > 0) {
+                System.out.println("Image reference removed from database.");
+            } else {
+                System.out.println("Failed to remove image reference from database.");
+            }
+            // Remove image file from local storage
+            return result > 0 ? 1 : 0;
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    private boolean hasImages(int productId) throws SQLException {
+        try (Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.HAS_IMAGE);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; // If count is greater than 0, it means there are images associated
+            }
+            return false; // No rows returned, indicating no images associated
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -59,7 +118,7 @@ public class ImageDoa {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.println("Image URL: " + imgURL);
+//            System.out.println("Image URL: " + imgURL);
             return imgURL;
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);

@@ -62,4 +62,60 @@ public class ProductDoa {
         return products;
     }
 
+    public int updateProduct(int productId, String productName, int productPrice, String productDescription, int categoryId) {
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.UPDATE_PRODUCT);
+            st.setString(1, productName);
+            st.setInt(2, productPrice);
+            st.setString(3, productDescription);
+            st.setInt(4, categoryId);
+            st.setInt(5, productId);
+           int result = st.executeUpdate();
+           if(result > 0) {
+               return 1;
+           } else {
+               return 0;
+           }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public Product getProductById(int productId) {
+        Product product = new Product();
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_BY_ID);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                product.setProductId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setProductPrice(rs.getInt("price"));
+                product.setProductDescription(rs.getString("desc"));
+                product.setCategoryId(rs.getInt("category_id"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return product;
+    }
+
+    public int deleteProduct(int productId) {
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.DELETE_PRODUCT);
+            st.setInt(1, productId);
+            int result = st.executeUpdate();
+            if(result > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }

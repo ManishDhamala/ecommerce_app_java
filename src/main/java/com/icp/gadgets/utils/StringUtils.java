@@ -21,11 +21,20 @@ public class StringUtils {
                     "WHERE category_id = ?";
 
     public static final String INSERT_PRODUCT = "INSERT INTO products (name, price, `desc`, category_id) VALUES (?, ?, ?, ?)";
+
+    public static final String UPDATE_PRODUCT = "UPDATE products SET name = ?, price = ?, `desc` = ?, category_id = ? WHERE product_id = ?";
     public static final String IMAGE_INSERT = "INSERT INTO images (imgUrl, product_id) VALUES (?, ?)";
 
     public static final String GET_IMAGE_BY_PRODUCT_ID = "SELECT imgUrl FROM images WHERE product_id = ?";
+    public static final String REMOVE_IMAGE_BY_PRODUCT_ID = "DELETE FROM images WHERE product_id = ?";
+
+    public static final String HAS_IMAGE = "SELECT COUNT(*) AS image_count FROM images WHERE product_id = ?";
 
     public static final String GET_PRODUCTS = "SELECT * FROM products";
+
+    public static final String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE product_id = ?";
+
+    public static final String DELETE_PRODUCT = "DELETE FROM products WHERE product_id = ?";
 
 
     // End SQL Queries
