@@ -178,13 +178,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="./SingleProduct.jsp" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="./SingleProduct.jsp" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                                 <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                     <img src="../assets/Icons/shopping-bag.png"
-                                                                                 alt="cart"
+                                                                                 alt="carts"
                                                                                  style="width: 20px;height: 20px">Add To
                                     Cart</a>
 
@@ -207,13 +207,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -234,13 +234,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -261,13 +261,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -288,13 +288,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -315,13 +315,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -342,13 +342,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -369,13 +369,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>
@@ -396,13 +396,13 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="cart"
+                            <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center"><img src="../assets/Icons/eye.png" alt="carts"
                                                                                                              style="width: 20px;height: 20px">View
                                 Detail</a>
 
                             <a href="" class="btn btn-sm text-dark p-0 d-flex gap-3 align-items-center">
                                 <img src="../assets/Icons/shopping-bag.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px">Add To
                                 Cart</a>
                         </div>

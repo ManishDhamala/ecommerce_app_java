@@ -43,4 +43,16 @@ public class Helper {
                 return "#F39C12";
         }
     }
+
+    public  String extractFileName(String imgUrl) {
+        // Split the URL by "/"
+        String[] parts = imgUrl.split("/");
+
+        // Get the last part, which should be the filename
+        String fileName = parts[parts.length - 1];
+
+        // Return the filename
+        return fileName;
+    }
+
 }

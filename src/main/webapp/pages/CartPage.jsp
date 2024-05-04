@@ -1,10 +1,11 @@
-<%@ page import="com.icp.gadgets.model.User" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.icp.gadgets.model.Cart" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.icp.gadgets.doa.ProductDoa" %>
-<%@ page import="com.icp.gadgets.model.Product" %>
-<%@ page import="com.icp.gadgets.doa.ImageDoa" %><%--
+<%@ page import="com.icp.gadgets.doa.ImageDoa" %>
+<%@ page import="com.icp.gadgets.utils.Helper" %>
+<%@ page import="com.icp.gadgets.model.Carts" %>
+<%@ page import="com.icp.gadgets.model.*" %>
+<%@ page import="com.icp.gadgets.doa.Cartdoa" %><%--
   Created by IntelliJ IDEA.
   User: himalpun
   Date: 03/04/2024
@@ -19,45 +20,23 @@
     <link rel="stylesheet" href="../styles/css/myToast.css">
 </head>
 <body>
-<%--<%--%>
-<%--    Boolean removed = (Boolean) request.getAttribute("removed");--%>
-<%--    if (removed != null && removed) {--%>
-<%--%>--%>
-<%--<div class="alert alert-success" role="alert">--%>
-<%--    Item removed from cart successfully!--%>
-<%--</div>--%>
-<%--<%--%>
-<%--    }--%>
-<%--%>--%>
-<%--<%--%>
-<%--    String removed = request.getParameter("removed");--%>
-<%--    if (removed != null && removed.equals("true")) {--%>
-<%--%>--%>
-<%--<div class=" alert alert-success" role="alert">--%>
-<%--    Item removed from cart successfully!--%>
-<%--</div>--%>
-<%--<%--%>
-<%--    }--%>
-<%--%>--%>
-
 <%
-    User user = (User) session.getAttribute("user");
-
-
-    ArrayList<Cart>  cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
-    List<Cart> cartProduct = null;
-    if (cart_list != null) {
-        ProductDoa pDao = new ProductDoa();
-        cartProduct =   pDao.getCartProducts(cart_list);
-        request.setAttribute("cart_List", cart_list);
-        double total = pDao.getTotalCartPrice(cart_list);
-        request.setAttribute("total", total);
+    User user = null;
+    List<CartItem> cartItems = null;
+    HttpSession isSession = request.getSession(false);
+    if (isSession == null || isSession.getAttribute("user") == null) {
+        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+    }else{
+        user = (User) session.getAttribute("user");
+        Cartdoa cartdoa = new Cartdoa();
+        cartItems = cartdoa.getCartItemByUserID(user.getId());
+        System.out.println("Cart Items: " + cartItems);
+        System.out.println("User: " + user.getId());
+        if(user == null){
+            response.sendRedirect("login.jsp");
+        }
     }
-    ProductDoa pd = new ProductDoa();
-    List<Product> productList = pd.getAllProducts();
-
     ImageDoa img = new ImageDoa();
-
 %>
 
 <%--header--%>
@@ -86,34 +65,50 @@
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <div>
-                                        <p class="mb-1">Shopping cart</p>
-                                        <p class="mb-0">You have ${cart_List.size()} items in your cart</p>
+                                        <p class="mb-1">Shopping carts</p>
+<%--                                        <p class="mb-0">You have ${} items in your carts</p>--%>
                                     </div>
                                 </div>
                                 <%
-                                    if (cart_list != null) {
-                                        for (Cart cart : cartProduct) {
+                                    if (cartItems != null) {
+                                        for (CartItem cartItem : cartItems) {
+                                %>
+                                <%
+                                    String imgPath = img.getImgURLByProductId(cartItem.getProductId());
+                                    String imgUri;
+                                    if (imgPath == null) {
+                                        imgUri = "../images/placeholder.png";
+                                    }
+                                    else {
+                                        imgUri = request.getContextPath() +"/images/"+  new Helper().extractFileName(imgPath);
+                                    }
+                                    System.out.println("Image Path: " + imgUri);
                                 %>
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div>
-                                                    <img src="<%= img.getImgURLByProductId(cart.getProductId()) %>" class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                    <img src="<%= imgUri %>" class="img-fluid rounded-3" alt="Shopping item"  onError="this.onerror=null;this.src='../images/placeholder.png';" style="width: 65px;">
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h5><%= cart.getProductName()%></h5>
-                                                    <p class="small mb-0"><%= cart.getProductDescription()%></p>
+                                                    <h5><%= cartItem.getProductName()%></h5>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0"><%= cart.getQuantity()%></h5>
+                                                <div style="width: 50px;" class=" d-flex">
+                                                    <button class="btn btn-outline-primary">
+                                                        -
+                                                    </button>
+                                                    <h5 class="fw-normal mb-0"><%= cartItem.getQuantity()%></h5>
+                                                    <button class=" btn btn-outline-primary">
+                                                        +
+                                                    </button>
                                                 </div>
                                                 <div style="width: 80px;">
-                                                    <h5 class="mb-0"><%= cart.getProductPrice() %></h5>
+                                                    <h5 class="mb-0"><%= cartItem.getPrice() %></h5>
                                                 </div>
-                                                <a href="../RemoveFromCart-servlet?id=<%=cart.getProductId() %>" style="color: #cecece;">
+                                                <a href="../RemoveFromCart-servlet?id=<%=cartItem.getProductId() %>" style="color: #cecece;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="16" width="16">
                                                         <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
                                                     </svg>
@@ -126,13 +121,6 @@
                                         }
                                     }
                                 %>
-
-
-
-
-
-
-
 
                             </div>
                             <div class="col-lg-5">
@@ -158,7 +146,7 @@
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="typeName" class="form-control form-control-lg" size="17"
-                                                       placeholder="Cardholder's Name" value="<%= user.getFullName() %>"/>
+                                                       placeholder="Cardholder's Name" value=""/>
                                                 <label class="form-label" for="typeName" readonly="">Cardholder's Name</label>
                                             </div>
 
@@ -212,7 +200,7 @@
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Total</p>
-                                            <p class="mb-2">NPR ${(total + 13/100 * total)+1500}</p>
+<%--                                            <p class="mb-2">NPR ${(total + 13/100 * total)+1500}</p>--%>
                                         </div>
 
 

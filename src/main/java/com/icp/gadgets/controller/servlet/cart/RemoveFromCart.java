@@ -3,8 +3,7 @@ package com.icp.gadgets.controller.servlet.cart;
 import java.io.*;
 import java.util.ArrayList;
 
-import com.icp.gadgets.model.Cart;
-import jakarta.servlet.RequestDispatcher;
+import com.icp.gadgets.model.Carts;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -23,11 +22,11 @@ public class RemoveFromCart extends HttpServlet {
 
             String id = request.getParameter("id");
             if (id != null) {
-                ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
-                if (cart_list != null) {
-                    for (Cart c : cart_list) {
+                ArrayList<Carts> carts_list = (ArrayList<Carts>) request.getSession().getAttribute("cart-list");
+                if (carts_list != null) {
+                    for (Carts c : carts_list) {
                         if (c.getProductId() == Integer.parseInt(id)) {
-                            cart_list.remove(cart_list.indexOf(c));
+                            carts_list.remove(carts_list.indexOf(c));
                             System.out.println("Removed");
                             break;
                         }

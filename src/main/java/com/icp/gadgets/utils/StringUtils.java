@@ -95,6 +95,21 @@ public class StringUtils {
     public static final String GET_PRODUCT_ITEM = "SELECT * FROM products WHERE product_id = ?";
     public static final String GET_PRODUCT_PRICE = "SELECT price FROM products WHERE product_id = ?";
 
+    public static  final  String CREATE_ORDER = "INSERT INTO orders (user_id, orderStatus, paymentStatus, totalAmount) VALUES (?, ?, ?, ?)";
+    public static  final  String CREATE_ORDER_ITEM = "INSERT INTO orderItems (order_id, product_id, quantity) VALUES (?, ?, ?)";
+
+    public static final String INSERT_INTO_CART ="INSERT INTO cart(user_id) VALUES (?)";
+
+    public static final String INSERT_INTO_CART_ITEM = "INSERT INTO cartItem(cart_id, product_id, quantity) VALUES (?, ?, ?)";
+
+    public static final String GET_CART_ITEMS = "SELECT * FROM cartItem WHERE cart_id = ?";
+
+    public static final String SELECT_CART_ITEM_BY_USER_ID = "SELECT c.cart_id, ci.cart_item_id, ci.quantity, p.product_id, p.name,p.price\n" +
+            "FROM cart c\n" +
+            "JOIN cartItem ci ON c.cart_id = ci.cart_id\n" +
+            "JOIN products p ON ci.product_id = p.product_id\n" +
+            "WHERE c.user_id = (?) ";
+
     // End SQL Queries
 
     public static final String FULL_NAME = "fullname";

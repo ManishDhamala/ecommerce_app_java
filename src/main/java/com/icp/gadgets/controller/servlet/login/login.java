@@ -47,19 +47,36 @@ public class login extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        int loginResult = dbController.getUserLoginInfo(username, password);
+//        int loginResult = dbController.getUserLoginInfo(username, password);
 
-        if (loginResult == 1) {
+        User userInfo = dbController.getLoginUserInfo(username, password);
+
+        if (userInfo != null) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("user", user);
+            session.setMaxInactiveInterval(30 * 60); // 30 minutes
+            session.setAttribute("userId", userInfo.getId());
+            session.setAttribute("user", userInfo);
             response.sendRedirect(request.getContextPath() + "/index.jsp");
-        } else if (loginResult == 0) {
-            if (!dbController.isUsernameExists(username)) {
+        } else if (user == null){
+            if(!dbController.isUsernameExists(username)){
                 response.sendRedirect(request.getContextPath() + StringUtils.LOGIN_PAGE + "?" + StringUtils.ERROR_MESSAGE + "=Invalid Username and Password!");
-            } else {
-                response.sendRedirect(request.getContextPath() + StringUtils.LOGIN_PAGE + "?" + StringUtils.ERROR_MESSAGE + "=Invalid Password!");
             }
         }
+        else {
+
+            response.sendRedirect(request.getContextPath() + StringUtils.LOGIN_PAGE + "?" + StringUtils.ERROR_MESSAGE + "=Invalid  Password!");
+        }
+//        if (loginResult == 1) {
+//            HttpSession session = request.getSession(true);
+//            session.setAttribute("user", user);
+//            response.sendRedirect(request.getContextPath() + "/index.jsp");
+//        } else if (loginResult == 0) {
+//            if (!dbController.isUsernameExists(username)) {
+//                response.sendRedirect(request.getContextPath() + StringUtils.LOGIN_PAGE + "?" + StringUtils.ERROR_MESSAGE + "=Invalid Username and Password!");
+//            } else {
+//                response.sendRedirect(request.getContextPath() + StringUtils.LOGIN_PAGE + "?" + StringUtils.ERROR_MESSAGE + "=Invalid Password!");
+//            }
+//        }
     }
 
 

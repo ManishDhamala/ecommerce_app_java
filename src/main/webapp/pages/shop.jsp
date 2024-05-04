@@ -4,7 +4,9 @@
 <%@ page import="com.icp.gadgets.model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.icp.gadgets.model.Image" %>
-<%@ page import="com.icp.gadgets.doa.ImageDoa" %><%--
+<%@ page import="com.icp.gadgets.doa.ImageDoa" %>
+<%@ page import="com.icp.gadgets.utils.Helper" %>
+<%@ page import="com.icp.gadgets.utils.StringUtils" %><%--
   Created by IntelliJ IDEA.
   User: himalpun
   Date: 02/04/2024
@@ -16,12 +18,13 @@
 <head>
     <title>Shop</title>
     <link rel="stylesheet" href="../styles/global.css">
-
     <link rel="stylesheet" href="../styles/css/shop.styles.css">
+    <link rel="stylesheet" href="../styles/css/toast.styles.css">
 </head>
 <body>
 <%
     User user = (User) session.getAttribute("user");
+    String userId = session.getAttribute("userId") == null ? null : session.getAttribute("userId").toString();
     if (user != null) {
         request.setAttribute("user", user);
     }
@@ -84,7 +87,6 @@
                 </form>
             </div>
             <!-- Price End -->
-
             <!-- Color Start -->
             <div class="border-bottom mb-4 pb-4">
                 <h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
@@ -116,7 +118,6 @@
                 </form>
             </div>
             <!-- Color End -->
-
             <!-- Size Start -->
             <div class="mb-5">
                 <h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
@@ -150,8 +151,6 @@
             <!-- Size End -->
         </div>
         <!-- Shop Sidebar End -->
-
-
         <!-- Shop Product Start -->
         <div class="col-lg-9 col-md-12">
             <div class="row pb-3">
@@ -185,18 +184,33 @@
                 </div>
 
                 <div class="row">
-                    <% if (!productList.isEmpty()) { %>
+                    <%
+                    if (!productList.isEmpty()) {
+                    %>
                     <% for (Product product : productList) { %>
+                    <%
+                        String imgPath = img.getImgURLByProductId(product.getProductId());
+                        String imgUri;
+                        if (imgPath == null) {
+                            imgUri = "../images/placeholder.png";
+                        }
+                        else {
+                            imgUri = request.getContextPath() +"/images/"+  new Helper().extractFileName(imgPath);
+                        }
+                    %>
                     <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                         <div class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid " style="width: 75%;height: 40vh"  src="<%= img.getImgURLByProductId(product.getProductId()) %>" alt="">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0 " style="cursor:pointer;">
+                                <img class="img-fluid " style="width: 100%;height: 40vh; object-fit: cover"  src="<%= imgUri %>" alt=<%=product.getProductName()%>
+                                     onError="this.onerror=null;this.src='../images/placeholder.png';"
+                                >
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                 <h6 class="text-truncate mb-3"><%= product.getProductName() %></h6>
                                 <div class="d-flex justify-content-center">
                                     <h6>$<%= product.getProductPrice() %></h6>
-                                    <h6 class="text-muted ml-2">
+                                    <h6 class="text-muted
+                                    ml-2">
                                         <del>$<%= product.getProductPrice() %></del>
                                     </h6>
                                 </div>
@@ -205,47 +219,85 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <a href="#" class="btn btn-sm text-dark p-0 d-flex align-items-center">
-                                            <img src="../assets/Icons/eye.png" alt="cart" style="width: 20px;height: 20px">
+                                            <img src="../assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px">
                                             View Detail
                                         </a>
                                     </div>
 
                                         <div class="col-6">
-                                            <a href="../cart-servlet?id=<%=product.getProductId()%>" class="btn btn-sm text-dark p-0 d-flex align-items-center justify-content-end">
-                                                <img src="../assets/Icons/shopping-bag.png" alt="cart" style="width: 20px;height: 20px">
+                                            <button onclick="handleAddToCart(
+                                                <%= userId %>,
+                                                <%= product.getProductId() %>,
+                                                1
+                                            )"  class="btn btn-sm
+                                            text-dark p-0 d-flex align-items-center justify-content-end">
+                                                <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px">
                                                 Add To Cart
-                                            </a>
+                                            </button>
                                         </div>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
 
                     <% } %>
                     <% } else { %>
                     <div class="col-12">
                         <p>No products available</p>
                     </div>
-                    <% } %>
+                    <% }%>
                 </div>
-
-
-
-
-
-
-
+                </div>
             </div>
         <!-- Shop Product End -->
     </div>
 </div>
+<div id="toast"></div>
 
 <!-- Footer Start -->
 <jsp:include page="footer.jsp"/>
 <%--footer end--%>
+
+<script>
+    function  handleAddToCart(userId, productId, quantity){
+        let  xhr = new XMLHttpRequest();
+        xhr.open("POST",'${pageContext.request.contextPath}/cart',true)
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+        xhr.onreadystatechange = function (){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                window.location.href = xhr.responseURL
+            }
+        }
+        xhr.send('userId='+userId+'&productId='+productId+'&quantity='+quantity)
+    }
+
+    function showAndRemoveToast() {
+        let toast = document.getElementById("toast");
+        console.log("showAndRemoveToast function is being called");
+
+        <% String errorMessage = (String) request.getParameter(StringUtils.ERROR_MESSAGE);
+           String successMessage = (String) request.getParameter(StringUtils.SUCCESS_MESSAGE);
+           if (errorMessage != null) {
+        %>
+        toast.innerText = '<%= errorMessage %>';
+        <% } else if (successMessage != null) { %>
+        toast.innerText = '<%= successMessage %>';
+        <% } %>
+
+        // Set toast to be visible
+        toast.style.visibility = "visible";
+
+        // After 3 seconds, remove the toast from the DOM
+        setTimeout(function() {
+            toast.style.visibility = "hidden";
+        }, 3000);
+    }
+
+    // Call the showAndRemoveToast function when the page loads
+    <% if (errorMessage != null || successMessage != null) { %>
+    showAndRemoveToast();
+    <% } %>
+</script>
 
 
 <script src="../script/myscript.js">

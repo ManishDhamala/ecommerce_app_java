@@ -42,7 +42,7 @@
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/CartPage.jsp"><img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png"
-                                                                          alt="cart"
+                                                                          alt="carts"
                                                                           style="width: 20px;height: 20px;">
                     </a>
                 </li>

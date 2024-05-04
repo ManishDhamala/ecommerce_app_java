@@ -17,7 +17,7 @@ public class DatabaseController {
 
     public Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:4306/gadgets";
+        String url = "jdbc:mysql://localhost:3306/gadgets";
         String user = "root";
         String pass = "";
         return DriverManager.getConnection(url, user, pass);
@@ -58,7 +58,7 @@ public class DatabaseController {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-// User name and password match in the database
+// Username and password match in the database
                 return 1;
             } else {
 // No matching record found
@@ -131,6 +131,7 @@ public class DatabaseController {
 
             if (rs.next()) {
                 // Retrieve values from ResultSet
+
                 String fullname  = rs.getString("name");
                 String email = rs.getString("email");
                 String phonenumber= rs.getString("phonenumber");
@@ -147,6 +148,35 @@ public class DatabaseController {
             statement.close();
         }
         return user;
+
+    }
+
+
+    public User getLoginUserInfo(String username, String password) {
+        try (Connection con = getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_LOGIN_USER_INFO);
+            st.setString(1, username);
+            st.setString(2, Encryption.encrypt(password));
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                user.setFullName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhoneNumber(rs.getString("phonenumber"));
+                user.setUsername(rs.getString("username"));
+                user.setDob(rs.getDate("dob").toLocalDate());
+                user.setAddress(rs.getString("address"));
+                user.setGender(rs.getString("gender"));
+                user.setRole(rs.getString("role"));
+                return user;
+            } else {
+                return null;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace(); // Log the exception for debugging
+            return null;
+        }
 
     }
 

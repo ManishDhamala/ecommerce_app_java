@@ -1,7 +1,7 @@
 package com.icp.gadgets.controller.servlet.cart;import java.io.*;
 import java.util.ArrayList;
 
-import com.icp.gadgets.model.Cart;
+import com.icp.gadgets.model.Carts;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -18,25 +18,25 @@ public class cart extends HttpServlet {
 
        try(PrintWriter out = response.getWriter()) {
            //creating array list
-           ArrayList<Cart> cartList = new ArrayList<Cart>();
+           ArrayList<Carts> cartsList = new ArrayList<Carts>();
            int id = Integer.parseInt(request.getParameter("id"));
-           Cart cart = new Cart();
-              cart.setProductId(id);
-              cart.setQuantity(1);
+           Carts carts = new Carts();
+              carts.setProductId(id);
+              carts.setQuantity(1);
 
               HttpSession session = request.getSession();
-              ArrayList<Cart> cart_list =(ArrayList<Cart>) session.getAttribute("cart-list");
+              ArrayList<Carts> carts_list =(ArrayList<Carts>) session.getAttribute("cart-list");
 
               //if there is no session that means i have no cart items
-              if(cart_list == null){
-                  cartList.add(cart);
-                  session.setAttribute("cart-list", cartList);
+              if(carts_list == null){
+                  cartsList.add(carts);
+                  session.setAttribute("cart-list", cartsList);
                   response.sendRedirect("pages/shop.jsp");
               }else {
-                  cartList = cart_list;
+                  cartsList = carts_list;
                   boolean exist = false;
 
-                  for(Cart c:cartList){
+                  for(Carts c: cartsList){
                       if(c.getProductId() == id) {
                           exist = true;
                           // If product exists, increment its quantity and redirect to shop page
@@ -48,7 +48,7 @@ public class cart extends HttpServlet {
                       }
                   }
                   if(!exist){
-                      cartList.add(cart);
+                      cartsList.add(carts);
                       response.sendRedirect("pages/shop.jsp");
                   }
               }

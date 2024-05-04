@@ -156,6 +156,7 @@
     xhr.open('POST', '${pageContext.request.contextPath}/category', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
+
       if (xhr.readyState === 4 && xhr.status === 200) {
         window.location.href = xhr.responseURL
       }

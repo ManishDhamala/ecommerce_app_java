@@ -1,16 +1,29 @@
 package com.icp.gadgets.model;
 
-public class Cart extends  Product {
-    private int quantity;
-    public Cart(){}
+public class Cart {
+    private int cartId;
+    private int userId;
 
-
-    public int getQuantity() {
-        return quantity;
+    // Constructor
+    public Cart(int cartId, int userId) {
+        this.cartId = cartId;
+        this.userId = userId;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    // Getters and setters
+    public int getCartId() {
+        return cartId;
     }
 
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

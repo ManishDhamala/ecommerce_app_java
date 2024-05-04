@@ -36,10 +36,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="cart" style="width: 20px;height: 20px">View Detail
+                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px">View Detail
                     </a>
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="cart" style="width: 20px;height: 20px">Add To
+                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px">Add To
                         Cart
                     </a>
                 </div>
@@ -61,10 +61,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="cart" style="width: 20px;height: 20px">View Detail
+                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px">View Detail
                     </a>
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="cart" style="width: 20px;height: 20px">Add To
+                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px">Add To
                         Cart
                     </a>
                 </div>
@@ -86,10 +86,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="cart" style="width: 20px;height: 20px">View Detail
+                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px">View Detail
                     </a>
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="cart" style="width: 20px;height: 20px">Add To
+                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px">Add To
                         Cart
                     </a>
                 </div>
@@ -111,10 +111,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="cart" style="width: 20px;height: 20px">View Detail
+                        <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px">View Detail
                     </a>
                     <a href="#" class="btn btn-sm text-dark p-0 d-flex gap-1 align-items-center">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="cart" style="width: 20px;height: 20px">Add To
+                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px">Add To
                         Cart
                     </a>
                 </div>

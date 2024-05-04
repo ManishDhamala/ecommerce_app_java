@@ -1,7 +1,10 @@
-<%@ page import="com.icp.gadgets.model.Cart" %>
+<%@ page import="com.icp.gadgets.model.Carts" %>
 <%@ page import="com.icp.gadgets.doa.ProductDoa" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.icp.gadgets.model.CartItem" %>
+<%@ page import="com.icp.gadgets.doa.Cartdoa" %>
+<%@ page import="com.icp.gadgets.model.User" %><%--
   Created by IntelliJ IDEA.
   User: SUSHIL
   Date: 4/3/2024
@@ -16,21 +19,18 @@
 
 </head>
 
-
-
 <body>
 <%
-
-
-
-    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
-    List<Cart> cartProduct = null;
-    if (cart_list != null) {
-        ProductDoa pDao = new ProductDoa();
-        cartProduct =   pDao.getCartProducts(cart_list);
-        request.setAttribute("cart_List", cart_list);
+   int cartSize = 0;
+//    HttpSession session = request.getSession(false);
+    if (session != null && session.getAttribute("user") != null) {
+        Cartdoa cartdoa = new Cartdoa();
+        User user = (User) session.getAttribute("user");
+        List<CartItem> cartItems = cartdoa.getCartItemByUserID(user.getId());
+        cartSize = cartItems.size();
+    } else {
+        cartSize = 0;
     }
-
 
 
 %>
@@ -65,9 +65,9 @@
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/CartPage.jsp" style="position: relative">
-                        <span class="badge badge-danger" style="position: absolute; background-color: red; color: white; font-size: 12px; font-weight: 400; padding: 2px 6px; border-radius: 5px; margin-left: 10px; margin-top: -5px; top: 12px;left: 11px;">${cart_List.size()}</span>
+                        <span class="badge badge-danger" style="position: absolute; background-color: red; color: white; font-size: 12px; font-weight: 400; padding: 2px 6px; border-radius: 5px; margin-left: 10px; margin-top: -5px; top: 12px;left: 11px;"><%=cartSize%></span>
 
-                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="cart" style="width: 20px; height: 20px;">
+                        <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="carts" style="width: 20px; height: 20px;">
                     </a>
                 </li>
 
@@ -79,8 +79,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <% HttpSession httpSession = request.getSession(false);
-                        if (httpSession != null && httpSession.getAttribute("user") != null) { %>
+                    <%
+                        if (session != null && session.getAttribute("user") != null) { %>
                     <form  action="<%=request.getContextPath()%>/logout-servlet" method="post">
                         <input class="nav-link mx-2 text-black font-weight-medium text-uppercase register-btn" type="submit" value="Logout">
                     </form>

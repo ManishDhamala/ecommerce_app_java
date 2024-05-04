@@ -1,11 +1,10 @@
 package com.icp.gadgets.doa;
 
 import com.icp.gadgets.controller.servlet.DatabaseController;
-import com.icp.gadgets.model.Cart;
+import com.icp.gadgets.model.Carts;
 import com.icp.gadgets.model.Product;
 import com.icp.gadgets.utils.StringUtils;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -134,26 +133,26 @@ public class ProductDoa {
         }
     }
 
-    public List<Cart> getCartProducts(ArrayList<Cart> cartList){
-        List<Cart> prodcts = new ArrayList<>();
+    public List<Carts> getCartProducts(ArrayList<Carts> cartsList){
+        List<Carts> prodcts = new ArrayList<>();
 
         try(Connection con = new DatabaseController().getConnection()){
 
-            if(cartList.size()>0){
-                for (Cart item: cartList){
+            if(cartsList.size()>0){
+                for (Carts item: cartsList){
 
                     PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_ITEM);
                     st.setInt(1,item.getProductId());
                     ResultSet rs = st.executeQuery();
                     while (rs.next()){
-                        Cart cart = new Cart();
-                        cart.setProductId(rs.getInt("product_id"));
-                        cart.setProductName(rs.getString("name"));
-                        cart.setProductPrice(rs.getInt("price")*item.getQuantity());
-                        cart.setProductDescription(rs.getString("desc"));
-                        cart.setCategoryId(rs.getInt("category_id"));
-                        cart.setQuantity(item.getQuantity());
-                        prodcts.add(cart);
+                        Carts carts = new Carts();
+                        carts.setProductId(rs.getInt("product_id"));
+                        carts.setProductName(rs.getString("name"));
+                        carts.setProductPrice(rs.getInt("price")*item.getQuantity());
+                        carts.setProductDescription(rs.getString("desc"));
+                        carts.setCategoryId(rs.getInt("category_id"));
+                        carts.setQuantity(item.getQuantity());
+                        prodcts.add(carts);
                     }
 
 
@@ -168,12 +167,12 @@ public class ProductDoa {
         return  prodcts;
 
     }
-    public double getTotalCartPrice(ArrayList<Cart> cartList) throws SQLException, ClassNotFoundException {
+    public double getTotalCartPrice(ArrayList<Carts> cartsList) throws SQLException, ClassNotFoundException {
         double total = 0 ;
 
         try(Connection con = new DatabaseController().getConnection()){
-            if(cartList.size()>0){
-                for (Cart item: cartList){
+            if(cartsList.size()>0){
+                for (Carts item: cartsList){
                     PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_PRICE);
                     st.setInt(1,item.getProductId());
                     ResultSet rs = st.executeQuery();

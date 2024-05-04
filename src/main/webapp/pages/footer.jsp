@@ -47,16 +47,16 @@
                 <h4>follow us</h4>
                 <div class="social-links">
                     <a href="#"><img src="${pageContext.request.contextPath}/assets/github.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px;"></a>
                     <a href="#"><img src="${pageContext.request.contextPath}/assets/linkedin.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px;"></a>
                     <a href="#"><img src="${pageContext.request.contextPath}/assets/instagram.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px;"></a>
                     <a href="#"><img src="${pageContext.request.contextPath}/assets/facebook.png"
-                                     alt="cart"
+                                     alt="carts"
                                      style="width: 20px;height: 20px;"></a>
                 </div>
             </div>

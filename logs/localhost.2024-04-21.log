@@ -100,7 +100,7 @@ Stacktrace:] with root cause
 		at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:419)
 		at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:340)
 		at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:277)
-		at com.icp.gadgets.controller.servlet.cart.RemoveFromCart.doGet(RemoveFromCart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.RemoveFromCart.doGet(RemoveFromCart.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -256,11 +256,11 @@ Stacktrace:] with root cause
 
 An error occurred at line: [30] in the jsp file: [/pages/header.jsp]
 The method getCartProducts(ArrayList<Cart>) is undefined for the type ProductDoa
-27:     List<Cart> cartProduct = null;
-28:     if (cart_list != null) {
+27:     List<Cart> cartsProduct = null;
+28:     if (carts_list != null) {
 29:         ProductDoa pDao = new ProductDoa();
-30:         cartProduct =   pDao.getCartProducts(cart_list);
-31:         request.setAttribute("cart_List", cart_list);
+30:         cartsProduct =   pDao.getCartProducts(carts_list);
+31:         request.setAttribute("cart_List", carts_list);
 32:     }
 33: 
 
@@ -316,11 +316,11 @@ Stacktrace:
 
 An error occurred at line: [30] in the jsp file: [/pages/header.jsp]
 The method getCartProducts(ArrayList<Cart>) is undefined for the type ProductDoa
-27:     List<Cart> cartProduct = null;
-28:     if (cart_list != null) {
+27:     List<Cart> cartsProduct = null;
+28:     if (carts_list != null) {
 29:         ProductDoa pDao = new ProductDoa();
-30:         cartProduct =   pDao.getCartProducts(cart_list);
-31:         request.setAttribute("cart_List", cart_list);
+30:         cartsProduct =   pDao.getCartProducts(carts_list);
+31:         request.setAttribute("cart_List", carts_list);
 32:     }
 33: 
 
@@ -330,11 +330,11 @@ Stacktrace:] with root cause
 
 An error occurred at line: [30] in the jsp file: [/pages/header.jsp]
 The method getCartProducts(ArrayList<Cart>) is undefined for the type ProductDoa
-27:     List<Cart> cartProduct = null;
-28:     if (cart_list != null) {
+27:     List<Cart> cartsProduct = null;
+28:     if (carts_list != null) {
 29:         ProductDoa pDao = new ProductDoa();
-30:         cartProduct =   pDao.getCartProducts(cart_list);
-31:         request.setAttribute("cart_List", cart_list);
+30:         cartsProduct =   pDao.getCartProducts(carts_list);
+31:         request.setAttribute("cart_List", carts_list);
 32:     }
 33: 
 
@@ -391,11 +391,11 @@ Stacktrace:
 
 An error occurred at line: [30] in the jsp file: [/pages/header.jsp]
 The method getCartProducts(ArrayList<Cart>) is undefined for the type ProductDoa
-27:     List<Cart> cartProduct = null;
-28:     if (cart_list != null) {
+27:     List<Cart> cartsProduct = null;
+28:     if (carts_list != null) {
 29:         ProductDoa pDao = new ProductDoa();
-30:         cartProduct =   pDao.getCartProducts(cart_list);
-31:         request.setAttribute("cart_List", cart_list);
+30:         cartsProduct =   pDao.getCartProducts(carts_list);
+31:         request.setAttribute("cart_List", carts_list);
 32:     }
 33: 
 
@@ -451,11 +451,11 @@ Stacktrace:
 
 An error occurred at line: [30] in the jsp file: [/pages/header.jsp]
 The method getCartProducts(ArrayList<Cart>) is undefined for the type ProductDoa
-27:     List<Cart> cartProduct = null;
-28:     if (cart_list != null) {
+27:     List<Cart> cartsProduct = null;
+28:     if (carts_list != null) {
 29:         ProductDoa pDao = new ProductDoa();
-30:         cartProduct =   pDao.getCartProducts(cart_list);
-31:         request.setAttribute("cart_List", cart_list);
+30:         cartsProduct =   pDao.getCartProducts(carts_list);
+31:         request.setAttribute("cart_List", carts_list);
 32:     }
 33: 
 
@@ -465,11 +465,11 @@ Stacktrace:] with root cause
 
 An error occurred at line: [30] in the jsp file: [/pages/header.jsp]
 The method getCartProducts(ArrayList<Cart>) is undefined for the type ProductDoa
-27:     List<Cart> cartProduct = null;
-28:     if (cart_list != null) {
+27:     List<Cart> cartsProduct = null;
+28:     if (carts_list != null) {
 29:         ProductDoa pDao = new ProductDoa();
-30:         cartProduct =   pDao.getCartProducts(cart_list);
-31:         request.setAttribute("cart_List", cart_list);
+30:         cartsProduct =   pDao.getCartProducts(carts_list);
+31:         request.setAttribute("cart_List", carts_list);
 32:     }
 33: 
 

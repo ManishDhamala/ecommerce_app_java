@@ -182,7 +182,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -211,7 +211,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -240,7 +240,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -269,7 +269,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -298,7 +298,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -327,7 +327,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -356,7 +356,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -385,7 +385,7 @@ Stacktrace:] with root cause
 	java.util.ConcurrentModificationException
 		at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
 		at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1049)
-		at com.icp.gadgets.controller.servlet.cart.cart.doGet(cart.java:39)
+		at com.icp.gadgets.controller.servlet.carts.carts.doGet(carts.java:39)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
 		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
 		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
@@ -733,9 +733,9 @@ Stacktrace:] with root cause
 An error occurred at line: [31] in the jsp file: [/pages/CartPage.jsp]
 The method getTotalCartPrice(ArrayList<Cart>) is undefined for the type ProductDoa
 28:         ProductDoa pDao = new ProductDoa();
-29:         cartProduct =   pDao.getCartProducts(cart_list);
-30:         request.setAttribute("cart_List", cart_list);
-31:         double total = pDao.getTotalCartPrice(cart_list);
+29:         cartsProduct =   pDao.getCartProducts(carts_list);
+30:         request.setAttribute("cart_List", carts_list);
+31:         double total = pDao.getTotalCartPrice(carts_list);
 32:         request.setAttribute("total", total);
 33:     }
 34:     ProductDoa pd = new ProductDoa();
@@ -747,9 +747,9 @@ Stacktrace:] with root cause
 An error occurred at line: [31] in the jsp file: [/pages/CartPage.jsp]
 The method getTotalCartPrice(ArrayList<Cart>) is undefined for the type ProductDoa
 28:         ProductDoa pDao = new ProductDoa();
-29:         cartProduct =   pDao.getCartProducts(cart_list);
-30:         request.setAttribute("cart_List", cart_list);
-31:         double total = pDao.getTotalCartPrice(cart_list);
+29:         cartsProduct =   pDao.getCartProducts(carts_list);
+30:         request.setAttribute("cart_List", carts_list);
+31:         double total = pDao.getTotalCartPrice(carts_list);
 32:         request.setAttribute("total", total);
 33:     }
 34:     ProductDoa pd = new ProductDoa();
