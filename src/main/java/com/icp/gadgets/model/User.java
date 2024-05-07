@@ -8,7 +8,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-
     private String fullName;
     private String username;
     private String email;
@@ -17,8 +16,7 @@ public class User implements Serializable {
     private LocalDate dob;
     private String password;
     private String gender;
-
-   private String role;
+    private String role;
 
     public User(String fullName, String username, String email, String phoneNumber, String address,
                 LocalDate dob, String password, String gender) {
