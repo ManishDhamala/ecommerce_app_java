@@ -28,12 +28,14 @@
         User user = (User) session.getAttribute("user");
         List<CartItem> cartItems = cartdoa.getCartItemByUserID(user.getId());
         cartSize = cartItems.size();
+
     } else {
         cartSize = 0;
     }
-
-
 %>
+
+
+
 
 <!-- header section start -->
 <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm max-height-78">
@@ -65,7 +67,7 @@
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/CartPage.jsp" style="position: relative">
-                        <span class="badge badge-danger" style="position: absolute; background-color: red; color: white; font-size: 12px; font-weight: 400; padding: 2px 6px; border-radius: 5px; margin-left: 10px; margin-top: -5px; top: 12px;left: 11px;"><%=cartSize%></span>
+                        <span class="badge badge-danger" id="cart_counter" style="position: absolute; background-color: red; color: white; font-size: 12px; font-weight: 400; padding: 2px 6px; border-radius: 5px; margin-left: 10px; margin-top: -5px; top: 12px;left: 11px;"><%=cartSize%></span>
 
                         <img src="${pageContext.request.contextPath}/assets/Icons/shopping-bag.png" alt="carts" style="width: 20px; height: 20px;">
                     </a>

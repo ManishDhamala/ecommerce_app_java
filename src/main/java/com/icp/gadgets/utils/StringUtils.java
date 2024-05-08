@@ -110,6 +110,12 @@ public class StringUtils {
             "JOIN products p ON ci.product_id = p.product_id\n" +
             "WHERE c.user_id = (?) ";
 
+    public static final String UPDATE_CART_ITEM_QUANTITY = "UPDATE cartItem SET quantity = ? WHERE cart_item_id = ?";
+
+    public static final String DELETE_CART_ITEM = "DELETE FROM cartItem WHERE cart_item_id = ?";
+
+    public static final String SELECT_CART_COUNT = "SELECT COUNT(*) AS count FROM cart WHERE user_id = ?";
+
     // End SQL Queries
 
     public static final String FULL_NAME = "fullname";

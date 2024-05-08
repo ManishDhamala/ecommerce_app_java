@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class Cartdoa {
 
+
     public int addToCart(int userId){
         try(Connection con = new DatabaseController().getConnection()){
             PreparedStatement st = con.prepareStatement(StringUtils.INSERT_INTO_CART, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -48,6 +49,7 @@ public class Cartdoa {
             return 0;
         }
     }
+
     public List<CartItem> getCartItemByUserID(int userId) {
         List<CartItem> cartItems = new ArrayList<>();
         Map<Integer, CartItem> consolidatedCart = new HashMap<>();
@@ -78,7 +80,31 @@ public class Cartdoa {
             e.printStackTrace();
         }
         cartItems.addAll(consolidatedCart.values());
+
         return cartItems;
+    }
+
+    public  int updateCartItemQuantity(int cartItemId, int quantity){
+        try(Connection con = new DatabaseController().getConnection()){
+            PreparedStatement st = con.prepareStatement(StringUtils.UPDATE_CART_ITEM_QUANTITY);
+            st.setInt(1, quantity);
+            st.setInt(2, cartItemId);
+            return st.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public  int deleteCartItem(int cartItemId){
+        try(Connection con = new DatabaseController().getConnection()){
+            PreparedStatement st = con.prepareStatement(StringUtils.DELETE_CART_ITEM);
+            st.setInt(1, cartItemId);
+            return st.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }
