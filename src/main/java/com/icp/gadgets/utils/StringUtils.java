@@ -114,6 +114,8 @@ public class StringUtils {
 
     public static final String DELETE_CART_ITEM = "DELETE FROM cartItem WHERE cart_item_id = ?";
 
+    public static final String CHECK_PRODUCT_IN_CART = "SELECT * FROM cartItem WHERE cart_id = ? AND product_id = ?";
+
     public static final String SELECT_CART_COUNT = "SELECT COUNT(*) AS count FROM cart WHERE user_id = ?";
 
     // End SQL Queries
