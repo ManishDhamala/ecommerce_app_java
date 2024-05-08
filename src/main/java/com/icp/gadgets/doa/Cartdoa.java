@@ -39,11 +39,21 @@ public class Cartdoa {
 
     public  int addToCartItem(int cartId, int productId, int quantity){
         try(Connection con = new DatabaseController().getConnection()){
-            PreparedStatement st = con.prepareStatement(StringUtils.INSERT_INTO_CART_ITEM);
+            //Check if product already exists in cart
+            PreparedStatement st = con.prepareStatement(StringUtils.CHECK_PRODUCT_IN_CART);
             st.setInt(1, cartId);
             st.setInt(2, productId);
-            st.setInt(3, quantity);
-            return st.executeUpdate();
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                int cartItemId = rs.getInt("cart_item_id");
+                int existingQuantity = rs.getInt("quantity");
+                return updateCartItemQuantity(cartItemId, existingQuantity + quantity);
+            }
+            PreparedStatement st2 = con.prepareStatement(StringUtils.INSERT_INTO_CART_ITEM);
+            st2.setInt(1, cartId);
+            st2.setInt(2, productId);
+            st2.setInt(3, quantity);
+            return st2.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return 0;
@@ -84,13 +94,38 @@ public class Cartdoa {
         return cartItems;
     }
 
+    public  List<CartItem> getCartItems(int cartId){
+        List<CartItem> cartItems = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()){
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_CART_ITEMS);
+            st.setInt(1, cartId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                CartItem cartItem = new CartItem();
+                cartItem.setCartItemId(rs.getInt("cart_item_id"));
+                cartItem.setCartId(rs.getInt("cart_id"));
+                cartItem.setProductId(rs.getInt("product_id"));
+                cartItem.setQuantity(rs.getInt("quantity"));
+                cartItems.add(cartItem);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return cartItems;
+    }
+
     public  int updateCartItemQuantity(int cartItemId, int quantity){
         try(Connection con = new DatabaseController().getConnection()){
             PreparedStatement st = con.prepareStatement(StringUtils.UPDATE_CART_ITEM_QUANTITY);
             st.setInt(1, quantity);
             st.setInt(2, cartItemId);
+            //Log the query
+            System.out.println(st);
+            //Log the execution of the query
+
             return st.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Error updating cart item quantity"+e);
             e.printStackTrace();
             return 0;
         }
@@ -102,6 +137,7 @@ public class Cartdoa {
             st.setInt(1, cartItemId);
             return st.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Error deleting cart item"+e);
             e.printStackTrace();
             return 0;
         }

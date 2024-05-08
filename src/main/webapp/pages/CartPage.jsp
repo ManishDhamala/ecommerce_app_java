@@ -18,6 +18,133 @@
     <title>Cart</title>
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/css/myToast.css">
+    <script src="../script/toast.script.js"></script>
+    <style>
+        .toast-notification {
+            position: fixed;
+            text-decoration: none;
+            z-index: 999999;
+            max-width: 300px;
+            background-color: #fff;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);
+            border-radius: 4px;
+            display: flex;
+            padding: 10px;
+            transform: translate(0, -150%);
+        }
+        .toast-notification .toast-notification-wrapper {
+            flex: 1;
+            padding-right: 10px;
+            overflow: hidden;
+        }
+        .toast-notification .toast-notification-wrapper .toast-notification-header {
+            padding: 0 0 5px 0;
+            margin: 0;
+            font-weight: 500;
+            font-size: 14px;
+            word-break: break-all;
+            color: #4f525a;
+        }
+        .toast-notification .toast-notification-wrapper .toast-notification-content {
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            word-break: break-all;
+            color: #4f525a;
+        }
+        .toast-notification .toast-notification-close {
+            appearance: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 24px;
+            padding-bottom: 4px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-top-center {
+            transform: translate(calc(50vw - 50%), -150%);
+        }
+        .toast-notification.toast-notification-bottom-left, .toast-notification.toast-notification-bottom-right {
+            transform: translate(0, 150%);
+        }
+        .toast-notification.toast-notification-bottom-center {
+            transform: translate(calc(50vw - 50%), 150%);
+        }
+        .toast-notification.toast-notification-dark {
+            background-color: #2d2e31;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-wrapper .toast-notification-header {
+            color: #edeff3;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-wrapper .toast-notification-content {
+            color: #edeff3;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-close {
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .toast-notification.toast-notification-dark .toast-notification-close:hover {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .toast-notification.toast-notification-success {
+            background-color: #C3F3D7;
+            border-left: 4px solid #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-wrapper .toast-notification-header {
+            color: #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-wrapper .toast-notification-content {
+            color: #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-success .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-error {
+            background-color: #f3c3c3;
+            border-left: 4px solid #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-wrapper .toast-notification-header {
+            color: #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-wrapper .toast-notification-content {
+            color: #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-error .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-verified {
+            background-color: #d0eaff;
+            border-left: 4px solid #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-wrapper .toast-notification-header {
+            color: #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-wrapper .toast-notification-content {
+            color: #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-verified .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-dimmed {
+            opacity: .3;
+        }
+        .toast-notification.toast-notification-dimmed:hover, .toast-notification.toast-notification-dimmed:active {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body class=" relative">
 <%
@@ -30,8 +157,8 @@
         user = (User) session.getAttribute("user");
         Cartdoa cartdoa = new Cartdoa();
         cartItems = cartdoa.getCartItemByUserID(user.getId());
-        System.out.println("Cart Items: " + cartItems);
-        System.out.println("User: " + user.getId());
+//        System.out.println("Cart Items: " + cartItems);
+//        System.out.println("User: " + user.getId());
         if(user == null){
             response.sendRedirect("login.jsp");
         }
@@ -82,9 +209,9 @@
                                     else {
                                         imgUri = request.getContextPath() +"/images/"+  new Helper().extractFileName(imgPath);
                                     }
-                                    System.out.println("Image Path: " + imgUri);
+//                                    System.out.println("Image Path: " + imgUri);
                                 %>
-                                <div class="card my-5">
+                                <div class="card my-5" id="cart-item-<%=cartItem.getCartItemId()%>">
                                     <div class="card-body position-relative">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
@@ -97,14 +224,18 @@
                                             </div>
                                             <div class="d-flex flex-column gap-2 justify-content-end align-items-end">
                                                 <div class=" d-flex align-items-center gap-2">
-                                                    <button class="btn btn-outline-warning"
+                                                    <button class="btn btn-warning"
+                                                            id="minus_quantity_<%=cartItem.getCartItemId()%>"
+                                                            <%= cartItem.getQuantity() == 1 ? "disabled" : "" %>
                                                             onclick="handleCartItemQuantityUpdate(<%=cartItem.getCartItemId()%>, <%=cartItem.getQuantity()-1%>)"
                                                     >
                                                         -
                                                     </button>
-                                                    <h5 class="fw-normal mb-0"><%= cartItem.getQuantity()%></h5>
-                                                    <button class=" btn btn-outline-warning"
+                                                    <h5 class="fw-normal mb-0" id="cart_item_quantity"><%= cartItem.getQuantity()%></h5>
+                                                    <button class=" btn btn-warning"
+                                                            id="add_quantity_<%=cartItem.getCartItemId()%>"
                                                             onclick="handleCartItemQuantityUpdate(<%=cartItem.getCartItemId()%>, <%=cartItem.getQuantity()+1%>)"
+                                                            <%= cartItem.getQuantity() >= 5 ? "disabled" : "" %>
                                                     >
                                                         +
                                                     </button>
@@ -113,7 +244,7 @@
                                                     <h5 class="mb-0">Rs.<%= cartItem.getPrice() %></h5>
                                                 </div>
                                                 <button class=" btn btn-danger btn-sm position-absolute top-0 start-100 translate-middle "
-                                                        onclick="handleCartItemDelete(<%=cartItem.getCartItemId()%>)"
+                                                        onclick="handleCartItemDelete(<%=cartItem.getCartItemId()%>,<%=user.getId()%>)"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 448 512" height="16" width="16" style="color: white!important;" color="white">
                                                         <path fill="#ffffff" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -123,6 +254,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <%
                                         }
                                     }
@@ -235,8 +367,8 @@
     </div>
 </section>
 
-<div class=" overlay bg-black position-absolute opacity-70" style="height: 100%; width: 100%; z-index: 1050; opacity: 30%; visibility: hidden" id="add_to_cart_overlay"></div>
-<div class="position-absolute top-50 start-50 translate-middle rounded-5 overflow-hidden"  style="z-index: 1070; visibility: hidden" id="add_to_cart_loading">
+<div class=" overlay bg-black position-absolute opacity-70" style="height: 100%; width: 100%; z-index: 2000; opacity: 30%; visibility: hidden" id="add_to_cart_overlay"></div>
+<div class="position-absolute top-50 start-50 translate-middle rounded-5 overflow-hidden"  style="z-index: 2050; visibility: hidden" id="add_to_cart_loading">
     <img src="../assets/add_to_cart.gif" width="145" height="150" alt="loading"/>
 </div>
 
@@ -245,6 +377,7 @@
 
 
 <script>
+
     const toasts = new Toasts({
         width: 300,
         timing: 'ease',
@@ -252,6 +385,7 @@
         dimOld: false,
         position: 'top-right' // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
     });
+
 
     function  handleCartItemQuantityUpdate(cartItemId, quantity){
         //show loading overlay and loading gif
@@ -262,14 +396,12 @@
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
         xhr.onreadystatechange = function(){
             if(xhr.readyState === 4 && xhr.status === 200){
-                document.getElementById('add_to_cart_overlay').style.visibility = 'hidden';
-                document.getElementById('add_to_cart_loading').style.visibility = 'hidden';
-                toasts.push({
-                    title: 'Success!',
-                    content: 'Cart item updated successfully',
-                    style: 'success'
-                });
-            }else {
+                setTimeout(function(){
+                    document.getElementById('add_to_cart_overlay').style.visibility = 'hidden';
+                    document.getElementById('add_to_cart_loading').style.visibility = 'hidden';
+                    location.reload();
+                }, 1000);
+            }else if(xhr.status === 500){
                 toasts.push({
                     title: 'Error!',
                     content: 'Cart item update failed',
@@ -280,7 +412,7 @@
         xhr.send('cartItemId='+cartItemId+'&quantity='+quantity+'&_method=PUT')
     }
 
-    function handleCartItemDelete(cartItemId){
+    function handleCartItemDelete(cartItemId,userId){
         console.log("Cart Item ID: " + cartItemId)
         let xhr = new XMLHttpRequest();
         xhr.open("POST",'${pageContext.request.contextPath}/cart',true)
@@ -289,21 +421,41 @@
         console.log(xhr)
         xhr.onreadystatechange = function(){
             if(xhr.readyState === 4 && xhr.status === 200){
+                fetchUpdatedCartSize(userId);
                 toasts.push({
                     title: 'Success!',
                     content: 'Cart item deleted successfully',
                     style: 'success'
                 });
-            }else {
+
+                //Re-render the page after successful delete without reload
+                let cartItem = document.getElementById('cart-item-'+cartItemId);
+                cartItem.remove();
+            }else if(xhr.readyState === 4 && xhr.status === 500){
                 toasts.push({
                     title: 'Error!',
                     content: 'Cart item delete failed',
                     style: 'error'
                 });
+
             }
         }
         xhr.send('cartItemId='+cartItemId+'&_method=DELETE')
     }
+    function fetchUpdatedCartSize(userId){
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", '${pageContext.request.contextPath}/cart?userId=' + userId, true);
+        console.log(xhr)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    document.getElementById("cart_counter").innerText = xhr.response;
+                }
+            }
+        };
+        xhr.send();
+    }
+
 </script>
 
 <script src="../script/myscript.js"></script>

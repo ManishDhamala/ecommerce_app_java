@@ -22,10 +22,15 @@ public class cart extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/plain");
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        List<CartItem> cartItems = cartdoa.getCartItemByUserID(userId);
-        int cartSize = cartItems.size();
-        response.getWriter().write(String.valueOf(cartSize));
+        String method = request.getParameter("_method");
+        if(method != null && method.equalsIgnoreCase("GET_CART_ITEMS")) {
+            getCartItems(request, response);
+        } else{
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            List<CartItem> cartItems = cartdoa.getCartItemByUserID(userId);
+            int cartSize = cartItems.size();
+            response.getWriter().write(String.valueOf(cartSize));
+        }
     }
 
 
@@ -44,7 +49,13 @@ public class cart extends HttpServlet {
              int quantity = Integer.parseInt(request.getParameter("quantity"));
 
              // Add to cart
-             int cartId = cartdoa.addToCart(userId);
+             HttpSession session = request.getSession();
+             Integer cartId = (Integer) session.getAttribute("cartId");
+                if(cartId == null){
+                    cartId = cartdoa.addToCart(userId);
+                    session.setAttribute("cartId", cartId);
+                }
+
              if(cartId > 0){
                  // Add to cart item
                  int result = cartdoa.addToCartItem(cartId, productId, quantity);
@@ -63,12 +74,15 @@ public class cart extends HttpServlet {
         response.setContentType("text/html");
         int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-        int result = cartdoa.updateCartItemQuantity(quantity, cartItemId);
+        if (quantity < 1){
+            response.setStatus(500);
+            return;
+        }
+        int result = cartdoa.updateCartItemQuantity(cartItemId,quantity );
         if(result > 0){
-            response.sendRedirect(request.getContextPath()+"/pages/cart.jsp?"+StringUtils.SUCCESS_MESSAGE+"=Cart item updated successfully");
+            response.setStatus(200);
         }else {
-            response.sendRedirect(request.getContextPath()+"/pages/cart.jsp?"+StringUtils.ERROR_MESSAGE+"=Failed to update cart item");
+            response.setStatus(500);
         }
     }
 
@@ -83,6 +97,21 @@ public class cart extends HttpServlet {
             response.sendRedirect(request.getContextPath()+"/pages/CartPage.jsp?"+StringUtils.ERROR_MESSAGE+"=Failed to delete cart item");
         }
     }
+
+    public void getCartItems(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+        int cartId = Integer.parseInt(request.getParameter("cartId"));
+        List<CartItem> cartItems = cartdoa.getCartItems(cartId);
+        request.setAttribute("cartItems", cartItems);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(request.getContextPath()+"/pages/CartPage.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+
+        }
+    }
+
     public void destroy() {
     }
 }
