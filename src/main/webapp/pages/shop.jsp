@@ -6,7 +6,10 @@
 <%@ page import="com.icp.gadgets.model.Image" %>
 <%@ page import="com.icp.gadgets.doa.ImageDoa" %>
 <%@ page import="com.icp.gadgets.utils.Helper" %>
-<%@ page import="com.icp.gadgets.utils.StringUtils" %><%--
+<%@ page import="com.icp.gadgets.utils.StringUtils" %>
+<%@ page import="com.icp.gadgets.doa.Cartdoa" %>
+<%@ page import="com.icp.gadgets.model.CartItem" %>
+<%@ page import="static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title" %><%--
   Created by IntelliJ IDEA.
   User: himalpun
   Date: 02/04/2024
@@ -17,28 +20,163 @@
 <html>
 <head>
     <title>Shop</title>
+<%--    <meta http-equiv="refresh" content="10">--%>
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/css/shop.styles.css">
     <link rel="stylesheet" href="../styles/css/toast.styles.css">
+    <script src="../script/toast.script.js"></script>
+    <style>
+        .toast-notification {
+            position: fixed;
+            text-decoration: none;
+            z-index: 999999;
+            max-width: 300px;
+            background-color: #fff;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);
+            border-radius: 4px;
+            display: flex;
+            padding: 10px;
+            transform: translate(0, -150%);
+        }
+        .toast-notification .toast-notification-wrapper {
+            flex: 1;
+            padding-right: 10px;
+            overflow: hidden;
+        }
+        .toast-notification .toast-notification-wrapper .toast-notification-header {
+            padding: 0 0 5px 0;
+            margin: 0;
+            font-weight: 500;
+            font-size: 14px;
+            word-break: break-all;
+            color: #4f525a;
+        }
+        .toast-notification .toast-notification-wrapper .toast-notification-content {
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            word-break: break-all;
+            color: #4f525a;
+        }
+        .toast-notification .toast-notification-close {
+            appearance: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 24px;
+            padding-bottom: 4px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-top-center {
+            transform: translate(calc(50vw - 50%), -150%);
+        }
+        .toast-notification.toast-notification-bottom-left, .toast-notification.toast-notification-bottom-right {
+            transform: translate(0, 150%);
+        }
+        .toast-notification.toast-notification-bottom-center {
+            transform: translate(calc(50vw - 50%), 150%);
+        }
+        .toast-notification.toast-notification-dark {
+            background-color: #2d2e31;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-wrapper .toast-notification-header {
+            color: #edeff3;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-wrapper .toast-notification-content {
+            color: #edeff3;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-close {
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .toast-notification.toast-notification-dark .toast-notification-close:hover {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .toast-notification.toast-notification-success {
+            background-color: #C3F3D7;
+            border-left: 4px solid #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-wrapper .toast-notification-header {
+            color: #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-wrapper .toast-notification-content {
+            color: #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-success .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-error {
+            background-color: #f3c3c3;
+            border-left: 4px solid #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-wrapper .toast-notification-header {
+            color: #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-wrapper .toast-notification-content {
+            color: #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-error .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-verified {
+            background-color: #d0eaff;
+            border-left: 4px solid #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-wrapper .toast-notification-header {
+            color: #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-wrapper .toast-notification-content {
+            color: #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-verified .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-dimmed {
+            opacity: .3;
+        }
+        .toast-notification.toast-notification-dimmed:hover, .toast-notification.toast-notification-dimmed:active {
+            opacity: 1;
+        }
+    </style>
 </head>
-<body>
+<body class=" relative">
+<script src="../script/toast.script.js"></script>
 <%
     User user = (User) session.getAttribute("user");
     String userId = session.getAttribute("userId") == null ? null : session.getAttribute("userId").toString();
+    int cartSize = 0;
     if (user != null) {
         request.setAttribute("user", user);
+        Cartdoa cartdoa = new Cartdoa();
+        List<CartItem> cartItems = cartdoa.getCartItemByUserID(user.getId());
+        cartSize = cartItems.size();
+        System.out.println("cart size: " + cartSize);
     }
+
 
     ProductDoa pd = new ProductDoa();
     List<Product> productList = pd.getAllProducts();
 
     ImageDoa img = new ImageDoa();
-
-
 %>
+
 <!-- Header Start -->
 <jsp:include page="header.jsp"/>
 <%--header end--%>
+
 <!-- Page Header Start -->
 <div class="container-fluid bg-secondary mb-5">
     <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
@@ -51,6 +189,7 @@
     </div>
 </div>
 <!-- Page Header End -->
+
 
 <div class="container-fluid pt-5">
     <div class="row px-xl-5">
@@ -252,55 +391,62 @@
         <!-- Shop Product End -->
     </div>
 </div>
-<div id="toast"></div>
 
 <!-- Footer Start -->
 <jsp:include page="footer.jsp"/>
-<%--footer end--%>
+<!-- Footer End -->
 
 <script>
-    function  handleAddToCart(userId, productId, quantity){
-        let  xhr = new XMLHttpRequest();
-        xhr.open("POST",'${pageContext.request.contextPath}/cart',true)
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
-        xhr.onreadystatechange = function (){
-            if(xhr.readyState === 4 && xhr.status === 200){
-                window.location.href = xhr.responseURL
+    const toasts = new Toasts({
+        width: 300,
+        timing: 'ease',
+        duration: '.5s',
+        dimOld: false,
+        position: 'top-right' // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
+    });
+
+    function handleAddToCart(userId, productId, quantity) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", '${pageContext.request.contextPath}/cart', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    fetchUpdatedCartSize(userId);
+                    toasts.push({
+                        title: 'Success',
+                        content: 'Product added to cart',
+                        style: 'success'
+                    });
+                } else if (xhr.status === 404) {
+                    window.location.href = '${pageContext.request.contextPath}/pages/login.jsp';
+                }else {
+                    toasts.push({
+                        title: 'Error',
+                        content: 'Failed to add product to cart',
+                        style: 'error'
+                    });
+                }
             }
-        }
-        xhr.send('userId='+userId+'&productId='+productId+'&quantity='+quantity)
+        };
+        xhr.send('userId=' + userId + '&productId=' + productId + '&quantity=' + quantity);
     }
 
-    function showAndRemoveToast() {
-        let toast = document.getElementById("toast");
-        console.log("showAndRemoveToast function is being called");
-
-        <% String errorMessage = (String) request.getParameter(StringUtils.ERROR_MESSAGE);
-           String successMessage = (String) request.getParameter(StringUtils.SUCCESS_MESSAGE);
-           if (errorMessage != null) {
-        %>
-        toast.innerText = '<%= errorMessage %>';
-        <% } else if (successMessage != null) { %>
-        toast.innerText = '<%= successMessage %>';
-        <% } %>
-
-        // Set toast to be visible
-        toast.style.visibility = "visible";
-
-        // After 3 seconds, remove the toast from the DOM
-        setTimeout(function() {
-            toast.style.visibility = "hidden";
-        }, 3000);
+    function fetchUpdatedCartSize(userId){
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", '${pageContext.request.contextPath}/cart?userId=' + userId, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    document.getElementById("cart_counter").innerText = xhr.response;
+                }
+            }
+        };
+        xhr.send();
     }
 
-    // Call the showAndRemoveToast function when the page loads
-    <% if (errorMessage != null || successMessage != null) { %>
-    showAndRemoveToast();
-    <% } %>
-</script>
 
-
-<script src="../script/myscript.js">
 </script>
+<script src="../script/myscript.js"></script>
 </body>
 </html>

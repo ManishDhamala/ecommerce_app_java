@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpResp = (HttpServletResponse) response;
         HttpSession session = httpReq.getSession(false);
         if(session == null || session.getAttribute("userId") == null){
-            httpResp.sendRedirect(httpReq.getContextPath()+"/pages/login.jsp");
+            httpResp.sendRedirect(httpReq.getContextPath()+"/pages/login.jsp"+ StringUtils.ERROR_MESSAGE+"=login");
         }else {
             chain.doFilter(request, response);
         }

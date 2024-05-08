@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/css/myToast.css">
 </head>
-<body>
+<body class=" relative">
 <%
     User user = null;
     List<CartItem> cartItems = null;
@@ -44,9 +44,9 @@
 
 
 <%--Cart Section--%>
-<section class="h-100 h-custom">
+<section class="h-auto">
 
-    <div class="container py-5 h-100">
+    <div class="container py-5 h-auto">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col">
                 <div class="card">
@@ -84,35 +84,41 @@
                                     }
                                     System.out.println("Image Path: " + imgUri);
                                 %>
-                                <div class="card mb-3">
-                                    <div class="card-body">
+                                <div class="card my-5">
+                                    <div class="card-body position-relative">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div>
-                                                    <img src="<%= imgUri %>" class="img-fluid rounded-3" alt="Shopping item"  onError="this.onerror=null;this.src='../images/placeholder.png';" style="width: 65px;">
+                                                    <img src="<%=imgUri%>" class="img-fluid rounded-3" alt="Shopping item"  onError="this.onerror=null;this.src='../images/placeholder.png';" style="width: 65px;">
                                                 </div>
                                                 <div class="ms-3">
                                                     <h5><%= cartItem.getProductName()%></h5>
                                                 </div>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;" class=" d-flex">
-                                                    <button class="btn btn-outline-primary">
+                                            <div class="d-flex flex-column gap-2 justify-content-end align-items-end">
+                                                <div class=" d-flex align-items-center gap-2">
+                                                    <button class="btn btn-outline-warning"
+                                                            onclick="handleCartItemQuantityUpdate(<%=cartItem.getCartItemId()%>, <%=cartItem.getQuantity()-1%>)"
+                                                    >
                                                         -
                                                     </button>
                                                     <h5 class="fw-normal mb-0"><%= cartItem.getQuantity()%></h5>
-                                                    <button class=" btn btn-outline-primary">
+                                                    <button class=" btn btn-outline-warning"
+                                                            onclick="handleCartItemQuantityUpdate(<%=cartItem.getCartItemId()%>, <%=cartItem.getQuantity()+1%>)"
+                                                    >
                                                         +
                                                     </button>
                                                 </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0"><%= cartItem.getPrice() %></h5>
+                                                <div class=" ">
+                                                    <h5 class="mb-0">Rs.<%= cartItem.getPrice() %></h5>
                                                 </div>
-                                                <a href="../RemoveFromCart-servlet?id=<%=cartItem.getProductId() %>" style="color: #cecece;">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="16" width="16">
-                                                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                                                <button class=" btn btn-danger btn-sm position-absolute top-0 start-100 translate-middle "
+                                                        onclick="handleCartItemDelete(<%=cartItem.getCartItemId()%>)"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 448 512" height="16" width="16" style="color: white!important;" color="white">
+                                                        <path fill="#ffffff" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
                                                     </svg>
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +211,9 @@
 
 
                                         <button type="button" class="btn btn-info btn-block btn-lg"
-                                                style="background: #1a1d20; color: whitesmoke; width: 100% " >
+                                                style="background: #1a1d20; color: whitesmoke; width: 100% "
+
+                                        >
                                             <div class=" " style="text-align: center">
                                                 <span>Checkout <svg xmlns="http://www.w3.org/2000/svg"
                                                                     viewBox="0 0 448 512" width="16" height="16" fill="white"><path
@@ -227,7 +235,78 @@
     </div>
 </section>
 
+<div class=" overlay bg-black position-absolute opacity-70" style="height: 100%; width: 100%; z-index: 1050; opacity: 30%; visibility: hidden" id="add_to_cart_overlay"></div>
+<div class="position-absolute top-50 start-50 translate-middle rounded-5 overflow-hidden"  style="z-index: 1070; visibility: hidden" id="add_to_cart_loading">
+    <img src="../assets/add_to_cart.gif" width="145" height="150" alt="loading"/>
+</div>
+
 <%--footer--%>
 <jsp:include page="footer.jsp"/>
+
+
+<script>
+    const toasts = new Toasts({
+        width: 300,
+        timing: 'ease',
+        duration: '.5s',
+        dimOld: false,
+        position: 'top-right' // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
+    });
+
+    function  handleCartItemQuantityUpdate(cartItemId, quantity){
+        //show loading overlay and loading gif
+        document.getElementById('add_to_cart_overlay').style.visibility = 'visible';
+        document.getElementById('add_to_cart_loading').style.visibility = 'visible';
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST",'${pageContext.request.contextPath}/cart',true)
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                document.getElementById('add_to_cart_overlay').style.visibility = 'hidden';
+                document.getElementById('add_to_cart_loading').style.visibility = 'hidden';
+                toasts.push({
+                    title: 'Success!',
+                    content: 'Cart item updated successfully',
+                    style: 'success'
+                });
+            }else {
+                toasts.push({
+                    title: 'Error!',
+                    content: 'Cart item update failed',
+                    style: 'error'
+                });
+            }
+        }
+        xhr.send('cartItemId='+cartItemId+'&quantity='+quantity+'&_method=PUT')
+    }
+
+    function handleCartItemDelete(cartItemId){
+        console.log("Cart Item ID: " + cartItemId)
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST",'${pageContext.request.contextPath}/cart',true)
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+        console.log(xhr.responseXML)
+        console.log(xhr)
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                toasts.push({
+                    title: 'Success!',
+                    content: 'Cart item deleted successfully',
+                    style: 'success'
+                });
+            }else {
+                toasts.push({
+                    title: 'Error!',
+                    content: 'Cart item delete failed',
+                    style: 'error'
+                });
+            }
+        }
+        xhr.send('cartItemId='+cartItemId+'&_method=DELETE')
+    }
+</script>
+
+<script src="../script/myscript.js"></script>
+
 </body>
 </html>
