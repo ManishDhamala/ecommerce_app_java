@@ -1,12 +1,15 @@
 package com.icp.gadgets.doa;
 
 import com.icp.gadgets.controller.servlet.DatabaseController;
+import com.icp.gadgets.model.Order;
 import com.icp.gadgets.utils.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDoa {
     public  int createOrder(int userId, String orderStatus, String paymentStatus, int totalAmount){
@@ -47,6 +50,49 @@ public class OrderDoa {
             e.printStackTrace();
             return 0;
         }
+    }
+
+
+    public List<Order> getAllOrders(){
+        List<Order> orders = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()){
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_ORDERS);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Order order = new Order();
+                order.setOrder_id(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setOrder_status(rs.getString("orderStatus"));
+                order.setPayment_status(rs.getString("paymentStatus"));
+                order.setOrder_total(rs.getInt("total"));
+                order.setOrder_date(rs.getDate("created_at"));
+                orders.add(order);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return orders;
+    }
+
+    public List<Order> getAllOderItems(int orderId){
+        List<Order> orders = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()){
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_ORDER_ITEMS);
+            st.setInt(1, orderId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Order order = new Order();
+                order.setOrder_item_id(rs.getInt("order_item_id"));
+                order.setProduct_id(rs.getInt("product_id"));
+                order.setQuantity(rs.getInt("quantity"));
+                orders.add(order);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return orders;
     }
 
     public int updateOrder(int orderId, String orderStatus, String paymentStatus, int totalAmount){
