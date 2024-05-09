@@ -55,6 +55,7 @@ public class cart extends HttpServlet {
                     cartId = cartdoa.addToCart(userId);
                     session.setAttribute("cartId", cartId);
                 }
+//             int cartId = cartdoa.addToCart(userId);
 
              if(cartId > 0){
                  // Add to cart item

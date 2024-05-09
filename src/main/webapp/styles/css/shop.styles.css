@@ -397,9 +397,9 @@
     transform: scale(1.2);
 }
 
-.product-item .btn:hover {
-    color: #D19C97 !important;
-}
+/*.product-item .btn:hover {*/
+/*    color: #D19C97 !important;*/
+/*}*/
 
 .contact-form .help-block ul {
     margin: 0;

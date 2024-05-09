@@ -26,6 +26,10 @@
     <link rel="stylesheet" href="../styles/css/toast.styles.css">
     <script src="../script/toast.script.js"></script>
     <style>
+        #add_to_cart_btn:hover {
+            cursor: pointer;
+            color: white;
+        }
         .toast-notification {
             position: fixed;
             text-decoration: none;
@@ -347,18 +351,18 @@
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                 <h6 class="text-truncate mb-3"><%= product.getProductName() %></h6>
                                 <div class="d-flex justify-content-center">
-                                    <h6>$<%= product.getProductPrice() %></h6>
-                                    <h6 class="text-muted
-                                    ml-2">
-                                        <del>$<%= product.getProductPrice() %></del>
-                                    </h6>
+                                    <h6>Rs. <%= product.getProductPrice() %></h6>
+<%--                                    <h6 class="text-muted--%>
+<%--                                    ml-2">--%>
+<%--                                        <del>$<%= product.getProductPrice() %></del>--%>
+<%--                                    </h6>--%>
                                 </div>
                             </div>
                             <div class="card-footer bg-light border">
                                 <div class="row">
                                     <div class="col-6">
-                                        <a href="#" class="btn btn-sm text-dark p-0 d-flex align-items-center">
-                                            <img src="../assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px">
+                                        <a href="#" class="btn d-flex align-items-center px-2  py-1  gap-2 " id="" style="background:#ffc107;">
+                                            <img src="../assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px; ">
                                             View Detail
                                         </a>
                                     </div>
@@ -368,9 +372,8 @@
                                                 <%= userId %>,
                                                 <%= product.getProductId() %>,
                                                 1
-                                            )"  class="btn btn-sm
-                                            text-dark p-0 d-flex align-items-center justify-content-end">
-                                                <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px">
+                                            )"  class="btn d-flex align-items-center px-2 py-1  gap-1 " id="add_to_cart_btn" style="background:#ffc107;">
+                                                <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px;">
                                                 Add To Cart
                                             </button>
                                         </div>
