@@ -51,10 +51,10 @@ public class cart extends HttpServlet {
              // Add to cart
              HttpSession session = request.getSession();
              Integer cartId = (Integer) session.getAttribute("cartId");
-                if(cartId == null){
-                    cartId = cartdoa.addToCart(userId);
-                    session.setAttribute("cartId", cartId);
-                }
+             if (cartId == null) {
+                 cartId = cartdoa.addToCart(userId);
+                 session.setAttribute("cartId", cartId);
+             }
 //             int cartId = cartdoa.addToCart(userId);
 
              if(cartId > 0){

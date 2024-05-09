@@ -92,16 +92,20 @@ public class OrderDoa {
             e.printStackTrace();
             return null;
         }
+        System.out.println(orders);
         return orders;
     }
 
-    public int updateOrder(int orderId, String orderStatus, String paymentStatus, int totalAmount){
+    public int updateOrder(int orderId, String orderStatus, String paymentStatus){
+        System.out.println(paymentStatus);
         try(Connection con = new DatabaseController().getConnection()){
             PreparedStatement st = con.prepareStatement(StringUtils.UPDATE_ORDER);
+
             st.setString(1, orderStatus);
             st.setString(2, paymentStatus);
-            st.setInt(3, totalAmount);
-            st.setInt(4, orderId);
+//            st.setInt(3, totalAmount);
+            st.setInt(3, orderId);
+            System.out.println(st);
             return st.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -113,7 +117,7 @@ public class OrderDoa {
         try(Connection con = new DatabaseController().getConnection()){
             PreparedStatement st = con.prepareStatement(StringUtils.DELETE_ORDER_ITEM);
             st.setInt(1, orderId);
-            st.setInt(2, OrderItemId);
+//            st.setInt(2, OrderItemId);
             int result = st.executeUpdate();
             if (result > 0) {
                 PreparedStatement st1 = con.prepareStatement(StringUtils.DELETE_ORDER);

@@ -74,7 +74,7 @@
     </div>
   </div>
 </div>
-<div class="simple-bar-chart">
+<div class="simple-bar-chart" style="min-height: 70vh; max-height: 75vh">
     <%
         for (SalesData salesDatum : salesData) {
     %>

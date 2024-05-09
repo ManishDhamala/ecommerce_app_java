@@ -39,4 +39,21 @@ public class UserDoa {
         }
         return users;
     }
+
+    public User getUserById(int userId) {
+        User user = new User();
+        try (Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_USER_BY_ID);
+            st.setInt(1, userId);
+            ResultSet result = st.executeQuery();
+            if (result.next()) {
+                user.setId(result.getInt("user_id"));
+                user.setFullName(result.getString("name"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return user;
+    }
 }

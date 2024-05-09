@@ -48,12 +48,14 @@ public class Cartdoa {
                 int cartItemId = rs.getInt("cart_item_id");
                 int existingQuantity = rs.getInt("quantity");
                 return updateCartItemQuantity(cartItemId, existingQuantity + quantity);
+            }else{
+                //Add new product to cart
+                st = con.prepareStatement(StringUtils.INSERT_INTO_CART_ITEM);
+                st.setInt(1, cartId);
+                st.setInt(2, productId);
+                st.setInt(3, quantity);
+                return st.executeUpdate();
             }
-            PreparedStatement st2 = con.prepareStatement(StringUtils.INSERT_INTO_CART_ITEM);
-            st2.setInt(1, cartId);
-            st2.setInt(2, productId);
-            st2.setInt(3, quantity);
-            return st2.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return 0;
