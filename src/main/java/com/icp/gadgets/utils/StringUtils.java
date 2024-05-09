@@ -104,6 +104,7 @@ public class StringUtils {
 
     public static final String GET_CART_ITEMS = "SELECT * FROM cartItem WHERE cart_id = ?";
 
+
     public static final String SELECT_CART_ITEM_BY_USER_ID = "SELECT c.cart_id, ci.cart_item_id, ci.quantity, p.product_id, p.name,p.price\n" +
             "FROM cart c\n" +
             "JOIN cartItem ci ON c.cart_id = ci.cart_id\n" +
@@ -121,6 +122,9 @@ public class StringUtils {
     public static final String DELETE_ORDER_ITEM  = "DELETE FROM orderItems WHERE order_id = ? AND order_item_id = ?";
     public static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id = ?";
     public static final String UPDATE_ORDER = "UPDATE orders SET orderStatus = ?, paymentStatus = ?, totalAmount = ? WHERE order_id = ?";
+
+    public static final String GET_ORDERS = "SELECT * FROM orders";
+    public static final String GET_ORDER_ITEMS = "SELECT * FROM orderItems WHERE order_id = ?";
 
     // End SQL Queries
 

@@ -19,7 +19,13 @@
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/css/myToast.css">
     <script src="../script/toast.script.js"></script>
-    <script src="../script/khalti.config.script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1
+/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1
+/hmac-sha256.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1
+/enc-base64.min.js"></script>
+<%--    <script src="../script/khalti.config.script.js"></script>--%>
     <style>
         .toast-notification {
             position: fixed;
@@ -151,6 +157,7 @@
 <%
     User user = null;
     List<CartItem> cartItems = null;
+    Helper helper = new Helper();
     HttpSession isSession = request.getSession(false);
     int total = 0;
     int subTotal = 0;
@@ -323,12 +330,12 @@
                                         <div class=" d-flex gap-2">
 
                                             <button type="button" class="btn  btn-lg "
-                                                    style="background: #6610f2; color: whitesmoke; width: 100% "
+                                                    style="background: #60BB45; color: whitesmoke; width: 100% "
                                                     id="pay_with_khalti"
-
+                                                    onclick="handlePayWithKhalti()"
                                             >
                                                 <div class=" " style="text-align: center">
-                                                <span>Pay with Khalti <svg xmlns="http://www.w3.org/2000/svg"
+                                                <span>Pay with Esewa <svg xmlns="http://www.w3.org/2000/svg"
                                                                   viewBox="0 0 448 512" width="16" height="16" fill="white"><path
                                                         d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
                                                 </div>
@@ -498,6 +505,96 @@
     }
 
 
+    function convertIntoPaisa(amount){
+        return amount * 100;
+    }
+
+
+
+    function handlePayWithKhalti() {
+        let cartItems = []
+        let total = 0;
+
+        <% if (cartItems != null) {
+               for (CartItem cartItem : cartItems) { %>
+        cartItems.push({
+            productId: <%=cartItem.getProductId()%>,
+            quantity: <%=cartItem.getQuantity()%>,
+            price: <%=cartItem.getPrice()%>,
+            cartItemId: <%=cartItem.getCartItemId()%>
+        })
+        total += <%=cartItem.getPrice()%> * <%=cartItem.getQuantity()%>
+        <%     }
+             }
+        %>
+
+        //First create order in the backend
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", '${pageContext.request.contextPath}/order', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var secret = "8gBm/:&EnhH.1/q";
+                let formData = new FormData();
+
+                function generateTransactionUUID() {
+                    var currentTime = new Date();
+                    var formattedTime = currentTime.toISOString().slice(2, 10).replace(/-/g, '') + '-' + currentTime.getHours() +
+                        currentTime.getMinutes() + currentTime.getSeconds();
+                    return formattedTime;
+                }
+
+                function generateSignature(total_amount, transaction_uuid, product_code, secret) {
+                    var hash = CryptoJS.HmacSHA256(
+                        "total_amount=" + total_amount + ',' + "transaction_uuid=" + transaction_uuid + ',' + "product_code=" + product_code,
+                        secret);
+                    var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+                    console.log(hashInBase64)
+                    return hashInBase64;
+                }
+                var transaction_uuid = generateTransactionUUID();
+                formData.append('total_amount', (total + 100).toString());
+                formData.append('transaction_uuid', transaction_uuid);
+                formData.append('product_code', 'EPAYTEST');
+                formData.append('success_url', 'http://localhost:8080${pageContext.request.contextPath}/pages/success.jsp');
+                formData.append('failure_url', 'http://localhost:8080${pageContext.request.contextPath}/pages/CartPage.jsp?errorMessage=Translation Failed');
+                <%--formData.append('signature', '<%=helper.getAPiSecret("total_amount=" + (total + 100) + ',' + "transaction_uuid=" + "ab14a8f2b02c3" + ',' + "product_code=EPAYTEST")%>');--%>
+                formData.append('signature', generateSignature((total + 100).toString(), transaction_uuid, 'EPAYTEST', secret));
+                formData.append('product_delivery_charge', '100');
+                formData.append('product_service_charge', '0');
+                formData.append('service_charge', '0');
+                formData.append('signed_field_names', 'total_amount,transaction_uuid,product_code');
+                formData.append('tax_amount', '0');
+                formData.append('amount', total.toString())
+
+                var path = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form'
+                var form = document.createElement("form");
+                form.setAttribute("method", "post");
+                form.setAttribute("action", path);
+
+                for (var key of formData.keys()) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", formData.get(key));
+                    form.appendChild(hiddenField);
+                }
+                document.body.appendChild(form);
+                form.submit();
+            } else if (xhr.status === 500) {
+                toasts.push({
+                    title: 'Error!',
+                    content: 'Payment failed',
+                    style: 'error'
+                });
+            }
+        }
+        <%
+        if(user != null){
+        %>
+        xhr.send('userId=<%=user.getId()%>&totalAmount=' + (total+100) + '&orderStatus=PENDING' + '&paymentStatus=PAID' + '&cartItems=' + JSON.stringify(cartItems));
+        <% } %>
+    }
 </script>
 
 <script src="../script/myscript.js"></script>
