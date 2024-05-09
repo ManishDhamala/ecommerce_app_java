@@ -95,7 +95,7 @@ public class StringUtils {
     public static final String GET_PRODUCT_ITEM = "SELECT * FROM products WHERE product_id = ?";
     public static final String GET_PRODUCT_PRICE = "SELECT price FROM products WHERE product_id = ?";
 
-    public static  final  String CREATE_ORDER = "INSERT INTO orders (user_id, orderStatus, paymentStatus, totalAmount) VALUES (?, ?, ?, ?)";
+    public static  final  String CREATE_ORDER = "INSERT INTO orders (user_id, orderStatus, paymentStatus, total) VALUES (?, ?, ?, ?)";
     public static  final  String CREATE_ORDER_ITEM = "INSERT INTO orderItems (order_id, product_id, quantity) VALUES (?, ?, ?)";
 
     public static final String INSERT_INTO_CART ="INSERT INTO cart(user_id) VALUES (?)";
@@ -117,6 +117,10 @@ public class StringUtils {
     public static final String CHECK_PRODUCT_IN_CART = "SELECT * FROM cartItem WHERE cart_id = ? AND product_id = ?";
 
     public static final String SELECT_CART_COUNT = "SELECT COUNT(*) AS count FROM cart WHERE user_id = ?";
+
+    public static final String DELETE_ORDER_ITEM  = "DELETE FROM orderItems WHERE order_id = ? AND order_item_id = ?";
+    public static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id = ?";
+    public static final String UPDATE_ORDER = "UPDATE orders SET orderStatus = ?, paymentStatus = ?, totalAmount = ? WHERE order_id = ?";
 
     // End SQL Queries
 

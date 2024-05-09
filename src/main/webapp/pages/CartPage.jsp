@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/css/myToast.css">
     <script src="../script/toast.script.js"></script>
+    <script src="../script/khalti.config.script.js"></script>
     <style>
         .toast-notification {
             position: fixed;
@@ -151,23 +152,30 @@
     User user = null;
     List<CartItem> cartItems = null;
     HttpSession isSession = request.getSession(false);
+    int total = 0;
+    int subTotal = 0;
     if (isSession == null || isSession.getAttribute("user") == null) {
+        System.out.println("Session: " + isSession);
         response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
     }else{
+        System.out.println("Session: " + isSession.getAttribute("user"));
         user = (User) session.getAttribute("user");
         Cartdoa cartdoa = new Cartdoa();
         cartItems = cartdoa.getCartItemByUserID(user.getId());
-//        System.out.println("Cart Items: " + cartItems);
-//        System.out.println("User: " + user.getId());
-        if(user == null){
-            response.sendRedirect("login.jsp");
+        for (CartItem cartItem : cartItems) {
+            subTotal += cartItem.getPrice() * cartItem.getQuantity();
         }
+         total = subTotal + 100;
+        System.out.println("Cart Items: " + cartItems);
+        System.out.println("User: " + user.getId());
+        System.out.println(isSession.getAttribute("user"));
     }
     ImageDoa img = new ImageDoa();
 %>
 
 <%--header--%>
 <jsp:include page="header.jsp"/>
+
 
 
 <%--Cart Section--%>
@@ -189,10 +197,11 @@
                                     </svg>
                                     Continue shopping</a></h5>
                                 <hr>
-
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <div>
-                                        <p class="mb-1">Shopping carts</p>
+                                        <p class="mb-1">Shopping carts
+<%--                                            <span class="badge bg-warning text-dark" id="cart_counter"><%=cartItems.size()%></span>--%>
+                                        </p>
 <%--                                        <p class="mb-0">You have ${} items in your carts</p>--%>
                                     </div>
                                 </div>
@@ -219,7 +228,7 @@
                                                     <img src="<%=imgUri%>" class="img-fluid rounded-3" alt="Shopping item"  onError="this.onerror=null;this.src='../images/placeholder.png';" style="width: 65px;">
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h5><%= cartItem.getProductName()%></h5>
+                                                    <h5><%= cartItem.getProductName()%> @ Rs.<%=cartItem.getPrice()%></h5>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-column gap-2 justify-content-end align-items-end">
@@ -241,7 +250,7 @@
                                                     </button>
                                                 </div>
                                                 <div class=" ">
-                                                    <h5 class="mb-0">Rs.<%= cartItem.getPrice() %></h5>
+                                                    <h5 class="mb-0">Rs.<%=cartItem.getPrice() * cartItem.getQuantity()%></h5>
                                                 </div>
                                                 <button class=" btn btn-danger btn-sm position-absolute top-0 start-100 translate-middle "
                                                         onclick="handleCartItemDelete(<%=cartItem.getCartItemId()%>,<%=user.getId()%>)"
@@ -259,6 +268,7 @@
                                         }
                                     }
                                 %>
+<%--                                    assert user != null;%>--%>
 
                             </div>
                             <div class="col-lg-5">
@@ -266,100 +276,80 @@
                                 <div class="card text-white rounded-3" style="background: orange">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <h5 class="mb-0">Card details</h5>
+                                            <h5 class="mb-0">Order Details</h5>
                                             <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
                                                  class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
                                         </div>
-
-                                        <p class="small mb-2">Card type</p>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-visa fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-amex fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-paypal fa-2x"></i></a>
-
+                                        <p class=" mb-2">Shipping Details</p>
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
-                                                <input type="text" id="typeName" class="form-control form-control-lg" size="17"
-                                                       placeholder="Cardholder's Name" value=""/>
-                                                <label class="form-label" for="typeName" readonly="">Cardholder's Name</label>
-                                            </div>
+                                                <label class="form-label" for="customer_name" readonly="">Name</label>
+                                                <input type="text" id="customer_name" class="form-control form-control-lg" size="17"
+                                                       placeholder="Enter your name" value="<%=user != null ? user.getFullName() : ""%>"/>
 
+                                            </div>
+                                            <div class="form-outline form-white mb-4">
+                                                <label class="form-label" for="customer_address" >Shipping Address</label>
+                                                <input type="text" id="customer_address"  class="form-control form-control-lg"
+                                                       siez="17"
+                                                       placeholder="Lamachour, Pokhara" minlength="19" maxlength="19" value="<%=user != null ? user.getAddress() : ""%>"/>
+
+                                            </div>
 
                                             <div class="form-outline form-white mb-4">
-                                                <input type="text"  class="form-control form-control-lg"
+                                                <label class="form-label"  for="customer_phone">Phone Number</label>
+                                                <input type="text" id="customer_phone" class="form-control form-control-lg"
                                                        siez="17"
-                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19"/>
-                                                <label class="form-label" for="typeText">Card Number</label>
+                                                       placeholder="9806543522" minlength="19" maxlength="19" value="<%=user != null ? user.getPhoneNumber() : ""%>"/>
                                             </div>
-
-                                            <div class="row mb-4">
-                                                <div class="col-md-6">
-                                                    <div class="form-outline form-white">
-                                                        <input type="text" id="typeExp"
-                                                               class="form-control form-control-lg"
-                                                               placeholder="MM/YYYY" size="7" id="exp" minlength="7"
-                                                               maxlength="7"/>
-                                                        <label class="form-label" for="typeExp">Expiration</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-outline form-white">
-                                                        <input type="password" id="typeText"
-                                                               class="form-control form-control-lg"
-                                                               placeholder="&#9679;&#9679;&#9679;" size="1"
-                                                               minlength="3" maxlength="3"/>
-                                                        <label class="form-label" for="typeText">Cvv</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </form>
-
                                         <hr class="my-4">
-
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Subtotal</p>
-                                            <p class="mb-2">NPR ${total}</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-2">Tax</p>
-                                            <p class="mb-2">13%</p>
+                                            <p class="mb-2">Rs. <%=subTotal%> </p>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Shipping</p>
-                                            <p class="mb-2">NPR 1500</p>
+                                            <p class="mb-2">Rs. 100</p>
                                         </div>
 
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Total</p>
-<%--                                            <p class="mb-2">NPR ${(total + 13/100 * total)+1500}</p>--%>
+                                            <p class="mb-2">Rs. <%=total%></p>
                                         </div>
+                                        <% if (user != null && !cartItems.isEmpty()) {%>
+                                        <div class=" d-flex gap-2">
 
+                                            <button type="button" class="btn  btn-lg "
+                                                    style="background: #6610f2; color: whitesmoke; width: 100% "
+                                                    id="pay_with_khalti"
 
-                                        <button type="button" class="btn btn-info btn-block btn-lg"
-                                                style="background: #1a1d20; color: whitesmoke; width: 100% "
+                                            >
+                                                <div class=" " style="text-align: center">
+                                                <span>Pay with Khalti <svg xmlns="http://www.w3.org/2000/svg"
+                                                                  viewBox="0 0 448 512" width="16" height="16" fill="white"><path
+                                                        d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
+                                                </div>
+                                            </button>
+                                            <button type="button" class="btn btn-lg"
+                                                    style="background: #1a1d20; color: whitesmoke; width: 100% "
+                                                    onclick="handleCheckout(<%=user.getId()%>, <%=total%>)"
 
-                                        >
-                                            <div class=" " style="text-align: center">
-                                                <span>Checkout <svg xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <div class=" " style="text-align: center">
+                                                <span>COD <svg xmlns="http://www.w3.org/2000/svg"
                                                                     viewBox="0 0 448 512" width="16" height="16" fill="white"><path
-                                                        d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span>
-                                            </div>
-                                        </button>
-
+                                                        d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path></svg></span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <% } %>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -370,6 +360,12 @@
 <div class=" overlay bg-black position-absolute opacity-70" style="height: 100%; width: 100%; z-index: 2000; opacity: 30%; visibility: hidden" id="add_to_cart_overlay"></div>
 <div class="position-absolute top-50 start-50 translate-middle rounded-5 overflow-hidden"  style="z-index: 2050; visibility: hidden" id="add_to_cart_loading">
     <img src="../assets/add_to_cart.gif" width="145" height="150" alt="loading"/>
+</div>
+
+
+<%--<div class=" overlay bg-black position-absolute opacity-70" style="height: 100%; width: 100%; z-index: 2000; opacity: 30%; visibility: hidden" id="checkout_overlay"></div>--%>
+<div class="position-absolute top-50 start-50 translate-middle rounded-5 overflow-hidden"  style="z-index: 2050; visibility: hidden" id="khalti_img">
+    <img src="../assets/khalti.png" width="438" height="235" alt="loading"/>
 </div>
 
 <%--footer--%>
@@ -385,7 +381,6 @@
         dimOld: false,
         position: 'top-right' // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
     });
-
 
     function  handleCartItemQuantityUpdate(cartItemId, quantity){
         //show loading overlay and loading gif
@@ -442,6 +437,7 @@
         }
         xhr.send('cartItemId='+cartItemId+'&_method=DELETE')
     }
+
     function fetchUpdatedCartSize(userId){
         let xhr = new XMLHttpRequest();
         xhr.open("GET", '${pageContext.request.contextPath}/cart?userId=' + userId, true);
@@ -450,15 +446,60 @@
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     document.getElementById("cart_counter").innerText = xhr.response;
+
                 }
             }
         };
         xhr.send();
     }
 
+    function handleCheckout( userId, totalAmt){
+        document.getElementById('add_to_cart_overlay').style.visibility = 'visible';
+        document.getElementById('add_to_cart_loading').style.visibility = 'visible';
+        let cartItems = []
+        <%
+            if (cartItems != null) {
+                for (CartItem cartItem : cartItems) {
+        %>
+        cartItems.push({
+            productId: <%=cartItem.getProductId()%>,
+            quantity: <%=cartItem.getQuantity()%>,
+            price: <%=cartItem.getPrice()%>,
+            cartItemId: <%=cartItem.getCartItemId()%>
+        })
+        <%
+            }
+        }
+        %>
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST",'${pageContext.request.contextPath}/order',true)
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                toasts.push({
+                    title: 'Success!',
+                    content: 'Order placed successfully',
+                    style: 'success'
+                });
+                setTimeout(function(){
+                    document.getElementById('add_to_cart_overlay').style.visibility = 'hidden';
+                    document.getElementById('add_to_cart_loading').style.visibility = 'hidden';
+                    window.location.href = xhr.responseURL;
+                }, 1500);
+            }else if(xhr.status === 500){
+                toasts.push({
+                    title: 'Error!',
+                    content: 'Order placement failed',
+                    style: 'error'
+                });
+            }
+        }
+        xhr.send('userId='+userId+'&totalAmount='+totalAmt+'&orderStatus=PENDING' +'&paymentStatus=UNPAID' + '&cartItems='+JSON.stringify(cartItems));
+    }
+
+
 </script>
 
 <script src="../script/myscript.js"></script>
-
 </body>
 </html>

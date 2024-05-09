@@ -26,7 +26,6 @@ public class save extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-
         // Hello
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -52,31 +51,25 @@ public class save extends HttpServlet {
             if (updated) {
                 User updatedUser = dbController.getUserInfo(username);
                 HttpSession session = request.getSession();
-                session.setAttribute("user", updatedUser);
-                request.setAttribute(StringUtils.UPDATED_MESSAGE, StringUtils.UPDATED_SUCCESSFULLY);
-                RequestDispatcher dispatcher = request.getRequestDispatcher(StringUtils.PROFILE_PAGE);
-                dispatcher.forward(request, response);
-               System.out.println("User information updated successfully"+updatedUser.getAddress());
+//                session.setAttribute("user", updatedUser);
+                response.sendRedirect(request.getContextPath() + StringUtils.PROFILE_PAGE +'?'+ StringUtils.SUCCESS_MESSAGE +'='+ "Your profile has been updated successfully");
+                 System.out.println("User information updated successfully"+updatedUser.getAddress());
                 return;
             } else {
+                response.sendRedirect(request.getContextPath() + StringUtils.PROFILE_PAGE +'?'+ StringUtils.ERROR_MESSAGE +'='+ "Error updating user information");
                 out.println("<h2>Error updating user information</h2>");
             }
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
         out.println("<html><body>");
         out.println("<h1>" + message + "</h1>");
         out.println("</body></html>");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         doGet(request, response);
     }
 
