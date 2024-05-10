@@ -370,7 +370,6 @@
         });
     });
 
-
     function handleAddToCart(userId, productId, quantity) {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", '${pageContext.request.contextPath}/cart', true);

@@ -102,6 +102,13 @@ public class StringUtils {
 
     public static final String GET_PRODUCT_BY_NAME = "SELECT * FROM products WHERE name LIKE ?";
 
+    public static final String GET_MOST_ONE_MOST_SELLING_PRODUCT = "SELECT p.product_id, p.name, p.price, p.`desc`, p.category_id, SUM(oi.quantity) AS total_quantity\n" +
+            "FROM products p\n" +
+            "JOIN orderItems oi ON p.product_id = oi.product_id\n" +
+            "GROUP BY p.product_id\n" +
+            "ORDER BY total_quantity DESC\n" +
+            "LIMIT 1";
+
     public static final String GET_PRODUCT_BY_CATEGORY_AND_PRICE = "SELECT * FROM products WHERE category_id = ? AND price BETWEEN ? AND ?";
 
     public static final String GET_MAX_PRICE = "SELECT MAX(price) AS max_price FROM products";
