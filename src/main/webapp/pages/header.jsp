@@ -63,6 +63,9 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2   fs-5" href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2   fs-5" href="${pageContext.request.contextPath}/pages/myorders.jsp">My orders</a>
+                </li>
 
             </ul>
             <ul class="navbar-nav ms-auto ">
@@ -75,12 +78,11 @@
                 </li>
 
 
-
-                <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/Dashboard.jsp"><img src="${pageContext.request.contextPath}/assets/Icons/user.png" alt="user"
-                                                                          style="width: 20px;height: 20px;">
-                    </a>
-                </li>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link mx-2 text-uppercase" href="${pageContext.request.contextPath}/pages/Dashboard.jsp"><img src="${pageContext.request.contextPath}/assets/Icons/user.png" alt="user"--%>
+<%--                                                                          style="width: 20px;height: 20px;">--%>
+<%--                    </a>--%>
+<%--                </li>--%>
                 <li class="nav-item">
                     <%
                         if (session != null && session.getAttribute("user") != null) { %>
