@@ -148,6 +148,8 @@ public static final  String GET_RECOMENDED_PRODUCT = "SELECT * FROM products WHE
     public static final String GET_ORDERS = "SELECT * FROM orders";
     public static final String GET_ORDER_ITEMS = "SELECT * FROM orderItems WHERE order_id = ?";
 
+    public static final String GET_ORDER_BY_USER_ID = "SELECT * FROM orders WHERE user_id = ?";
+
     // End SQL Queries
 
     public static final String FULL_NAME = "fullname";

@@ -76,6 +76,7 @@ public class OrderDoa {
     }
 
     public List<Order> getAllOderItems(int orderId){
+        System.out.println("Order ID: " + orderId);
         List<Order> orders = new ArrayList<>();
         try(Connection con = new DatabaseController().getConnection()){
             PreparedStatement st = con.prepareStatement(StringUtils.GET_ORDER_ITEMS);
@@ -86,6 +87,31 @@ public class OrderDoa {
                 order.setOrder_item_id(rs.getInt("order_item_id"));
                 order.setProduct_id(rs.getInt("product_id"));
                 order.setQuantity(rs.getInt("quantity"));
+                orders.add(order);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        System.out.println(orders);
+        return orders;
+    }
+
+    public List<Order> getOrderByUserId(int userId){
+        System.out.println(userId);
+        List<Order> orders = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()){
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_ORDER_BY_USER_ID);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Order order = new Order();
+                order.setOrder_id(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setOrder_status(rs.getString("orderStatus"));
+                order.setPayment_status(rs.getString("paymentStatus"));
+                order.setOrder_total(rs.getInt("total"));
+                order.setOrder_date(rs.getDate("created_at"));
                 orders.add(order);
             }
         } catch (SQLException | ClassNotFoundException e) {
