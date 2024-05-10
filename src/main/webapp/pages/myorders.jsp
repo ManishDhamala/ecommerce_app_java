@@ -171,11 +171,11 @@
 
 <%--                    %>--%>
             </div>
-            <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
-                <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
-                    Track your order
-                </button>
-            </div>
+<%--            <div class="modal-footer d-flex justify-content-center border-top-0 py-4">--%>
+<%--                <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">--%>
+<%--                    Track your order--%>
+<%--                </button>--%>
+<%--            </div>--%>
         </div>
     </div>
 </div>
