@@ -55,8 +55,16 @@ public class login extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setMaxInactiveInterval(30 * 60); // 30 minutes
             session.setAttribute("userId", userInfo.getId());
+            session.setAttribute("userRole",userInfo.getRole());
             session.setAttribute("user", userInfo);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+
+            if (userInfo.getRole().equalsIgnoreCase("admin")) {
+                response.sendRedirect(request.getContextPath() + "/pages/Dashboard.jsp");
+
+            }else {
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+            }
+
         } else if (user == null){
             if(!dbController.isUsernameExists(username)){
                 response.sendRedirect(request.getContextPath() + StringUtils.LOGIN_PAGE + "?" + StringUtils.ERROR_MESSAGE + "=Invalid Username and Password!");

@@ -19,6 +19,10 @@
 <body>
 <jsp:include page="adminheader.jsp"/>
 <%
+    HttpSession isSession = request.getSession(false);
+    if (isSession == null || isSession.getAttribute("user") == null || !isSession.getAttribute("userRole").equals("ADMIN")) {
+        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+    }
     UserDoa users = new UserDoa();
     List<User> userList = users.getAllUsers();
 %>
