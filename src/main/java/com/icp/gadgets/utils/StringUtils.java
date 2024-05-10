@@ -96,6 +96,19 @@ public class StringUtils {
     public static final String GET_PRODUCT_ITEM = "SELECT * FROM products WHERE product_id = ?";
     public static final String GET_PRODUCT_PRICE = "SELECT price FROM products WHERE product_id = ?";
 
+    public static final String GET_PRODUCT_BY_CATEGORY = "SELECT * FROM products WHERE category_id = ?";
+
+    public static final String GET_PRODUCT_BY_PRICE = "SELECT * FROM products WHERE price BETWEEN ? AND ?";
+
+    public static final String GET_PRODUCT_BY_NAME = "SELECT * FROM products WHERE name LIKE ?";
+
+    public static final String GET_PRODUCT_BY_CATEGORY_AND_PRICE = "SELECT * FROM products WHERE category_id = ? AND price BETWEEN ? AND ?";
+
+    public static final String GET_MAX_PRICE = "SELECT MAX(price) AS max_price FROM products";
+    public static final String GET_MIN_PRICE = "SELECT MIN(price) AS min_price FROM products";
+
+    public static final String GET_PRODUCTS_BY_FILTER = "SELECT * FROM products WHERE price BETWEEN ? AND ? AND category_id = ? AND name LIKE ?";
+
     public static  final  String CREATE_ORDER = "INSERT INTO orders (user_id, orderStatus, paymentStatus, total) VALUES (?, ?, ?, ?)";
     public static  final  String CREATE_ORDER_ITEM = "INSERT INTO orderItems (order_id, product_id, quantity) VALUES (?, ?, ?)";
 
