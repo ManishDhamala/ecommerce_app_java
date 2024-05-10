@@ -159,16 +159,19 @@
     List<CartItem> cartItems = null;
     Helper helper = new Helper();
     HttpSession isSession = request.getSession(false);
+    int userId = 0;
     int total = 0;
     int subTotal = 0;
-    if (isSession == null || isSession.getAttribute("user") == null) {
+    if (isSession == null || isSession.getAttribute("user") == null || isSession.getAttribute("userId") == null) {
         System.out.println("Session: " + isSession);
+
         response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
     }else{
         System.out.println("Session: " + isSession.getAttribute("user"));
         user = (User) session.getAttribute("user");
+         userId = (int) session.getAttribute("userId");
         Cartdoa cartdoa = new Cartdoa();
-        cartItems = cartdoa.getCartItemByUserID(user.getId());
+        cartItems = cartdoa.getCartItemByUserID(userId);
         for (CartItem cartItem : cartItems) {
             subTotal += cartItem.getPrice() * cartItem.getQuantity();
         }
@@ -260,7 +263,7 @@
                                                     <h5 class="mb-0">Rs.<%=cartItem.getPrice() * cartItem.getQuantity()%></h5>
                                                 </div>
                                                 <button class=" btn btn-danger btn-sm position-absolute top-0 start-100 translate-middle "
-                                                        onclick="handleCartItemDelete(<%=cartItem.getCartItemId()%>,<%=user.getId()%>)"
+                                                        onclick="handleCartItemDelete(<%=cartItem.getCartItemId()%>,<%=userId%>)"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 448 512" height="16" width="16" style="color: white!important;" color="white">
                                                         <path fill="#ffffff" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -342,7 +345,7 @@
                                             </button>
                                             <button type="button" class="btn btn-lg"
                                                     style="background: #1a1d20; color: whitesmoke; width: 100% "
-                                                    onclick="handleCheckout(<%=user.getId()%>, <%=total%>)"
+                                                    onclick="handleCheckout(<%=userId%>, <%=total%>)"
 
                                             >
                                                 <div class=" " style="text-align: center">
@@ -592,7 +595,7 @@
         <%
         if(user != null){
         %>
-        xhr.send('userId=<%=user.getId()%>&totalAmount=' + (total+100) + '&orderStatus=PENDING' + '&paymentStatus=PAID' + '&cartItems=' + JSON.stringify(cartItems));
+        xhr.send('userId=<%=userId%>&totalAmount=' + (total+100) + '&orderStatus=PENDING' + '&paymentStatus=PAID' + '&cartItems=' + JSON.stringify(cartItems));
         <% } %>
     }
 </script>

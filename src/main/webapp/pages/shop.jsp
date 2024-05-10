@@ -192,7 +192,6 @@
 <jsp:include page="header.jsp"/>
 
 
-
 <%--header end--%>
 
 <!-- Page Header Start -->
@@ -248,9 +247,11 @@
             <div class="row pb-3">
                 <div class="col-12 pb-1">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <form action="${pageContext.request.contextPath}/product" method="get">
+                        <form >
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search by name" name="search">
+                                <input type="text" class="form-control" placeholder="Search by name" name="search"
+                                        value="<%= searchQuery == null ? "" : searchQuery %> "
+                                />
                                 <div class="input-group-append" style="cursor: pointer" id="search_form">
                                         <span class="input-group-text bg-transparent text-primary">
                                             <img src="${pageContext.request.contextPath}/assets/Icons/search.png"
@@ -306,7 +307,7 @@
                             <div class="card-footer bg-light border">
                                 <div class="row">
                                     <div class="col-6">
-                                        <a href="#" class="btn d-flex align-items-center px-2  py-1  gap-2 " id="" style="background:#ffc107;">
+                                        <a href="${pageContext.request.contextPath}/pages/SingleProduct.jsp?productId=<%=product.getProductId()%>" class="btn d-flex align-items-center px-2  py-1  gap-2 " id="" style="background:#ffc107;">
                                             <img src="../assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px; ">
                                             View Detail
                                         </a>

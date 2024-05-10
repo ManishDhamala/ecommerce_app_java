@@ -21,6 +21,7 @@ public class StringUtils {
                     "FROM products " +
                     "WHERE category_id = ?";
 
+public static final  String GET_RECOMENDED_PRODUCT = "SELECT * FROM products WHERE product_id != ? AND product_id NOT IN (SELECT product_id FROM products WHERE product_id = ?) LIMIT 4;";
     public static final String INSERT_PRODUCT = "INSERT INTO products (name, price, `desc`, category_id) VALUES (?, ?, ?, ?)";
 
     public static final String UPDATE_PRODUCT = "UPDATE products SET name = ?, price = ?, `desc` = ?, category_id = ? WHERE product_id = ?";

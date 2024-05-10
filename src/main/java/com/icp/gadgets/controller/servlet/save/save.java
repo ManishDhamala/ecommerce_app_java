@@ -50,8 +50,9 @@ public class save extends HttpServlet {
             updated = updateUserInfo(firstName, email, phoneNumber, dob, address, username);
             if (updated) {
                 User updatedUser = dbController.getUserInfo(username);
-                HttpSession session = request.getSession();
-//                session.setAttribute("user", updatedUser);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("user", updatedUser);
+
                 response.sendRedirect(request.getContextPath() + StringUtils.PROFILE_PAGE +'?'+ StringUtils.SUCCESS_MESSAGE +'='+ "Your profile has been updated successfully");
                  System.out.println("User information updated successfully"+updatedUser.getAddress());
                 return;
