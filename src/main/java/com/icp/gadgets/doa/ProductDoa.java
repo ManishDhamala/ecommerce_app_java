@@ -62,6 +62,153 @@ public class ProductDoa {
         return products;
     }
 
+    public List<Product> getProductsByCategory(int categoryId) {
+        List<Product> products = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()) {
+                PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_BY_CATEGORY);
+                st.setInt(1, categoryId);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()){
+                    Product product = new Product();
+                    product.setProductId(rs.getInt("product_id"));
+                    product.setProductName(rs.getString("name"));
+                    product.setProductPrice(rs.getInt("price"));
+                    product.setProductDescription(rs.getString("desc"));
+                    product.setCategoryId(rs.getInt("category_id"));
+                    products.add(product);
+                }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return products;
+    }
+
+    public List<Product> getProductsByPrice(int minPrice, int maxPrice) {
+        List<Product> products = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_BY_PRICE);
+            st.setInt(1, minPrice);
+            st.setInt(2, maxPrice);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Product product = new Product();
+                product.setProductId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setProductPrice(rs.getInt("price"));
+                product.setProductDescription(rs.getString("desc"));
+                product.setCategoryId(rs.getInt("category_id"));
+                products.add(product);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return products;
+    }
+
+    public List<Product> getProductsByCategoryAndPrice(int categoryId, int minPrice, int maxPrice) {
+        List<Product> products = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()) {
+
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_BY_CATEGORY_AND_PRICE);
+                st.setInt(1, categoryId);
+                st.setInt(2, minPrice);
+                st.setInt(3, maxPrice);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()){
+                    Product product = new Product();
+                    product.setProductId(rs.getInt("product_id"));
+                    product.setProductName(rs.getString("name"));
+                    product.setProductPrice(rs.getInt("price"));
+                    product.setProductDescription(rs.getString("desc"));
+                    product.setCategoryId(rs.getInt("category_id"));
+                    products.add(product);
+                }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return products;
+    }
+
+    public List<Product> getProductsByFilter(int minPrice, int maxPrice, int categoryId, String search) {
+        List<Product> products = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCTS_BY_FILTER);
+            st.setInt(1, minPrice);
+            st.setInt(2, maxPrice);
+            st.setInt(3, categoryId);
+            st.setString(4, "%" + search + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Product product = new Product();
+                product.setProductId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setProductPrice(rs.getInt("price"));
+                product.setProductDescription(rs.getString("desc"));
+                product.setCategoryId(rs.getInt("category_id"));
+                products.add(product);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return products;
+    }
+
+    public  List<Product> getProductByName(String name){
+        List<Product> products = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_BY_NAME);
+            st.setString(1, "%" + name + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Product product = new Product();
+                product.setProductId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setProductPrice(rs.getInt("price"));
+                product.setProductDescription(rs.getString("desc"));
+                product.setCategoryId(rs.getInt("category_id"));
+                products.add(product);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return products;
+    }
+
+    public int getMaxPrice() {
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_MAX_PRICE);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("max_price");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
+
+    public int getMinPrice() {
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_MIN_PRICE);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("min_price");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
+
     public int updateProduct(int productId, String productName, int productPrice, String productDescription, int categoryId) {
         try(Connection con = new DatabaseController().getConnection()) {
             PreparedStatement st = con.prepareStatement(StringUtils.UPDATE_PRODUCT);
@@ -81,6 +228,8 @@ public class ProductDoa {
             return 0;
         }
     }
+
+
 
     public Product getProductById(int productId) {
         Product product = new Product();

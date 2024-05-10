@@ -1,15 +1,13 @@
-<%@ page import="com.icp.gadgets.model.User" %>
 <%@ page import="com.icp.gadgets.doa.ProductDoa" %>
 <%@ page import="com.mysql.cj.xdevapi.DbDoc" %>
-<%@ page import="com.icp.gadgets.model.Product" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.icp.gadgets.model.Image" %>
 <%@ page import="com.icp.gadgets.doa.ImageDoa" %>
 <%@ page import="com.icp.gadgets.utils.Helper" %>
 <%@ page import="com.icp.gadgets.utils.StringUtils" %>
 <%@ page import="com.icp.gadgets.doa.Cartdoa" %>
-<%@ page import="com.icp.gadgets.model.CartItem" %>
-<%@ page import="static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title" %><%--
+<%@ page import="static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title" %>
+<%@ page import="com.icp.gadgets.doa.CatgeoryDoa" %>
+<%@ page import="com.icp.gadgets.model.*" %><%--
   Created by IntelliJ IDEA.
   User: himalpun
   Date: 02/04/2024
@@ -157,7 +155,6 @@
     </style>
 </head>
 <body class=" relative">
-<script src="../script/toast.script.js"></script>
 <%
     User user = (User) session.getAttribute("user");
     String userId = session.getAttribute("userId") == null ? null : session.getAttribute("userId").toString();
@@ -169,16 +166,33 @@
         cartSize = cartItems.size();
         System.out.println("cart size: " + cartSize);
     }
-
-
+    String searchQuery = request.getParameter("search");
+    String QuerycategoryId = request.getParameter("categoryId");
+    String QueryminPrice = request.getParameter("minPrice");
+    String QuerymaxPrice = request.getParameter("maxPrice");
     ProductDoa pd = new ProductDoa();
     List<Product> productList = pd.getAllProducts();
-
+    if (searchQuery != null) {
+        productList = pd.getProductByName(searchQuery);
+    }
+    if (QuerycategoryId != null) {
+        productList = pd.getProductsByCategory(Integer.parseInt(QuerycategoryId));
+    }
+    if (QueryminPrice != null && QuerymaxPrice != null) {
+        productList = pd.getProductsByPrice(Integer.parseInt(QueryminPrice), Integer.parseInt(QuerymaxPrice));
+    }
     ImageDoa img = new ImageDoa();
+    int maxPrice = pd.getMaxPrice();
+    int minPrice = pd.getMinPrice();
+    CatgeoryDoa cd = new CatgeoryDoa();
+    List<Category> categories = cd.getAllCategories();
 %>
 
 <!-- Header Start -->
 <jsp:include page="header.jsp"/>
+
+
+
 <%--header end--%>
 
 <!-- Page Header Start -->
@@ -203,95 +217,30 @@
             <div class="border-bottom mb-4 pb-4">
                 <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                 <form>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="price-all">
-                        <label class="custom-control-label" for="price-all">All Price</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-1">
-                        <label class="custom-control-label" for="price-1">$0 - $100</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-2">
-                        <label class="custom-control-label" for="price-2">$100 - $200</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-3">
-                        <label class="custom-control-label" for="price-3">$200 - $300</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-4">
-                        <label class="custom-control-label" for="price-4">$300 - $400</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="price-5">
-                        <label class="custom-control-label" for="price-5">$400 - $500</label>
-                    </div>
+                   <label for="price-range">Price (<%=minPrice%> - <%=maxPrice%>)</label>
+                    <input type="range" class="custom-range" id="price-range"
+                            min="<%=minPrice%>" max="<%=maxPrice%>"
+                           value="<%= QueryminPrice == null ? minPrice : QueryminPrice %>">
                 </form>
             </div>
             <!-- Price End -->
-            <!-- Color Start -->
+            <!-- Categories Start -->
             <div class="border-bottom mb-4 pb-4">
-                <h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
+                <h5 class="font-weight-semi-bold mb-4">Filter by Categories</h5>
                 <form>
+                    <%
+                        for (Category category : categories) {
+                            String categoryName = category.getCategoryName();
+                            int categoryId = category.getCategoryId();
+                    %>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="color-all">
-                        <label class="custom-control-label" for="price-all">All Color</label>
+                        <input type="checkbox" class="custom-control-input" id="cat-<%=categoryId%>" name="categoryId"
+                                 value="<%=categoryId%>" <%= QuerycategoryId != null && QuerycategoryId.equals(String.valueOf(categoryId)) ? "checked" : "" %>/>
+                        <label class="custom-control-label" for="cat-<%=categoryId%>"><%=categoryName%></label>
                     </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-1">
-                        <label class="custom-control-label" for="color-1">Black</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-2">
-                        <label class="custom-control-label" for="color-2">White</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-3">
-                        <label class="custom-control-label" for="color-3">Red</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-4">
-                        <label class="custom-control-label" for="color-4">Blue</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="color-5">
-                        <label class="custom-control-label" for="color-5">Green</label>
-                    </div>
+                    <% } %>
                 </form>
             </div>
-            <!-- Color End -->
-            <!-- Size Start -->
-            <div class="mb-5">
-                <h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
-                <form>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="size-all">
-                        <label class="custom-control-label" for="size-all">All Size</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-1">
-                        <label class="custom-control-label" for="size-1">XS</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-2">
-                        <label class="custom-control-label" for="size-2">S</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-3">
-                        <label class="custom-control-label" for="size-3">M</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-4">
-                        <label class="custom-control-label" for="size-4">L</label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="size-5">
-                        <label class="custom-control-label" for="size-5">XL</label>
-                    </div>
-                </form>
-            </div>
-            <!-- Size End -->
         </div>
         <!-- Shop Sidebar End -->
         <!-- Shop Product Start -->
@@ -299,10 +248,10 @@
             <div class="row pb-3">
                 <div class="col-12 pb-1">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <form action="">
+                        <form action="${pageContext.request.contextPath}/product" method="get">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search by name">
-                                <div class="input-group-append">
+                                <input type="text" class="form-control" placeholder="Search by name" name="search">
+                                <div class="input-group-append" style="cursor: pointer" id="search_form">
                                         <span class="input-group-text bg-transparent text-primary">
                                             <img src="${pageContext.request.contextPath}/assets/Icons/search.png"
                                                  alt="search"
@@ -352,10 +301,6 @@
                                 <h6 class="text-truncate mb-3"><%= product.getProductName() %></h6>
                                 <div class="d-flex justify-content-center">
                                     <h6>Rs. <%= product.getProductPrice() %></h6>
-<%--                                    <h6 class="text-muted--%>
-<%--                                    ml-2">--%>
-<%--                                        <del>$<%= product.getProductPrice() %></del>--%>
-<%--                                    </h6>--%>
                                 </div>
                             </div>
                             <div class="card-footer bg-light border">
@@ -408,6 +353,24 @@
         position: 'top-right' // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
     });
 
+    document.getElementById('search_form').addEventListener('click', function () {
+        let search = document.querySelector('input[name="search"]').value;
+        window.location.href = '${pageContext.request.contextPath}/pages/shop.jsp?search=' + search;
+    });
+
+    document.getElementById('price-range').addEventListener('change', function () {
+        let minPrice = document.getElementById('price-range').value;
+        window.location.href = '${pageContext.request.contextPath}/pages/shop.jsp?minPrice=' + minPrice + '&maxPrice=' + <%=maxPrice%>;
+    });
+
+    document.querySelectorAll('input[name="categoryId"]').forEach(function (element) {
+        element.addEventListener('change', function () {
+            let categoryId = element.id.split('-')[1];
+            window.location.href = '${pageContext.request.contextPath}/pages/shop.jsp?categoryId=' + categoryId;
+        });
+    });
+
+
     function handleAddToCart(userId, productId, quantity) {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", '${pageContext.request.contextPath}/cart', true);
@@ -434,6 +397,24 @@
         };
         xhr.send('userId=' + userId + '&productId=' + productId + '&quantity=' + quantity);
     }
+
+    <%--function fetchProducts() {--%>
+    <%--    let xhr = new XMLHttpRequest();--%>
+    <%--    xhr.open("GET", '${pageContext.request.contextPath}/product', true);--%>
+    <%--    xhr.onreadystatechange = function () {--%>
+    <%--        console.log(xhr)--%>
+    <%--        if (xhr.readyState === 4) {--%>
+    <%--            if (xhr.status === 200) {--%>
+    <%--                let products = JSON.parse(xhr.responseText);--%>
+    <%--                <%=productList%> = products;--%>
+    <%--            }--%>
+    <%--        }--%>
+    <%--    };--%>
+    <%--    xhr.send();--%>
+    <%--}--%>
+
+    <%--fetchProducts()--%>
+    <%--console.log(<%=productList%>)--%>
 
     function fetchUpdatedCartSize(userId){
         let xhr = new XMLHttpRequest();

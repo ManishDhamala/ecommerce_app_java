@@ -1,11 +1,15 @@
 package com.icp.gadgets.controller.servlet.product;
 
 import java.io.*;
+import java.util.List;
 import java.util.UUID;
 
+import com.google.gson.Gson;
 import com.icp.gadgets.doa.ImageDoa;
 import com.icp.gadgets.doa.ProductDoa;
+import com.icp.gadgets.model.Product;
 import com.icp.gadgets.utils.StringUtils;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -22,18 +26,57 @@ public class product extends HttpServlet {
         message = "Hello World!";
     }
 
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
+        String strMinPrice = request.getParameter("minPrice");
+        String strMaxPrice = request.getParameter("maxPrice");
+        String strCategoryId = request.getParameter("categoryId");
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
+        Gson gson = new Gson();
+
+        int minPrice = 0;
+        int maxPrice = 0;
+        int categoryId = 0;
+        if(strMinPrice != null && !strMinPrice.isEmpty()){
+            minPrice = Integer.parseInt(strMinPrice);
+        }
+        if(strMaxPrice != null && !strMaxPrice.isEmpty()){
+            maxPrice = Integer.parseInt(strMaxPrice);
+        }
+        if(strCategoryId != null && !strCategoryId.isEmpty()){
+            categoryId = Integer.parseInt(strCategoryId);
+        }
+        String search = request.getParameter("search");
+        if(search == null || search.isEmpty()){
+            search = "";
+        }
+        if(minPrice == 0 && maxPrice == 0 && categoryId == 0 && search.isEmpty()){
+            List<Product> products = new ProductDoa().getAllProducts();
+            String productsJson = gson.toJson(products);
+//            response.getWriter().write(productsJson);
+
+        }else if(minPrice != 0 && maxPrice != 0 && categoryId != 0) {
+            List<Product> products = new ProductDoa().getProductsByCategoryAndPrice(minPrice, maxPrice, categoryId);
+            String productsJson = gson.toJson(products);
+//            response.getWriter().write(productsJson);
+        } else if (minPrice != 0 && maxPrice != 0) {
+            List<Product> products = new ProductDoa().getProductsByPrice(minPrice, maxPrice);
+            String productsJson = gson.toJson(products);
+//            response.getWriter().write(productsJson);
+        } else if (categoryId != 0) {
+            List<Product> products = new ProductDoa().getProductsByCategory(categoryId);
+            String productsJson = gson.toJson(products);
+//            response.getWriter().write(productsJson);
+        } else {
+            List<Product> products = new ProductDoa().getProductByName(search);
+            String productsJson = gson.toJson(products);
+//            response.getWriter().write(productsJson);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("text/html");
+        response.setContentType("application/json");
         String methodName = request.getParameter("_method");
         if(methodName != null && methodName.equalsIgnoreCase("PUT")) {
             doPut(request, response);
@@ -41,7 +84,6 @@ public class product extends HttpServlet {
             doDelete(request, response);
         }
         else {
-
             String productName = request.getParameter("productName");
             String productDescription = request.getParameter("productDesc");
             String productPriceStr = request.getParameter("productPrice");
