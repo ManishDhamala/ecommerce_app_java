@@ -150,6 +150,10 @@
 <body>
 <jsp:include page="adminheader.jsp"/>
 <%
+    HttpSession isSession = request.getSession(false);
+    if (isSession == null || isSession.getAttribute("user") == null || !isSession.getAttribute("userRole").equals("ADMIN")) {
+        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+    }
     OrderDoa orderDoa = new OrderDoa();
     List<Order> orders = orderDoa.getAllOrders();
     UserDoa userDoa = new UserDoa();

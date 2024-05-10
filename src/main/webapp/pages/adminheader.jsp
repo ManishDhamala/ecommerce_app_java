@@ -32,17 +32,9 @@
 
             </ul>
             <ul class="navbar-nav ms-auto ">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="${pageContext.request.contextPath}/assets/Icons/user.png" alt="user"
-                             style="width: 20px;height: 20px;">
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div>
+                <form  action="<%=request.getContextPath()%>/logout-servlet" method="post">
+                    <input class="nav-link mx-2 text-black font-weight-medium text-uppercase register-btn" type="submit" value="Logout">
+                </form>
             </ul>
         </div>
     </div>
