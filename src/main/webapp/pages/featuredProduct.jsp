@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/global.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/shop.styles.css">
     <script src="${pageContext.request.contextPath}/script/toast.script.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/css/mostSellingProduct.styles.css">
     <style>
         #add_to_cart_btn:hover {
             cursor: pointer;
@@ -243,6 +244,62 @@
         </div>
     </div>
         </div>
+
+
+<div class="row mb-5">
+    <div class="col-lg-12 text-center ">
+        <h2 class="text-black fs-1 font-weight-bold mt-5">Most Selling <span class="text-warning">Product.</span></h2>
+    </div>
+</div>
+
+<section class="product">
+    <div class="product__photo">
+        <div class="photo-container">
+            <div class="photo-main" style="padding: 5px; top: -4rem">
+                <%
+                    String imgPath = img.getImgURLByProductId(mostSoldProduct.getProductId());
+                    String imgUri;
+                    if (imgPath == null) {
+                        imgUri = "../images/placeholder.png";
+                    }
+                    else {
+                        imgUri = request.getContextPath() +"/images/"+  new Helper().extractFileName(imgPath);
+                    }
+                %>
+
+                <img src="<%=imgUri%>" alt="green apple slice" style="top: -4rem; padding: 2px">
+            </div>
+
+        </div>
+    </div>
+    <div class="product__info">
+        <div class="title">
+            <h1>
+                <%= mostSoldProduct.getProductName() %>
+            </h1>
+
+        </div>
+        <div class="price">
+            RS <%= mostSoldProduct.getProductPrice() %>
+        </div>
+
+        <div class="description">
+            <h3>Features</h3>
+
+                <p>
+                    <%= mostSoldProduct.getProductDescription() %>
+                </p>
+
+        </div>
+        <button class="buy--btn"
+                onclick="handleAddToCart(
+                    <%= userId %>,
+                    <%= mostSoldProduct.getProductId() %>,
+                    1
+                    )"
+        >ADD TO CART</button>
+    </div>
+</section>
 
 <script>
     const toasts = new Toasts({
