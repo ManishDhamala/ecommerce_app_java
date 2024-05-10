@@ -1,4 +1,11 @@
-<%--
+<%@ page import="com.icp.gadgets.doa.ProductDoa" %>
+<%@ page import="com.icp.gadgets.model.Product" %>
+<%@ page import="com.icp.gadgets.doa.ImageDoa" %>
+<%@ page import="com.icp.gadgets.utils.Helper" %>
+<%@ page import="com.icp.gadgets.model.User" %>
+<%@ page import="com.icp.gadgets.doa.Cartdoa" %>
+<%@ page import="com.icp.gadgets.model.CartItem" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: himalpun
   Date: 03/04/2024
@@ -10,6 +17,138 @@
 <head>
     <title>Single Product</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/global.css">
+    <link rel="stylesheet" href="../styles/css/shop.styles.css">
+    <script src="../script/toast.script.js"></script>
+    <style>
+        #add_to_cart_btn:hover {
+            cursor: pointer;
+            color: white;
+        }
+        .toast-notification {
+            position: fixed;
+            text-decoration: none;
+            z-index: 999999;
+            max-width: 300px;
+            background-color: #fff;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);
+            border-radius: 4px;
+            display: flex;
+            padding: 10px;
+            transform: translate(0, -150%);
+        }
+        .toast-notification .toast-notification-wrapper {
+            flex: 1;
+            padding-right: 10px;
+            overflow: hidden;
+        }
+        .toast-notification .toast-notification-wrapper .toast-notification-header {
+            padding: 0 0 5px 0;
+            margin: 0;
+            font-weight: 500;
+            font-size: 14px;
+            word-break: break-all;
+            color: #4f525a;
+        }
+        .toast-notification .toast-notification-wrapper .toast-notification-content {
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            word-break: break-all;
+            color: #4f525a;
+        }
+        .toast-notification .toast-notification-close {
+            appearance: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 24px;
+            padding-bottom: 4px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-top-center {
+            transform: translate(calc(50vw - 50%), -150%);
+        }
+        .toast-notification.toast-notification-bottom-left, .toast-notification.toast-notification-bottom-right {
+            transform: translate(0, 150%);
+        }
+        .toast-notification.toast-notification-bottom-center {
+            transform: translate(calc(50vw - 50%), 150%);
+        }
+        .toast-notification.toast-notification-dark {
+            background-color: #2d2e31;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-wrapper .toast-notification-header {
+            color: #edeff3;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-wrapper .toast-notification-content {
+            color: #edeff3;
+        }
+        .toast-notification.toast-notification-dark .toast-notification-close {
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .toast-notification.toast-notification-dark .toast-notification-close:hover {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .toast-notification.toast-notification-success {
+            background-color: #C3F3D7;
+            border-left: 4px solid #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-wrapper .toast-notification-header {
+            color: #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-wrapper .toast-notification-content {
+            color: #51a775;
+        }
+        .toast-notification.toast-notification-success .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-success .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-error {
+            background-color: #f3c3c3;
+            border-left: 4px solid #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-wrapper .toast-notification-header {
+            color: #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-wrapper .toast-notification-content {
+            color: #a75151;
+        }
+        .toast-notification.toast-notification-error .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-error .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-verified {
+            background-color: #d0eaff;
+            border-left: 4px solid #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-wrapper .toast-notification-header {
+            color: #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-wrapper .toast-notification-content {
+            color: #6097b8;
+        }
+        .toast-notification.toast-notification-verified .toast-notification-close {
+            color: rgba(0, 0, 0, 0.2);
+        }
+        .toast-notification.toast-notification-verified .toast-notification-close:hover {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .toast-notification.toast-notification-dimmed {
+            opacity: .3;
+        }
+        .toast-notification.toast-notification-dimmed:hover, .toast-notification.toast-notification-dimmed:active {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
 <%--Header--%>
@@ -17,6 +156,32 @@
 
 <%--Single Product--%>
 <!-- content -->
+
+<%
+    String productId = request.getParameter("productId");
+    Product product = null;
+    List<Product> recProduct = null;
+    if(productId == null || productId.isEmpty()){
+        response.sendRedirect(request.getContextPath() + "/pages/shop.jsp");
+    }else {
+        ProductDoa productDoa = new ProductDoa();
+        product = productDoa.getProductById(Integer.parseInt(productId));
+        recProduct = productDoa.getRecomendedProduct(Integer.parseInt(productId));
+    }
+    User user = (User) session.getAttribute("user");
+    String userId = session.getAttribute("userId") == null ? null : session.getAttribute("userId").toString();
+    int cartSize = 0;
+    if (user != null) {
+        request.setAttribute("user", user);
+        Cartdoa cartdoa = new Cartdoa();
+        List<CartItem> cartItems = cartdoa.getCartItemByUserID(user.getId());
+        cartSize = cartItems.size();
+    }
+
+    ImageDoa img = new ImageDoa();
+%>
+
+
 <section class="py-5">
     <div class="container">
         <div class="row gx-5">
@@ -24,266 +189,165 @@
                 <div class="border rounded-4 mb-3 d-flex justify-content-center">
                     <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
                        href="">
-                        <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
-                             src="../assets/keyboard.jpg"/>
+                        <%
+                            String imgPath = img.getImgURLByProductId(Integer.parseInt(productId));
+                            String imgUri;
+                            if (imgPath == null) {
+                                imgUri = "../images/placeholder.png";
+                            }
+                            else {
+                                imgUri = request.getContextPath() +"/images/"+  new Helper().extractFileName(imgPath);
+                            }
+                        %>
+                        <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 "
+                             src="<%=imgUri%>"/>
                     </a>
                 </div>
                 <!-- thumbs-wrap.// -->
                 <!-- gallery-wrap .end// -->
             </aside>
-            <main class="col-lg-6">
+            <main class="col-lg-6 ">
                 <div class="ps-lg-3">
                     <h4 class="title text-dark">
-                        Quality Men's Hoodie for Winter, Men's Fashion <br/>
-                        Casual Hoodie
+                        <%=product.getProductName()%>
                     </h4>
 
                     <div class="mb-3">
-                        <span class="h5">$75.00</span>
-                        <span class="text-muted">/per box</span>
+                        <span class="h5">Rs. <%=product.getProductPrice()%></span>
+
                     </div>
 
                     <p>
-                        Modern look and quality demo item is a streetwear-inspired collection that continues to break
-                        away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing
-                        low-top shirts for
-                        men.
+                        <%=product.getProductDescription()%>
                     </p>
-
-                    <div class="row">
-                        <dt class="col-3">Type:</dt>
-                        <dd class="col-9">Regular</dd>
-
-                        <dt class="col-3">Color</dt>
-                        <dd class="col-9">Brown</dd>
-
-                        <dt class="col-3">Material</dt>
-                        <dd class="col-9">Cotton, Jeans</dd>
-
-                        <dt class="col-3">Brand</dt>
-                        <dd class="col-9">Reebook</dd>
-                    </div>
-
                     <hr/>
 
-                    <div class="row mb-4">
-                        <div class="col-md-4 col-6">
-                            <label class="mb-2">Size</label>
-                            <select class="form-select border border-secondary" style="height: 35px;">
-                                <option>Small</option>
-                                <option>Medium</option>
-                                <option>Large</option>
-                            </select>
-                        </div>
-                        <!-- col.// -->
-                        <div class="col-md-4 col-6 mb-3">
-                            <label class="mb-2 d-block">Quantity</label>
-                            <div class="input-group mb-3" style="width: 170px;">
-                                <button class="btn btn-white border border-secondary px-3" type="button"
-                                        id="button-addon1" data-mdb-ripple-color="dark">
-                                    -
-                                </button>
-                                <input type="text" class="form-control text-center border border-secondary"
-                                       placeholder="14" aria-label="Example text with button addon"
-                                       aria-describedby="button-addon1"/>
-                                <button class="btn btn-white border border-secondary px-3" type="button"
-                                        id="button-addon2" data-mdb-ripple-color="dark">
-                                    +
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
+                    <div class="row mb-4 d-flex gap-3">
                     <a href="#" class="btn btn-primary shadow-0"> <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px"/>Add to carts
                     </a>
-                    <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i
-                            class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                    </div>
                 </div>
+
             </main>
         </div>
     </div>
 </section>
 <!-- content -->
-
-<section class="bg-light border-top py-4">
-    <div class="container">
-        <div class="row gx-4">
-            <div class="col-lg-8 mb-4">
-                <div class="border rounded-2 px-3 py-2 bg-white">
-                    <!-- Pills navs -->
-                    <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-                        <li class="nav-item d-flex" role="presentation">
-                            <a class="nav-link d-flex align-items-center justify-content-center w-100 active"
-                               id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab"
-                               aria-controls="ex1-pills-1" aria-selected="true">Specification</a>
-                        </li>
-                    </ul>
-                    <!-- Pills navs -->
-
-                    <!-- Pills content -->
-                    <div class="tab-content" id="ex1-content">
-                        <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel"
-                             aria-labelledby="ex1-tab-1">
-                            <p>
-                                With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor
-                                sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                dolore eu fugiat nulla
-                                pariatur.
-                            </p>
-                            <div class="row mb-2">
-                                <div class="col-12 col-md-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><i class="fas fa-check text-success me-2"></i>Some great feature name here
-                                        </li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Lorem ipsum dolor sit amet,
-                                            consectetur
-                                        </li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Duis aute irure dolor in
-                                            reprehenderit
-                                        </li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Optical heart sensor</li>
-                                    </ul>
-                                </div>
-                                <div class="col-12 col-md-6 mb-0">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fas fa-check text-success me-2"></i>Easy fast and ver good</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Some great feature name here
-                                        </li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Modern style and design</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <table class="table border mt-3 mb-2">
-                                <tr>
-                                    <th class="py-2">Display:</th>
-                                    <td class="py-2">13.3-inch LED-backlit display with IPS</td>
-                                </tr>
-                                <tr>
-                                    <th class="py-2">Processor capacity:</th>
-                                    <td class="py-2">2.3GHz dual-core Intel Core i5</td>
-                                </tr>
-                                <tr>
-                                    <th class="py-2">Camera quality:</th>
-                                    <td class="py-2">720p FaceTime HD camera</td>
-                                </tr>
-                                <tr>
-                                    <th class="py-2">Memory</th>
-                                    <td class="py-2">8 GB RAM or 16 GB RAM</td>
-                                </tr>
-                                <tr>
-                                    <th class="py-2">Graphics</th>
-                                    <td class="py-2">Intel Iris Plus Graphics 640</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-                            Tab content or sample information now <br/>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                            sunt in culpa qui
-                            officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                            ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        </div>
-                        <div class="tab-pane fade mb-2" id="ex1-pills-3" role="tabpanel" aria-labelledby="ex1-tab-3">
-                            Another tab content or sample information now <br/>
-                            Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                            ut aliquip ex ea
-                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt
-                            mollit anim id est laborum.
-                        </div>
-                        <div class="tab-pane fade mb-2" id="ex1-pills-4" role="tabpanel" aria-labelledby="ex1-tab-4">
-                            Some other tab content or sample information now <br/>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                            sunt in culpa qui
-                            officia deserunt mollit anim id est laborum.
-                        </div>
-                    </div>
-                    <!-- Pills content -->
+<div class="row  mx-5">
+    <div class="col-12 mb-4">
+        <h3 class="text-center">Recommended Products</h3>
+    </div>
+    <%
+        if(recProduct !=null && !recProduct.isEmpty()){
+    %>
+    <% for (Product productList : recProduct) { %>
+    <%
+        String imgPath2 = img.getImgURLByProductId(productList.getProductId());
+        String imgUri2;
+        if (imgPath2 == null) {
+            imgUri2 = "../images/placeholder.png";
+        }
+        else {
+            imgUri2 = request.getContextPath() +"/images/"+  new Helper().extractFileName(imgPath2);
+        }
+    %>
+    <div class="col-sm pb-1">
+        <div class="card product-item border-0 mb-4">
+            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0 " style="cursor:pointer;">
+                <img class="img-fluid " style="width: 100%;height: 40vh; object-fit: cover"  src="<%= imgUri2 %>" alt=<%=productList.getProductName()%>
+                        onError="this.onerror=null;this.src='../images/placeholder.png';"
+                >
+            </div>
+            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                <h6 class="text-truncate mb-3">
+                    <%= productList.getProductName() %>
+                </h6>
+                <div class="d-flex justify-content-center">
+                    <h6>Rs. <%= productList.getProductPrice() %></h6>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="px-0 border rounded-2 shadow-0">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Similar items</h5>
-                            <div class="d-flex mb-3">
-                                <a href="#" class="me-3">
-                                    <img src="../assets/joystick.jpg"
-                                         alt="Joystick"
-                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail"/>
-                                </a>
-                                <div class="info">
-                                    <a href="#" class="nav-link mb-1">
-                                        Rucksack Backpack Large <br/>
-                                        Line Mounts
-                                    </a>
-                                    <strong class="text-dark"> $38.90</strong>
-                                </div>
-                            </div>
+            <div class="card-footer bg-light border">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="${pageContext.request.contextPath}/pages/SingleProduct.jsp?productId=<%=productList.getProductId()%>" class="btn d-flex align-items-center px-2  py-1  gap-2 " id="" style="background:#ffc107;">
+                            <img src="../assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px; ">
+                            View Detail
+                        </a>
+                    </div>
 
-                            <div class="d-flex mb-3">
-                                <a href="#" class="me-3">
-                                    <img src="../assets/joystick.jpg"
-                                         alt="Joystick"
-                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail"/>
-                                </a>
-                                <div class="info">
-                                    <a href="#" class="nav-link mb-1">
-                                        Summer New Men's Denim <br/>
-                                        Jeans Shorts
-                                    </a>
-                                    <strong class="text-dark"> $29.50</strong>
-                                </div>
-                            </div>
-
-                            <div class="d-flex mb-3">
-                                <a href="#" class="me-3">
-                                    <img src="../assets/joystick.jpg"
-                                         alt="Joystick"
-                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail"/>
-                                </a>
-                                <div class="info">
-                                    <a href="#" class="nav-link mb-1"> T-shirts with multiple colors, for men and
-                                        lady </a>
-                                    <strong class="text-dark"> $120.00</strong>
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
-                                <a href="#" class="me-3">
-                                    <img src="../assets/joystick.jpg"
-                                         alt="Joystick"
-                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail"/>
-                                </a>
-                                <div class="info">
-                                    <a href="#" class="nav-link mb-1"> Blazer Suit Dress Jacket for Men, Blue color </a>
-                                    <strong class="text-dark"> $339.90</strong>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-6">
+                        <button onclick="handleAddToCart(
+                            <%= userId %>,
+                            <%= productList.getProductId() %>,
+                                1
+                                )"  class="btn d-flex align-items-center px-2 py-1  gap-1 " id="add_to_cart_btn" style="background:#ffc107;">
+                            <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px;">
+                            Add To Cart
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+
+    <% } %>
+    <% } else { %>
+    <div class="col-12">
+        <p>No products available</p>
+    </div>
+    <% }%>
+</div>
 
 <%--Footer--%>
 <jsp:include page="footer.jsp"/>
+
+<script>
+    const toasts = new Toasts({
+        width: 300,
+        timing: 'ease',
+        duration: '.5s',
+        dimOld: false,
+        position: 'top-right' // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
+    });
+    function handleAddToCart(userId, productId, quantity) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", '${pageContext.request.contextPath}/cart', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    fetchUpdatedCartSize(userId);
+                    toasts.push({
+                        title: 'Success',
+                        content: 'Product added to cart',
+                        style: 'success'
+                    });
+                } else if (xhr.status === 404) {
+                    window.location.href = '${pageContext.request.contextPath}/pages/login.jsp';
+                }else {
+                    toasts.push({
+                        title: 'Error',
+                        content: 'Failed to add product to cart',
+                        style: 'error'
+                    });
+                }
+            }
+        };
+        xhr.send('userId=' + userId + '&productId=' + productId + '&quantity=' + quantity);
+    }
+
+    function fetchUpdatedCartSize(userId){
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", '${pageContext.request.contextPath}/cart?userId=' + userId, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    document.getElementById("cart_counter").innerText = xhr.response;
+                }
+            }
+        };
+        xhr.send();
+    }
+</script>
 </body>
 </html>

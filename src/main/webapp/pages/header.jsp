@@ -23,10 +23,11 @@
 <%
    int cartSize = 0;
 //    HttpSession session = request.getSession(false);
-    if (session != null && session.getAttribute("user") != null) {
+    if (session != null && session.getAttribute("user") != null || session.getAttribute("userId") != null){
         Cartdoa cartdoa = new Cartdoa();
         User user = (User) session.getAttribute("user");
-        List<CartItem> cartItems = cartdoa.getCartItemByUserID(user.getId());
+        int userId = (int) session.getAttribute("userId");
+        List<CartItem> cartItems = cartdoa.getCartItemByUserID(userId);
         cartSize = cartItems.size();
 
     } else {

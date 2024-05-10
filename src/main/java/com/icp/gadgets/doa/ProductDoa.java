@@ -178,6 +178,30 @@ public class ProductDoa {
         return product;
     }
 
+    public  List<Product> getRecomendedProduct(int productId){
+        List<Product> products = new ArrayList<>();
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_RECOMENDED_PRODUCT);
+            st.setInt(1, productId);
+            st.setInt(2, productId);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Product product = new Product();
+                product.setProductId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setProductPrice(rs.getInt("price"));
+                product.setProductDescription(rs.getString("desc"));
+                product.setCategoryId(rs.getInt("category_id"));
+                products.add(product);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return products;
+    }
+
     public  List<Product> getProductByName(String name){
         List<Product> products = new ArrayList<>();
         try(Connection con = new DatabaseController().getConnection()) {
