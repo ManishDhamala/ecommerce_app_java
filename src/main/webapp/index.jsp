@@ -20,7 +20,7 @@
 <jsp:include page="pages/featuredProduct.jsp"/>
 <%--featuredProduct end --%>
 <%--mostsellingProduct--%>
-<jsp:include page="pages/mostSellingProduct.jsp"/>
+<%--<jsp:include page="pages/mostSellingProduct.jsp"/>--%>
 <%--mostsellingproductend--%>
 <%--footer--%>
 <jsp:include page="pages/footer.jsp"/>
