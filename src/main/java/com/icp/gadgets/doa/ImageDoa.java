@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public class ImageDoa {
     public String SaveImageToFile(Part filePart, String fileName, String fileExtension) throws IOException {
-        String uploadDir = "/Users/himalpun/Library/CloudStorage/OneDrive-LondonMetropolitanUniversity/College/2nd Sem/Advance Programming/blaxboxgadgets/src/main/webapp/images";
+        String uploadDir = "/Users/himalpun/Library/CloudStorage/OneDrive-LondonMetropolitanUniversity/College/2nd Sem/Advance Programming/Java_CW/src/main/webapp/images";
         File uploadDirFile = new File(uploadDir);
         if (!uploadDirFile.exists()) uploadDirFile.mkdirs();
         try(InputStream input = filePart.getInputStream()) {

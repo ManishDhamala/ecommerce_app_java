@@ -8,6 +8,7 @@ public class StringUtils {
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'USER') ";
 
     public static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
+    public static final String GET_USER_BY_ID = "SELECT * FROM users WHERE user_id = ?";
     public static final String GET_LOGIN_USER_INFO = "SELECT * FROM users WHERE username = ? AND password = ?";
 
     public  static  final String INSET_CATEGORY = "INSERT INTO categories (name) VALUES (?)";
@@ -119,9 +120,9 @@ public class StringUtils {
 
     public static final String SELECT_CART_COUNT = "SELECT COUNT(*) AS count FROM cart WHERE user_id = ?";
 
-    public static final String DELETE_ORDER_ITEM  = "DELETE FROM orderItems WHERE order_id = ? AND order_item_id = ?";
+    public static final String DELETE_ORDER_ITEM  = "DELETE FROM orderItems WHERE order_id = ?";
     public static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id = ?";
-    public static final String UPDATE_ORDER = "UPDATE orders SET orderStatus = ?, paymentStatus = ?, totalAmount = ? WHERE order_id = ?";
+    public static final String UPDATE_ORDER = "UPDATE orders SET orderStatus = ?, paymentStatus = ? WHERE order_id = ?";
 
     public static final String GET_ORDERS = "SELECT * FROM orders";
     public static final String GET_ORDER_ITEMS = "SELECT * FROM orderItems WHERE order_id = ?";

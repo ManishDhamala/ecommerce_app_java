@@ -77,6 +77,7 @@ public class TransactionalDoa {
                 }
             }
         }
+        System.out.println(salesList);
         System.out.println("Weekly sales data retrieved"+salesList.size());
         return salesList;
     }

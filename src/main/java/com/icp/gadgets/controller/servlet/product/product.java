@@ -59,6 +59,7 @@ public class product extends HttpServlet {
             String fileName = UUID.randomUUID().toString(); // Generate a unique filename
             String fileExtension = new ImageDoa().getFileExtension(filePart); // Get the file extension
             String filePath = new ImageDoa().SaveImageToFile(filePart, fileName, fileExtension); // Save the image to the file system
+            System.out.println("File Path: " + filePath);
             if (filePath == null) {
                 response.sendRedirect(request.getContextPath() + "/pages/adminproduct.jsp?" + StringUtils.ERROR_MESSAGE + "=Error Adding Image. Please try again.");
             } else {

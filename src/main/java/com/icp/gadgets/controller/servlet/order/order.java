@@ -83,11 +83,12 @@ public class order extends HttpServlet {
         String orderStatus = request.getParameter("orderStatus");
         String paymentStatus = request.getParameter("paymentStatus");
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        int totalAmount = Integer.parseInt(request.getParameter("totalAmount"));
+//        int totalAmount = Integer.parseInt(request.getParameter("totalAmount"));
 
-        int result = orderDoa.updateOrder(orderId, orderStatus, paymentStatus, totalAmount);
+        int result = orderDoa.updateOrder(orderId, orderStatus, paymentStatus);
         if(result > 0){
-            response.setStatus(200);
+//            response.setStatus(200);
+            response.sendRedirect(request.getContextPath() + "/pages/adminorder.jsp?"+StringUtils.SUCCESS_MESSAGE+"=Order updated successfully");
         }else {
             response.setStatus(500);
         }
@@ -98,7 +99,7 @@ public class order extends HttpServlet {
         int orderItemId = Integer.parseInt(request.getParameter("orderItemId"));
         int result = orderDoa.deleteOrder(orderId, orderItemId);
         if(result > 0){
-            response.setStatus(200);
+            response.sendRedirect(request.getContextPath() + "/pages/adminorder.jsp?"+StringUtils.SUCCESS_MESSAGE+"=Order deleted successfully");
         }else {
             response.setStatus(500);
         }
