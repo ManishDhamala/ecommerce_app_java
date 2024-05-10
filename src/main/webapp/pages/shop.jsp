@@ -196,10 +196,10 @@
 <%--header end--%>
 
 <!-- Page Header Start -->
-<div class="container-fluid bg-secondary mb-5">
-    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-        <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
-        <div class="d-inline-flex">
+<div class="container-fluid bg-secondary mb-5" style=" background: url('../assets/headphonemain.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center;  ">
+    <div class="d-flex flex-column align-items-center justify-content-center " style="min-height: 300px;" >
+        <h1 class="font-weight-semi-bold text-uppercase mb-3" style="color: white">Our Shop</h1>
+        <div class="d-inline-flex" style="color: white">
             <p class="m-0 "><a href="../index.jsp" class="text-primary">Home</a></p>
             <p class="m-0 px-2">-</p>
             <p class="m-0">Shop</p>
@@ -398,24 +398,6 @@
         xhr.send('userId=' + userId + '&productId=' + productId + '&quantity=' + quantity);
     }
 
-    <%--function fetchProducts() {--%>
-    <%--    let xhr = new XMLHttpRequest();--%>
-    <%--    xhr.open("GET", '${pageContext.request.contextPath}/product', true);--%>
-    <%--    xhr.onreadystatechange = function () {--%>
-    <%--        console.log(xhr)--%>
-    <%--        if (xhr.readyState === 4) {--%>
-    <%--            if (xhr.status === 200) {--%>
-    <%--                let products = JSON.parse(xhr.responseText);--%>
-    <%--                <%=productList%> = products;--%>
-    <%--            }--%>
-    <%--        }--%>
-    <%--    };--%>
-    <%--    xhr.send();--%>
-    <%--}--%>
-
-    <%--fetchProducts()--%>
-    <%--console.log(<%=productList%>)--%>
-
     function fetchUpdatedCartSize(userId){
         let xhr = new XMLHttpRequest();
         xhr.open("GET", '${pageContext.request.contextPath}/cart?userId=' + userId, true);
@@ -428,8 +410,6 @@
         };
         xhr.send();
     }
-
-
 </script>
 <script src="../script/myscript.js"></script>
 </body>
