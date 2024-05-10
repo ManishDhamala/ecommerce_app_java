@@ -159,6 +159,25 @@ public class ProductDoa {
         return products;
     }
 
+    public Product getMostSellingProduct(){
+        Product product = new Product();
+        try(Connection con = new DatabaseController().getConnection()) {
+            PreparedStatement st = con.prepareStatement(StringUtils.GET_MOST_ONE_MOST_SELLING_PRODUCT);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                product.setProductId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setProductPrice(rs.getInt("price"));
+                product.setProductDescription(rs.getString("desc"));
+                product.setCategoryId(rs.getInt("category_id"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return product;
+    }
+
     public  List<Product> getProductByName(String name){
         List<Product> products = new ArrayList<>();
         try(Connection con = new DatabaseController().getConnection()) {
