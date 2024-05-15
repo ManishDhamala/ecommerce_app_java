@@ -203,6 +203,7 @@ public class ProductDoa {
     }
 
     public  List<Product> getProductByName(String name){
+        System.out.println(name);
         List<Product> products = new ArrayList<>();
         try(Connection con = new DatabaseController().getConnection()) {
             PreparedStatement st = con.prepareStatement(StringUtils.GET_PRODUCT_BY_NAME);
@@ -221,6 +222,7 @@ public class ProductDoa {
             e.printStackTrace();
             return null;
         }
+        System.out.println(products.size());
         return products;
     }
 

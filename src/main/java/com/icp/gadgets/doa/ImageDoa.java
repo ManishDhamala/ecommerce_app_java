@@ -3,7 +3,6 @@ package com.icp.gadgets.doa;
 import com.icp.gadgets.controller.servlet.DatabaseController;
 import com.icp.gadgets.utils.StringUtils;
 import jakarta.servlet.http.Part;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +26,8 @@ public class ImageDoa {
             e.printStackTrace();
             return null;
         }
-
     }
+
     public String getFileExtension(Part part) {
         String contentType = part.getContentType();
         System.out.println("Content Type: " + contentType);

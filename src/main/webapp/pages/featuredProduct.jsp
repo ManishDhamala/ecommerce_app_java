@@ -210,7 +210,7 @@
                 <div class="card-footer bg-light border">
                     <div class="row">
                         <div class="col-6">
-                            <a href="#" class="btn d-flex align-items-center px-2  py-1  gap-2 " id="" style="background:#ffc107;">
+                            <a href="${pageContext.request.contextPath}/pages/SingleProduct.jsp?productId=<%=product.getProductId()%>" class="btn d-flex align-items-center px-2  py-1  gap-2 " id="" style="background:#ffc107;">
                                 <img src="${pageContext.request.contextPath}/assets/Icons/eye.png" alt="carts" style="width: 20px;height: 20px; ">
                                 View Detail
                             </a>
