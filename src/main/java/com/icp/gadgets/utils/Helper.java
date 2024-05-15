@@ -49,7 +49,6 @@ public class Helper {
                 return "#F39C12";
         }
     }
-
     public  String extractFileName(String imgUrl) {
         // Split the URL by "/"
         String[] parts = imgUrl.split("/");
@@ -60,8 +59,6 @@ public class Helper {
         // Return the filename
         return fileName;
     }
-
-
     public  String getAPiSecret(String message) throws NoSuchAlgorithmException, InvalidKeyException {
         System.out.println("Message: " + message);
         String secret = "8gBm/:&EnhH.1/q";

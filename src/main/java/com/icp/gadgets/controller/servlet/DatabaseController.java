@@ -28,7 +28,6 @@ public class DatabaseController {
         try (Connection con = getConnection()) {
 
             PreparedStatement st = con.prepareStatement(StringUtils.INSERT_USER);
-
             st.setString(1, user.getFullName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPhoneNumber());
@@ -38,8 +37,6 @@ public class DatabaseController {
             st.setString(6, Encryption.encrypt(user.getPassword()));
             st.setString(7, user.getGender());
             st.setString(8, user.getAddress());
-
-
 
 
             int result = st.executeUpdate();

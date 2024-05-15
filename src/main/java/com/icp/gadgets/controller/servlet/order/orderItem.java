@@ -55,8 +55,6 @@ public class orderItem extends HttpServlet {
                     + "</p>");
             response.getWriter().println("  </div>");
 
-
-
         }
     }
 

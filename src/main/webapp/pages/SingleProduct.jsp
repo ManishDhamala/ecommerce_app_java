@@ -222,10 +222,15 @@
                     </p>
                     <hr/>
 
-                    <div class="row mb-4 d-flex gap-3">
-                    <a href="#" class="btn btn-primary shadow-0"> <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px"/>Add to carts
-                    </a>
-                    </div>
+                        <button onclick="handleAddToCart(
+                            <%= userId %>,
+                            <%= product.getProductId() %>,
+                                1
+                                )"  class="btn d-flex align-items-center px-2 py-1  gap-1 "  style="background:#ffc107;">
+                            <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px;">
+                            Add To Cart
+                        </button>
+
                 </div>
 
             </main>
@@ -275,16 +280,18 @@
                         </a>
                     </div>
 
-                    <div class="col-6">
-                        <button onclick="handleAddToCart(
-                            <%= userId %>,
-                            <%= productList.getProductId() %>,
-                                1
-                                )"  class="btn d-flex align-items-center px-2 py-1  gap-1 " id="add_to_cart_btn" style="background:#ffc107;">
-                            <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px;">
-                            Add To Cart
-                        </button>
-                    </div>
+
+                        <div class="col-6">
+                            <button onclick="handleAddToCart(
+                                <%= userId %>,
+                                <%= product.getProductId() %>,
+                                    1
+                                    )"  class="btn d-flex align-items-center px-2 py-1  gap-1 " id="add_to_cart_btn" style="background:#ffc107;">
+                                <img src="../assets/Icons/shopping-bag.png" alt="carts" style="width: 20px;height: 20px;">
+                                Add To Cart
+                            </button>
+                        </div>
+
                 </div>
             </div>
         </div>

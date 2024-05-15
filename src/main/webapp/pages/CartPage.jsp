@@ -512,8 +512,6 @@
         return amount * 100;
     }
 
-
-
     function handlePayWithKhalti() {
         let cartItems = []
         let total = 0;
@@ -569,7 +567,6 @@
                 formData.append('signed_field_names', 'total_amount,transaction_uuid,product_code');
                 formData.append('tax_amount', '0');
                 formData.append('amount', total.toString())
-
                 var path = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form'
                 var form = document.createElement("form");
                 form.setAttribute("method", "post");
@@ -584,6 +581,7 @@
                 }
                 document.body.appendChild(form);
                 form.submit();
+
             } else if (xhr.status === 500) {
                 toasts.push({
                     title: 'Error!',

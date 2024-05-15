@@ -173,6 +173,7 @@
     ProductDoa pd = new ProductDoa();
     List<Product> productList = pd.getAllProducts();
     if (searchQuery != null) {
+        System.out.println("search query: " + searchQuery);
         productList = pd.getProductByName(searchQuery);
     }
     if (QuerycategoryId != null) {

@@ -101,7 +101,7 @@ public static final  String GET_RECOMENDED_PRODUCT = "SELECT * FROM products WHE
 
     public static final String GET_PRODUCT_BY_PRICE = "SELECT * FROM products WHERE price BETWEEN ? AND ?";
 
-    public static final String GET_PRODUCT_BY_NAME = "SELECT * FROM products WHERE name LIKE ?";
+    public static final String GET_PRODUCT_BY_NAME = "SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?)";
 
     public static final String GET_MOST_ONE_MOST_SELLING_PRODUCT = "SELECT p.product_id, p.name, p.price, p.`desc`, p.category_id, SUM(oi.quantity) AS total_quantity\n" +
             "FROM products p\n" +
