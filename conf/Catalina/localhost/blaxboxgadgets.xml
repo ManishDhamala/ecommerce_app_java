@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Context docBase="D:/Java_CW/src/main/webapp">
+<Context docBase="D:/JAVA Projects/ecommerce_app_java/src/main/webapp">
   <Resources cacheMaxSize="10240">
-    <PreResources base="D:/Java_CW/target/classes" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/WEB-INF/classes"/>
-    <PostResources base="C:/Users/SUSHIL/.m2/repository/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/mysql-connector-java-8.0.28.jar"/>
-    <PostResources base="C:/Users/SUSHIL/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/protobuf-java-3.11.4.jar"/>
-    <PostResources base="C:/Users/SUSHIL/.m2/repository/jakarta/mvc/jakarta.mvc-api/2.0.0/jakarta.mvc-api-2.0.0.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jakarta.mvc-api-2.0.0.jar"/>
-    <PostResources base="C:/Users/SUSHIL/.m2/repository/javax/servlet/jstl/1.2/jstl-1.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jstl-1.2.jar"/>
+    <PreResources base="D:/JAVA Projects/ecommerce_app_java/target/classes" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/WEB-INF/classes"/>
+    <PostResources base="C:/Users/ASUS/.m2/repository/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/mysql-connector-java-8.0.28.jar"/>
+    <PostResources base="C:/Users/ASUS/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/protobuf-java-3.11.4.jar"/>
+    <PostResources base="C:/Users/ASUS/.m2/repository/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/gson-2.8.9.jar"/>
+    <PostResources base="C:/Users/ASUS/.m2/repository/commons-codec/commons-codec/1.10/commons-codec-1.10.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/commons-codec-1.10.jar"/>
+    <PostResources base="C:/Users/ASUS/.m2/repository/jakarta/mvc/jakarta.mvc-api/2.0.0/jakarta.mvc-api-2.0.0.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jakarta.mvc-api-2.0.0.jar"/>
+    <PostResources base="C:/Users/ASUS/.m2/repository/javax/servlet/jstl/1.2/jstl-1.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jstl-1.2.jar"/>
   </Resources>
 </Context>

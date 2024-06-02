@@ -293,7 +293,7 @@
             </div>
             <div class="card-info">
                 <h2 class="card-name">Sushil Dawadi</h2>
-                <p class="card-role">CEO and Founder</p>
+                <p class="card-role"> Founder</p>
                 <p class="card-email">sushildawadi14@gmail.com</p>
                 <p><button class="button" onclick="window.open( 'https://www.facebook.com/SushilDawadi07', '_blank')">Contact</button></p>
             </div>
@@ -307,7 +307,7 @@
             </div>
             <div class="card-info">
                 <h2 class="card-name">Sachin Sapkota</h2>
-                <p class="card-role">Co-Founder</p>
+                <p class="card-role">Founder</p>
                 <p class="card-email">sacheensapkota10@gmail.com</p>
                 <p><button class="button" onclick="window.open('https://www.facebook.com/sapkota.sacheen', '_blank')">Contact</button></p>
             </div>
@@ -323,7 +323,7 @@
             </div>
             <div class="card-info">
                 <h2 class="card-name">Abishkar Chapagain</h2>
-                <p class="card-role">Co-Founder</p>
+                <p class="card-role">Founder</p>
                 <p class="card-email">abishkarchapagain1@gmail.com</p>
                 <p><button class="button" onclick="window.open('https://www.facebook.com/abishkar.chapagain', '_blank')">Contact</button></p>
             </div>
@@ -334,11 +334,11 @@
         <div class="card">
             <div class="card-img">
                 <img
-                        src="../assets/manish.jpg" alt="User 3">
+                        src="../assets/Manish.jpg" alt="User 3">
             </div>
             <div class="card-info">
                 <h2 class="card-name">Manish Dhamala</h2>
-                <p class="card-role">Co-Founder</p>
+                <p class="card-role">Founder</p>
                 <p class="card-email">dhamalamanish32@gmail.com</p>
                 <p><button class="button" onclick="window.open( 'https://www.facebook.com/manish.dhamala.11', '_blank')">Contact</button></p>
             </div>
@@ -351,7 +351,7 @@
             </div>
             <div class="card-info">
                 <h2 class="card-name">Hem Bahadur Pun</h2>
-                <p class="card-role">Co-Founder</p>
+                <p class="card-role">Founder</p>
                 <p class="card-email">hemthegentlemen@gmail.com</p>
                 <p><button class="button" onclick="window.open(  'https://www.facebook.com/heemal.himalpun', '_blank')">Contact</button></p>
             </div><%-- onclick="window.open('https://www.facebook.com/your-facebook-page', '_blank')--%>
